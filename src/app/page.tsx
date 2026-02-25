@@ -1,9 +1,11 @@
+"use client";
+import Dashboard from "@/app/(dashboard)/page";
+import UserOnly from "@/components/auth/UsersOnly";
 
-const Home = () => {
-
+export default function Home() {
   return (
-    <div className='text-5xl underline'>Dashboard</div>
-  )
+    <UserOnly>
+      <Dashboard />
+    </UserOnly>
+  );
 }
-
-export default Home
