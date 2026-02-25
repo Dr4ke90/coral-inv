@@ -2,6 +2,7 @@ import axios from "axios";
 import { LoginData } from "@/types/users/types";
 
 export const authService = {
+  
   async getCurrentUser() {
     const { data } = await axios.get("/api/me");
     return data.data;

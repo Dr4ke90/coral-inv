@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 
-import LoginForm from "@/components/ui/LoginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import GuestOnly from "@/components/auth/GuestOnly";
 
 const Login = () => {
