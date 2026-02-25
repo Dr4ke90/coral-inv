@@ -18,7 +18,6 @@ const LoginForm = () => {
     setError(null);
     try {
       await login({ username, password });
-      
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -29,14 +28,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "400px",
-      }}
-    >
+    <Box className="flex flex-col items-center w-[400px]">
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <LockOutlinedIcon />
       </Avatar>
@@ -48,10 +40,7 @@ const LoginForm = () => {
           margin="normal"
           required
           fullWidth
-          id="user"
           label="User"
-          autoComplete="user"
-          autoFocus
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
@@ -61,8 +50,6 @@ const LoginForm = () => {
           fullWidth
           label="Password"
           type="password"
-          id="password"
-          autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
@@ -73,7 +60,7 @@ const LoginForm = () => {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 2, mb: 2 }}
         >
           Sign In
         </Button>
