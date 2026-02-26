@@ -1,5 +1,13 @@
+"use client";
+import Table from "@/components/ui/Table";
+import { Box } from "@mui/material";
+
 const Requirement = () => {
-  return <div>Necesar</div>;
+  return (
+    <Box>
+      <Table columns={[]} data={[]} />
+    </Box>
+  );
 };
 
 export default Requirement;
