@@ -1,18 +1,12 @@
+"use client";
+
 import {
   MaterialReactTable,
   useMaterialReactTable,
-  type MRT_ColumnDef,
-  type MRT_TableOptions,
 } from "material-react-table";
-import { defaultOptions } from "@/shared/table/defaultOptions";
+import { DEFAULT_CONFIG } from "@/configs/table/tableDefaultConfig";
 import { useState } from "react";
-
-interface CustomTableProps<T extends Record<string, any>> {
-  columns: MRT_ColumnDef<T>[];
-  data: T[];
-  customOptions?: Partial<MRT_TableOptions<T>>;
-  onEditingRowSave?: MRT_TableOptions<T>["onEditingRowSave"];
-}
+import { CustomTableProps } from "@/types/table/tablePropsInterface";
 
 export const Table = <T extends Record<string, any>>({
   columns,
@@ -27,7 +21,7 @@ export const Table = <T extends Record<string, any>>({
   });
 
   const table = useMaterialReactTable<T>({
-    ...defaultOptions<T>(),
+    ...DEFAULT_CONFIG<T>(),
     columns,
     data,
     state: { pagination },

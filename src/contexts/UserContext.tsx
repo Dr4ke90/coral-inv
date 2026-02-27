@@ -3,9 +3,10 @@
 import { createContext, ReactNode, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authService } from "@/services/authService";
-import { LoginData, User } from "@/types/users/types";
+import { User } from "@/types/users/userInterface";
+import { LoginData } from "@/types/users/loginData";
 
-interface UserContextType {
+export interface UserContextType {
   user: User | null;
   authChecked: boolean;
   login: (data: LoginData) => Promise<any>;
@@ -37,7 +38,7 @@ export function UserProvider({ children }: { readonly children: ReactNode }) {
     try {
       await authService.logout();
     } finally {
-      queryClient.setQueryData<User | null>(["authUser"], null); //
+      queryClient.setQueryData<User | null>(["authUser"], null);
     }
   };
 

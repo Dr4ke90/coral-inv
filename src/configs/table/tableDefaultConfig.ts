@@ -1,6 +1,6 @@
 import { MRT_TableOptions } from "material-react-table";
 
-export const defaultOptions = <T extends Record<string, any>>(): Partial<
+export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   MRT_TableOptions<T>
 > => ({
   initialState: {
@@ -25,7 +25,7 @@ export const defaultOptions = <T extends Record<string, any>>(): Partial<
   enableEditing: true,
   enablePagination: true,
   enableExpanding: true,
-  enableExpandAll: false,
+  enableExpandAll: true,
   enableHiding: false,
   enableColumnActions: false,
   enableStickyHeader: true,
@@ -51,7 +51,7 @@ export const defaultOptions = <T extends Record<string, any>>(): Partial<
 
   muiTableProps: {
     sx: {
-      height: "95%",
+      height: "100%",
       alignContent: "center",
     },
   },
@@ -59,8 +59,8 @@ export const defaultOptions = <T extends Record<string, any>>(): Partial<
   muiTableBodyCellProps: {
     sx: {
       border: "0.2px solid rgba(0, 0, 0, 0.2)",
-      paddingY: "0px",
-      paddingX: "6px",
+      // paddingY: "0px",
+      // paddingX: "6px",
       fontSize: "0.8rem",
       height: "10px !important",
     },
@@ -68,8 +68,6 @@ export const defaultOptions = <T extends Record<string, any>>(): Partial<
   muiTableHeadCellProps: {
     sx: {
       border: "1px solid black",
-      paddingY: "4px",
-      paddingX: "10px",
       fontSize: "0.9rem",
       height: "35px",
     },
@@ -78,7 +76,7 @@ export const defaultOptions = <T extends Record<string, any>>(): Partial<
   muiTableContainerProps: {
     sx: {
       width: "100%",
-      height: "calc(100vh - 138px)",
+      height: "calc(100vh - 195px)",
       overflowY: "auto",
       padding: "0 10px 0 10px",
     },

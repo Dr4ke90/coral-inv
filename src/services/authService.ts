@@ -1,8 +1,7 @@
 import axios from "axios";
-import { LoginData } from "@/types/users/types";
+import { LoginData } from "@/types/users/loginData";
 
 export const authService = {
-  
   async getCurrentUser() {
     const { data } = await axios.get("/api/me");
     return data.data;
