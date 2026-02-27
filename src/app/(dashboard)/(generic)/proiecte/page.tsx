@@ -1,5 +1,5 @@
-import Table from "@/components/ui/Table";
-import { mainProjectColumnsConfig } from "@/configs/columns/pjMainColumnsConfig";
+import Table from "@/components/table/Table";
+import { mainProjectColumnsConfig } from "@/features/project/configs/pjMainColumnsConfig";
 import { Box } from "@mui/material";
 
 const Projects = () => {

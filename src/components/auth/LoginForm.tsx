@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserContext } from "@/hooks/useUserContext";
+import { useUserContext } from "@/features/users/hooks/useUserContext";
 import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 

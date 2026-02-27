@@ -2,16 +2,12 @@
 import { Toolbar, Box, Typography, Button } from "@mui/material";
 import Image from "next/image";
 import logo from "../../../public/assets/coral.png";
-import { useUserContext } from "@/hooks/useUserContext";
+import { useUserContext } from "@/features/users/hooks/useUserContext";
 import { useRouter } from "next/navigation";
 
 export function Navbar() {
   const { user, logout } = useUserContext();
   const router = useRouter();
-
-  const handleIconClick = () => {
-    router.push("/");
-  };
 
   return (
     <Box className="bg-blue-500/50">
@@ -22,7 +18,7 @@ export function Navbar() {
             alt="Logo"
             width={80}
             className="cursor-pointer"
-            onClick={handleIconClick}
+            onClick={() => router.push("/")}
           />
         </Box>
         <Box sx={{ flexGrow: 1 }} />

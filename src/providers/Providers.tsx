@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { UserProvider } from "@/contexts/UserContext";
+import { UserProvider } from "@/features/users/UserContext";
 import { useState, ReactNode } from "react";
 
 export default function Providers({

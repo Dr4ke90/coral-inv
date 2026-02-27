@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserContext } from "@/hooks/useUserContext";
+import { useUserContext } from "@/features/users/hooks/useUserContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loader from "../ui/Loader";

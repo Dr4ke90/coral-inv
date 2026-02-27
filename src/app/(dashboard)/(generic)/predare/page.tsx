@@ -1,5 +1,5 @@
-import Table from "@/components/ui/Table";
-import { mainHanoverColumnsConfig } from "@/configs/columns/hvrMainColumnsConfig";
+import Table from "@/components/table/Table";
+import { mainHanoverColumnsConfig } from "@/features/handover/configs/hvrMainColumnsConfig";
 import { Box } from "@mui/material";
 
 const Handover = () => {
