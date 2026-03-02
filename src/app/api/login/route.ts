@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/lib/mongo";
+import connectDB from "@/lib/db/mongo";
 import User from "@/features/users/models/userModel";
 import { signToken } from "@/lib/auth";
 

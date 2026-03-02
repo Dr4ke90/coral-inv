@@ -1,5 +1,3 @@
-import { RequirementProvider } from "@/features/requirement/RequirementContext";
-
 import React from "react";
 
 const RequirementLayout = ({
@@ -7,7 +5,7 @@ const RequirementLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <RequirementProvider>{children}</RequirementProvider>;
+  return <>{children}</>;
 };
 
 export default RequirementLayout;

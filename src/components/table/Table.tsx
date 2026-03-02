@@ -1,5 +1,9 @@
 "use client";
-import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+"use no memo";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 import { DEFAULT_CONFIG } from "@/components/table/configs/tableDefaultConfig";
 import { useState } from "react";
 import { CustomTableProps } from "@/components/table/types/tablePropsInterface";
@@ -15,7 +19,6 @@ export const Table = <T extends Record<string, any>>({
     pageIndex: 0,
     pageSize: 20,
   });
-
 
   const table = useMaterialReactTable<T>({
     columns,
@@ -36,15 +39,10 @@ export const Table = <T extends Record<string, any>>({
     onRowSelectionChange: setRowSelection,
     onEditingRowSave: handleEditingRow,
     ...DEFAULT_CONFIG(),
-    ...customOptions
-  })
+    ...customOptions,
+  });
 
-  return (
-    <MaterialReactTable table={table}
-    />
-  );
+  return <MaterialReactTable table={table} />;
 };
 
 export default Table;
-
-

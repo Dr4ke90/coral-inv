@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongo";
-import RequirementSheetModel from "@/features/requirement/models/requirementModel";
+import connectDB from "@/lib/db/mongo";
+import RequirementSheetModel from "@/lib/db/models/requirementModel";
 
 export async function GET(req: NextRequest) {
   try {

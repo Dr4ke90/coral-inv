@@ -2,20 +2,29 @@
 import Loader from "@/components/ui/Loader";
 import Table from "@/components/table/Table";
 import { mainRequirementColumnsConfing } from "@/features/requirement/configs/rqMainColumnsConfig";
-import { useRequirementContext } from "@/features/requirement/hooks/useRequirementContext";
 import { Box } from "@mui/material";
-import { useMemo } from "react";
+import { useRequirementData } from "@/features/requirement";
 
 const Requirement = () => {
-  const { data, isLoading } = useRequirementContext();
+  const { data, isLoading, isError } = useRequirementData();
 
   if (isLoading) {
     return <Loader />;
   }
 
+  if (isError)
+    return (
+      <Box
+        className="flex items-center justify-center font-bold"
+        sx={{ height: "calc(100vh - 80px)" }}
+      >
+        Ceva nu a mers bine
+      </Box>
+    );
+
   return (
     <Box>
-      <Table columns={mainRequirementColumnsConfing} data={data} />
+      <Table columns={mainRequirementColumnsConfing} data={data ?? []} />
     </Box>
   );
 };

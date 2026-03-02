@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import connectDB from "@/lib/mongo";
+import connectDB from "@/lib/db/mongo";
 import User from "@/features/users/models/userModel";
 import { verifyToken } from "@/lib/auth";
 
