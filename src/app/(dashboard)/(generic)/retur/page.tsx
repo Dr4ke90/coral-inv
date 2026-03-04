@@ -1,4 +1,4 @@
-import Table from "@/components/table/Table";
+import Table from "@/shared/components/table/Table";
 import { mainReturnColumnsConfig } from "@/features/return/configs/rtnMainColumnsConfig";
 import { Box } from "@mui/material";
 

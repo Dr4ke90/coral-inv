@@ -5,19 +5,17 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 > => ({
   initialState: {
     density: "compact",
-    showGlobalFilter: false,
-    // pagination: { pageSize: 5, pageIndex: 0 },
+    showGlobalFilter: true,
   },
 
   columnFilterDisplayMode: "popover",
   paginationDisplayMode: "pages",
   muiPaginationProps: {
-      color: 'primary',
-      shape: 'rounded',
-      showRowsPerPage: false,
-      variant: 'outlined',
-    },
-  createDisplayMode: "row",
+    color: "primary",
+    shape: "rounded",
+    showRowsPerPage: false,
+    variant: "outlined",
+  },
 
   enableColumnOrdering: false,
   enableGlobalFilter: true,
@@ -26,12 +24,12 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   enableFullScreenToggle: false,
   enableRowSelection: true,
   enableRowActions: true,
-  enableRowNumbers: true,
+  enableRowNumbers: false,
   enableRowPinning: true,
   enableEditing: true,
 
   enableExpanding: true,
-  enableExpandAll: true,
+  enableExpandAll: false,
   enableHiding: false,
   enableColumnActions: false,
   enableStickyHeader: true,
@@ -52,7 +50,6 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 
   muiTableProps: {
     sx: {
-      // height: "100%",
       alignContent: "center",
     },
   },
@@ -61,7 +58,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
     sx: {
       border: "0.2px solid rgba(0, 0, 0, 0.2)",
       paddingY: "0px",
-      paddingX: "6px",
+      paddingX: "3px",
       fontSize: "0.8rem",
     },
   },
@@ -69,8 +66,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   muiTableHeadCellProps: {
     sx: {
       border: "1px solid black",
-      fontSize: "0.9rem",
-      height: "35px",
+      fontSize: "0.8rem",
       alignContent: "center",
       paddingY: "0px",
       paddingX: "6px",
@@ -80,7 +76,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   muiTableContainerProps: {
     sx: {
       width: "100%",
-      height: "calc(100vh - 195px)",
+      height: "calc(100vh - 210px)",
       overflowY: "auto",
       padding: "0 10px 0 10px",
     },
@@ -107,11 +103,23 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
           border: "0.2px solid rgba(0, 0, 0, 0.2)",
           p: 0,
           margin: 0,
+          "& .MuiBox-root": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "2px",
+          },
         },
       },
     },
 
     "mrt-row-select": {
+      size: 30,
+      muiTableHeadCellProps: { align: "center" },
+      muiTableBodyCellProps: { align: "center" },
+    },
+
+    "mrt-row-pin": {
       size: 30,
       muiTableHeadCellProps: { align: "center" },
       muiTableBodyCellProps: { align: "center" },

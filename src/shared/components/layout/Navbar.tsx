@@ -1,7 +1,7 @@
 "use client";
 import { Toolbar, Box, Typography, Button } from "@mui/material";
 import Image from "next/image";
-import logo from "../../../public/assets/coral.png";
+import logo from "../../../../public/assets/coral.png";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
 import { useRouter } from "next/navigation";
 

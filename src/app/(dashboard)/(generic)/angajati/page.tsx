@@ -1,4 +1,4 @@
-import Table from "@/components/table/Table";
+import Table from "@/shared/components/table/Table";
 import { employeeMainColumnsConfig } from "@/features/employee/configs/empMainColumnsConfig";
 import { Box } from "@mui/material";
 

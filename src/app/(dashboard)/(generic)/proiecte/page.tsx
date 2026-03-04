@@ -1,4 +1,4 @@
-import Table from "@/components/table/Table";
+import Table from "@/shared/components/table/Table";
 import { mainProjectColumnsConfig } from "@/features/project/configs/pjMainColumnsConfig";
 import { Box } from "@mui/material";
 

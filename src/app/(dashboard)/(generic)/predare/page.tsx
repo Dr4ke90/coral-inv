@@ -1,4 +1,4 @@
-import Table from "@/components/table/Table";
+import Table from "@/shared/components/table/Table";
 import { mainHanoverColumnsConfig } from "@/features/handover/configs/hvrMainColumnsConfig";
 import { Box } from "@mui/material";
 

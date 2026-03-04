@@ -1,16 +1,12 @@
-import mongoose from "mongoose";
+import { Schema, models, model } from "mongoose";
 
-const requirementSheetSchema = new mongoose.Schema(
+const requirementSheetSchema = new Schema(
   {
     id: { type: String, required: true, unique: true },
     date: { type: Date, required: true },
     items: {
       type: [
         {
-          nrCrt: {
-            type: Number,
-            required: true,
-          },
           item: { type: String, required: true },
           quantity: { type: String, required: true },
           um: { type: String, required: true },
@@ -28,7 +24,7 @@ const requirementSheetSchema = new mongoose.Schema(
     createdBy: { type: String, required: true },
     modifiedBy: {
       type: [
-        new mongoose.Schema(
+        new Schema(
           {
             name: { type: String, required: true },
             modifiedFields: { type: Object, required: true },
@@ -43,9 +39,11 @@ const requirementSheetSchema = new mongoose.Schema(
   { toJSON: { getters: true } },
 );
 
-const RequirementSheetModel = mongoose.model(
-  "RequirementSheet",
-  requirementSheetSchema,
-);
+if (process.env.NODE_ENV === "development") {
+  delete models.RequirementSheet;
+}
+
+const RequirementSheetModel =
+  models.RequirementSheet || model("RequirementSheet", requirementSheetSchema);
 
 export default RequirementSheetModel;
