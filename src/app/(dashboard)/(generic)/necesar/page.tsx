@@ -2,7 +2,8 @@
 import Loader from "@/shared/components/ui/Loader";
 import { Box } from "@mui/material";
 import {
-  Requirement,
+  MainRequirementTable,
+  RequirementType,
   useRequirementData,
   useUpdateRequirement,
 } from "@/features/requirement";
@@ -10,7 +11,6 @@ import { MRT_Row, MRT_TableInstance } from "material-react-table";
 import { onRowUpdates } from "@/shared/utils/onRowUpdate";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
 import Modal from "@/shared/components/ui/Modal";
-import MainRequirementTable from "@/features/requirement/components/MainRequirmentTable";
 import CreateRequirementModal from "@/features/requirement/components/CreateRqSheetModal";
 
 const RequirementPage = () => {
@@ -23,8 +23,8 @@ const RequirementPage = () => {
     row,
     values,
   }: {
-    table: MRT_TableInstance<Requirement>;
-    row: MRT_Row<Requirement>;
+    table: MRT_TableInstance<RequirementType>;
+    row: MRT_Row<RequirementType>;
     values: Record<string, unknown>;
   }) => {
     if (!user) {

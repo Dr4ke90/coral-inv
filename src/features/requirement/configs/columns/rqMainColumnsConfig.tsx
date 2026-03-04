@@ -2,13 +2,13 @@
 import dayjs from "dayjs";
 import { type MRT_ColumnDef } from "material-react-table";
 
-import { Requirement } from "@/features/requirement/types/requirementInterface";
+import { RequirementType } from "@/features/requirement/types/requiment.type";
 import { REQUIREMENT_STATUS_OPTIONS } from "@/features/requirement/constants/requirementStatus";
 import { RequirementStatus } from "@/features/requirement/types/requirementStatus";
 import { STATUS_COLOR_MAP } from "@/features/requirement/constants/statusColors";
 import { Typography } from "@mui/material";
 
-export const mainRequirementColumnsConfing: MRT_ColumnDef<Requirement>[] = [
+export const mainRequirementColumnsConfing: MRT_ColumnDef<RequirementType>[] = [
   {
     accessorKey: "id",
     header: "ID",

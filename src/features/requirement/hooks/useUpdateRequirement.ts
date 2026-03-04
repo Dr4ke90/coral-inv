@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 import { updateOneRequirementSheet } from "../api/updateOneRequirementSheet";
 
 export const useUpdateRequirement = () => {
@@ -11,15 +11,15 @@ export const useUpdateRequirement = () => {
       payload,
     }: {
       id: string;
-      payload: Partial<Requirement>;
+      payload: Partial<RequirementType>;
     }) => updateOneRequirementSheet(id, payload),
 
     onMutate: async ({ id, payload }) => {
       await queryClient.cancelQueries({ queryKey: ["requirement"] });
 
-      const previous = queryClient.getQueryData<Requirement[]>(["requirement"]);
+      const previous = queryClient.getQueryData<RequirementType[]>(["requirement"]);
 
-      queryClient.setQueryData<Requirement[]>(["requirement"], (old) =>
+      queryClient.setQueryData<RequirementType[]>(["requirement"], (old) =>
         old
           ? old.map((item) => (item.id === id ? { ...item, ...payload } : item))
           : [],

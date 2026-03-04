@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, ReactNode, useMemo } from "react";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 import { ItemsListContextType } from "../types/itemsListContext.type";
 
 export const ItemsListContext = createContext<ItemsListContextType | undefined>(
@@ -8,7 +8,7 @@ export const ItemsListContext = createContext<ItemsListContextType | undefined>(
 );
 
 export const ItemsListProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<Requirement["items"]>([]);
+  const [items, setItems] = useState<RequirementType["items"]>([]);
 
   const addItem = (item: Record<string, any>) => {
     setItems((prev) => [...prev, item]);

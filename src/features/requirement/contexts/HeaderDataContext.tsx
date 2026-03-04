@@ -1,22 +1,20 @@
 "use client";
-import { createContext,useState, ReactNode, useMemo } from "react";
-import { Requirement } from "../types/requirementInterface";
+import { createContext, useState, ReactNode, useMemo } from "react";
+import { RequirementType } from "../types/requiment.type";
 import { HeaderDataContextType } from "../types/headerDataContext.type";
 
-
-
-export const HeaderDataContext = createContext<HeaderDataContextType | undefined>(
-  undefined,
-);
+export const HeaderDataContext = createContext<
+  HeaderDataContextType | undefined
+>(undefined);
 
 export const ModalHeaderProvider = ({ children }: { children: ReactNode }) => {
-  const [headerData, setHeaderData] = useState<Partial<Requirement>>({
+  const [headerData, setHeaderData] = useState<Partial<RequirementType>>({
     project: "",
     date: null,
     createdBy: "",
   });
 
-  const setHeaderValues = (values: Partial<Requirement>) => {
+  const setHeaderValues = (values: Partial<RequirementType>) => {
     setHeaderData((prev) => ({
       ...prev,
       ...values,
@@ -37,5 +35,3 @@ export const ModalHeaderProvider = ({ children }: { children: ReactNode }) => {
     </HeaderDataContext.Provider>
   );
 };
-
-

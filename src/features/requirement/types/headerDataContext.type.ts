@@ -1,7 +1,7 @@
-import { Requirement } from "./requirementInterface";
+import { RequirementType } from "./requiment.type";
 
 export interface HeaderDataContextType {
-  headerData: Partial<Requirement>;
-  setHeaderValues: (values: Partial<Requirement>) => void;
+  headerData: Partial<RequirementType>;
+  setHeaderValues: (values: Partial<RequirementType>) => void;
   resetHeader: () => void;
 }

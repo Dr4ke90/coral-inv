@@ -1,16 +1,16 @@
 "use Client";
 import Table from "@/shared/components/table/Table";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 import { mainRequirementColumnsConfing } from "../configs/columns/rqMainColumnsConfig";
 import { mainTableConfig } from "../configs/tables/mainTableConfig";
 import { MRT_TableOptions } from "material-react-table";
 
-const MainRequirementTable = ({
+export const MainRequirementTable = ({
   data,
   onEdit,
 }: {
-  data: Requirement[];
-  onEdit: MRT_TableOptions<Requirement>["onEditingRowSave"];
+  data: RequirementType[];
+  onEdit: MRT_TableOptions<RequirementType>["onEditingRowSave"];
 }) => (
   <Table
     columns={mainRequirementColumnsConfing}
@@ -18,5 +18,3 @@ const MainRequirementTable = ({
     tableCustomOptions={mainTableConfig(onEdit)}
   />
 );
-
-export default MainRequirementTable;

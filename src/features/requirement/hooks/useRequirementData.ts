@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllRequirements } from "../api/getAllRequirements";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 
 export const useRequirementData = () => {
-  const { data, isLoading, isError } = useQuery<Requirement[]>({
+  const { data, isLoading, isError } = useQuery<RequirementType[]>({
     queryKey: ["requirement"],
     queryFn: getAllRequirements,
     refetchOnWindowFocus: false,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Requirement } from "../types/requirementInterface";
+import { Requirement } from "../types/requiment.type";
 
 export const updateOneRequirementSheet = async (
   id: string,

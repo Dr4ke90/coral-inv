@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 
 export const postOneRequirementSheet = async (
-  payload: Partial<Requirement>,
-): Promise<Requirement> => {
+  payload: Partial<RequirementType>,
+): Promise<RequirementType> => {
   const { data } = await axios.post("/api/requirement", payload);
   return data.data;
 };

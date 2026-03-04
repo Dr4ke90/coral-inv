@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 
 export const getRequirmentSheetById = async (
   id: string,
-): Promise<Requirement> => {
+): Promise<RequirementType> => {
   const { data } = await axios.get(`/api/requirement/${id}`);
   return data.data;
 };

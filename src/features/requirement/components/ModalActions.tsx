@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { usePostRequirement } from "../hooks/usePostRequirmentSheet";
 import { useHeaderDataContext } from "../hooks/useHeaderDataContext";
 import { useItemsListContext } from "../hooks/useItemsListContext";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 import { REQUIREMENT_STATUS_OPTIONS } from "../constants/requirementStatus";
 
 const ModalActions = () => {
@@ -15,7 +15,7 @@ const ModalActions = () => {
   const handleSaveData = () => {
     if (items.length === 0) return;
 
-    const newSheet: Requirement = {
+    const newSheet: RequirementType = {
       id: headerData.id || "",
       date: headerData.date || new Date(),
       createdBy: headerData.createdBy || "",

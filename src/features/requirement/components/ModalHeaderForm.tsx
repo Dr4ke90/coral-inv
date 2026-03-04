@@ -1,6 +1,6 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 import DateInput from "../../../shared/components/ui/ReadOnlyDateInput";
 import { useHeaderDataContext } from "../hooks/useHeaderDataContext";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
@@ -14,7 +14,7 @@ const ModalHeaderForm = () => {
 
   const nextId = useGeneratedId();
 
-  const { control, watch } = useForm<Partial<Requirement>>({
+  const { control, watch } = useForm<Partial<RequirementType>>({
     defaultValues: {
       id: nextId,
       project: "",

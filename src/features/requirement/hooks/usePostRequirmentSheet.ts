@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postOneRequirementSheet } from "../api/postOneRequirementSheet";
-import { Requirement } from "../types/requirementInterface";
+import { RequirementType } from "../types/requiment.type";
 import { useGeneratedId } from "./useIdGeneration";
 
 export const usePostRequirement = () => {
@@ -12,12 +12,12 @@ export const usePostRequirement = () => {
     onMutate: async (newSheet) => {
       await queryClient.cancelQueries({ queryKey: ["requirement"] });
 
-      const previous = queryClient.getQueryData<Requirement[]>(["requirement"]);
+      const previous = queryClient.getQueryData<RequirementType[]>(["requirement"]);
 
-      queryClient.setQueryData<Requirement[]>(["requirement"], (old) =>
+      queryClient.setQueryData<RequirementType[]>(["requirement"], (old) =>
         old
-          ? [...old, { ...newSheet, id: nextId } as Requirement]
-          : [{ ...newSheet, id: nextId } as Requirement],
+          ? [...old, { ...newSheet, id: nextId } as RequirementType]
+          : [{ ...newSheet, id: nextId } as RequirementType],
       );
 
       return { previous };

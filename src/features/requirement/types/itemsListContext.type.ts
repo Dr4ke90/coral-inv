@@ -1,7 +1,7 @@
-import { Requirement } from "./requirementInterface";
+import { RequirementType } from "./requiment.type";
 
 export interface ItemsListContextType {
-  items: Requirement["items"];
+  items: RequirementType["items"];
   addItem: (item: Record<string, any>) => void;
   removeItem: (index: number) => void;
   clearItems: () => void;

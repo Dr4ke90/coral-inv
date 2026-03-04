@@ -1,6 +1,6 @@
 import { RequirementStatus } from "./requirementStatus";
 
-export interface Requirement {
+export interface RequirementType {
   id: string;
   date: Date | null;
   createdBy: string;
