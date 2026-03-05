@@ -8,7 +8,7 @@ export const modalTableConfig = {
   muiTableContainerProps: {
     sx: {
       width: "100%",
-      height: "400px",
+      height: "40vh",
       overflowY: "auto",
     },
   },

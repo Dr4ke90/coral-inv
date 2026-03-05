@@ -1,7 +1,7 @@
 "use Client";
 import Table from "@/shared/components/table/Table";
 import { RequirementType } from "../types/requiment.type";
-import { mainRequirementColumnsConfing } from "../configs/columns/rqMainColumnsConfig";
+import { mainRequirementColumnsConfing } from "../configs/columns/mainTableColumnsConfig";
 import { mainTableConfig } from "../configs/tables/mainTableConfig";
 import { MRT_TableOptions } from "material-react-table";
 

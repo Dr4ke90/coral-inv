@@ -5,5 +5,5 @@ export * from "./types/requiment.type";
 export * from "./constants/requirementStatus";
 export * from "./configs/tables/subrowTableConfig";
 export * from "./configs/columns/rowSubtableColumnsConfig";
-export * from "./configs/columns/rqMainColumnsConfig";
+export * from "./configs/columns/mainTableColumnsConfig";
 export * from "./components/MainRequirmentTable";

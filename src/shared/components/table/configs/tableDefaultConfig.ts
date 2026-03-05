@@ -35,7 +35,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   enableStickyHeader: true,
   enableClickToCopy: true,
 
-  editDisplayMode: "row",
+  editDisplayMode: "row", // ('modal', 'cell', 'table', and 'custom' are also available)
 
   muiExpandButtonProps: ({ row, table }) => ({
     onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),

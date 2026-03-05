@@ -1,8 +1,9 @@
-export interface Project {
+export interface ProjectType {
   id: string,
   name: string,
   address: string,
   owner: string,
   team: string[],
-  refEquipmentList: string[],
+  eqList: string[],
+  rqList: string[]
 };

@@ -1,8 +1,7 @@
-"use client";
-import { Project } from "@/features/project/types/projectInterface";
+import { ProjectType } from "@/features/project/types/project.type";
 import { MRT_ColumnDef } from "material-react-table";
 
-export const mainProjectColumnsConfig: MRT_ColumnDef<Project>[] = [
+export const mainTableColumnsConfig: MRT_ColumnDef<ProjectType>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -17,26 +16,26 @@ export const mainProjectColumnsConfig: MRT_ColumnDef<Project>[] = [
   },
   {
     accessorKey: "address",
-    header: "Email",
+    header: "Adresa",
     enableEditing: true,
     size: 250,
   },
   {
     accessorKey: "owner",
-    header: "Telefon",
+    header: "Proprietar",
     enableEditing: true,
     size: 200,
   },
   {
     accessorKey: "team",
-    header: "Functie",
+    header: "Echipa",
     enableEditing: true,
     size: 200,
   },
   {
-    accessorKey: "refEquipmentList",
-    header: "Functie",
-    enableEditing: true,
+    accessorKey: "eqList",
+    header: "Echipament",
+    enableEditing: false,
     size: 200,
   },
 ];

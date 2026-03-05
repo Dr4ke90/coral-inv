@@ -1,11 +1,10 @@
-import Table from "@/shared/components/table/Table";
-import { mainProjectColumnsConfig } from "@/features/project/configs/pjMainColumnsConfig";
+import { MainProjectsTable } from "@/features/project/components/MainProjectsTable";
 import { Box } from "@mui/material";
 
 const Projects = () => {
   return (
     <Box>
-      <Table columns={mainProjectColumnsConfig} data={[]} />
+        <MainProjectsTable />
     </Box>
   );
 };
