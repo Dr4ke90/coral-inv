@@ -56,8 +56,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 
   muiTableBodyCellProps: {
     sx: {
-      border: "0.2px solid rgba(0, 0, 0, 0.2)",
-      paddingY: "0px",
+      paddingY: "2.5px",
       paddingX: "3px",
       fontSize: "0.8rem",
     },
@@ -65,9 +64,9 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 
   muiTableHeadCellProps: {
     sx: {
-      border: "1px solid black",
       fontSize: "0.8rem",
       alignContent: "center",
+      alignItems: "center",
       paddingY: "0px",
       paddingX: "6px",
     },
@@ -90,7 +89,6 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
         align: "center",
         sx: {
           textAlign: "center",
-          border: "0.2px solid rgb(0, 0, 0)",
           p: 0,
           margin: 0,
         },
@@ -100,7 +98,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
         align: "center",
         sx: {
           textAlign: "center",
-          border: "0.2px solid rgba(0, 0, 0, 0.2)",
+          borderLeft: "1px dotted black",
           p: 0,
           margin: 0,
           "& .MuiBox-root": {
