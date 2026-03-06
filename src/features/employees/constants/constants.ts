@@ -1,0 +1,1 @@
+export const EMPLOYEE_PREFIX = "E"

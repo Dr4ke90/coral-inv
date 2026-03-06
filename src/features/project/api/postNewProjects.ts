@@ -1,10 +1,10 @@
 import axios from "axios";
-import { ProjectType } from "../types/project.type";
+import { Project } from "../types/project.type";
 
 
 export const postNewProject = async (
-  payload: Partial<ProjectType>,
-): Promise<ProjectType> => {
+  payload: Partial<Project>,
+): Promise<Project> => {
   const { data } = await axios.post("/api/projects", payload);
   return data.data;
 };

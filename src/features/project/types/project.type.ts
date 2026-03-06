@@ -1,4 +1,4 @@
-export interface ProjectType {
+export interface Project {
   id: string,
   name: string,
   address: string,

@@ -1,11 +1,10 @@
-import Table from "@/shared/components/table/Table";
-import { employeeMainColumnsConfig } from "@/features/employee/configs/empMainColumnsConfig";
+import { MainEmployeesTable } from "@/features/employees/components/MainEmployeesTable";
 import { Box } from "@mui/material";
 
 const Employees = () => {
   return (
     <Box>
-      <Table columns={employeeMainColumnsConfig} data={[]} />
+      <MainEmployeesTable />
     </Box>
   );
 };

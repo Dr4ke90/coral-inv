@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db/mongo";
-import RequirementSheetModel from "@/lib/db/models/requirment.model";
+import EmployeeModel from "@/lib/db/models/employee.model";
 
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const requirements = await RequirementSheetModel.find({});
+    const employees = await EmployeeModel.find({});
 
-    return NextResponse.json({ data: requirements });
+    return NextResponse.json({ data: employees });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Failed to fetch requirements" },
+      { error: "Failed to fetch employees" },
       { status: 500 },
     );
   }
@@ -24,13 +24,13 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const newRequirement = await RequirementSheetModel.create(body);
+    const newEmployee = await EmployeeModel.create(body);
 
-    return NextResponse.json({ data: newRequirement });
+    return NextResponse.json({ data: newEmployee });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Failed to create requirement" },
+      { error: "Failed to create new employee" },
       { status: 500 },
     );
   }

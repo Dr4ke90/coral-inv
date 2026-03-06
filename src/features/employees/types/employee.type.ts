@@ -5,5 +5,6 @@ export interface Employee {
   telNo: string;
   position: string;
   project: string;
-  refEquipmentList: string[];
+  eqList: string[];
+  createdBy: string;
 }

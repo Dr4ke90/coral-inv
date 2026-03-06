@@ -1,23 +1,26 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useGeneratedId } from "./useIdGeneration";
-import { ProjectType } from "../types/project.type";
-import {postNewProject} from "../api/postNewProjects"
+import { Project } from "../types/project.type";
+import { postNewProject } from "../api/postNewProjects";
+import { useGeneratedId } from "@/hooks/useIdGeneration";
+import { useProjects } from "./useProjects";
+import { PROJECT_PREFIX } from "../constants/constants";
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
-  const nextId = useGeneratedId();
+  const { data } = useProjects();
+  const nextId = useGeneratedId(PROJECT_PREFIX, data);
 
   return useMutation({
     mutationFn: postNewProject,
     onMutate: async (newSheet) => {
       await queryClient.cancelQueries({ queryKey: ["projects"] });
 
-      const previous = queryClient.getQueryData<ProjectType[]>(["projects"]);
+      const previous = queryClient.getQueryData<Project[]>(["projects"]);
 
-      queryClient.setQueryData<ProjectType[]>(["projects"], (old) =>
+      queryClient.setQueryData<Project[]>(["projects"], (old) =>
         old
-          ? [...old, { ...newSheet, id: nextId } as ProjectType]
-          : [{ ...newSheet, id: nextId } as ProjectType],
+          ? [...old, { ...newSheet, id: nextId } as Project]
+          : [{ ...newSheet, id: nextId } as Project],
       );
 
       return { previous };

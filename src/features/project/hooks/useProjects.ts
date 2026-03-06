@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProjectType } from "../types/project.type";
+import { Project } from "../types/project.type";
 import { getAllProjects } from "../api/getAllProjects";
 
 
 export const useProjects = () => {
-  const { data, isLoading, isError } = useQuery<ProjectType[]>({
+  const { data, isLoading, isError } = useQuery<Project[]>({
     queryKey: ["projects"],
     queryFn: getAllProjects,
     refetchOnWindowFocus: false,

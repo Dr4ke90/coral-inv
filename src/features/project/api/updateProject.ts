@@ -1,11 +1,10 @@
 import axios from "axios";
-import { ProjectType } from "../types/project.type";
-
+import { Project } from "../types/project.type";
 
 export const updateProject = async (
   id: string,
-  payload: Partial<ProjectType>,
-): Promise<ProjectType> => {
+  payload: Partial<Project>,
+): Promise<Project> => {
   const { data } = await axios.put(`/api/projects/${id}`, payload);
   return data.data;
 };

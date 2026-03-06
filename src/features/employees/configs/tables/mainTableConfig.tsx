@@ -2,13 +2,13 @@ import { MRT_TableOptions } from "material-react-table";
 import DetailsPanel from "../../components/DetailsPanel";
 import TopToolbarActions from "../../components/TopToolbarActions";
 import { useUpdateRow } from "@/hooks/useUpdateRow";
-import { useUpdateProject } from "../../hooks/useUpdateProject";
-import { Project } from "../../types/project.type";
-import { useCreateRow } from "@/features/project/hooks/useCreateRow";
+import { useUpdateEmployee } from "../../hooks/useUpdateEmployee";
+import { Employee } from "../../types/employee.type";
+import { useCreateRow } from "../../hooks/useCreateRow";
 
-export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
-  const { mutate: updateProject } = useUpdateProject();
-  const updateRow = useUpdateRow<Project>(updateProject);
+export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
+  const { mutate: updateEmployee } = useUpdateEmployee();
+  const updateRow = useUpdateRow<Employee>(updateEmployee);
 
   const handleCreate = useCreateRow();
 
@@ -21,8 +21,6 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
     ),
 
     renderDetailPanel: ({ row }) => {
-      console.log(row.original);
-
       if (row.original.eqList?.length === 0) return null;
 
       return <DetailsPanel row={row} />;

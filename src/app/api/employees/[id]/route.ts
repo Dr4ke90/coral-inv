@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db/mongo";
-import RequirementSheetModel from "@/lib/db/models/requirment.model";
+import EmployeeModel from "@/lib/db/models/employee.model";
 
 export async function GET(
   req: NextRequest,
@@ -10,12 +10,12 @@ export async function GET(
 
   const id = await params;
 
-  const requirement = await RequirementSheetModel.findOne({ id });
+  const employee = await EmployeeModel.findOne({ id });
 
-  if (!requirement)
+  if (!employee)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  return NextResponse.json({ data: requirement });
+  return NextResponse.json({ data: employee });
 }
 
 export async function PUT(
@@ -27,7 +27,7 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
-  const updated = await RequirementSheetModel.findOneAndUpdate({ id }, body, {
+  const updated = await EmployeeModel.findOneAndUpdate({ id }, body, {
     returnDocument: "after",
   });
 
@@ -45,7 +45,7 @@ export async function DELETE(
 
   const { id } = await params;
 
-  const deleted = await RequirementSheetModel.findOneAndDelete({
+  const deleted = await EmployeeModel.findOneAndDelete({
     id,
   });
 

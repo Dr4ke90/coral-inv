@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import connectDB from "@/lib/db/mongo";
-import User from "@/lib/db/models/userModel";
+import User from "@/lib/db/models/user.model";
 import { verifyToken } from "@/lib/auth";
 
 export async function GET() {

@@ -1,7 +1,7 @@
-import { ProjectType } from "@/features/project/types/project.type";
+import { Project } from "@/features/project/types/project.type";
 import { MRT_ColumnDef } from "material-react-table";
 
-export const mainTableColumnsConfig: MRT_ColumnDef<ProjectType>[] = [
+export const mainTableColumnsConfig: MRT_ColumnDef<Project>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -35,6 +35,12 @@ export const mainTableColumnsConfig: MRT_ColumnDef<ProjectType>[] = [
   {
     accessorKey: "eqList",
     header: "Echipament",
+    enableEditing: false,
+    size: 200,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
     enableEditing: false,
     size: 200,
   },

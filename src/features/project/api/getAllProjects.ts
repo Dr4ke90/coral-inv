@@ -1,9 +1,9 @@
 import axios from "axios";
-import { ProjectType } from "../types/project.type";
+import { Project } from "../types/project.type";
 
 
 
-export const getAllProjects = async (): Promise<ProjectType[]> => {
+export const getAllProjects = async (): Promise<Project[]> => {
   const { data } = await axios.get("/api/projects");
   return data.data;
 };

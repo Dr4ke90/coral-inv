@@ -1,8 +1,8 @@
 "use client";
-import { Employee } from "@/features/employee/types/employeeInferface";
+import { Employee } from "@/features/employees/types/employee.type";
 import { MRT_ColumnDef } from "material-react-table";
 
-export const employeeMainColumnsConfig: MRT_ColumnDef<Employee>[] = [
+export const mainTableColumsConfig: MRT_ColumnDef<Employee>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -35,7 +35,6 @@ export const employeeMainColumnsConfig: MRT_ColumnDef<Employee>[] = [
   },
   {
     accessorKey: "project",
-    accessorFn: (row) => row.project,
     header: "Proiect",
     enableEditing: true,
     editSelectOptions: [],
@@ -45,11 +44,16 @@ export const employeeMainColumnsConfig: MRT_ColumnDef<Employee>[] = [
     size: 200,
   },
   {
+    accessorKey: "status",
+    header: "Status",
+    enableEditing: true,
+    size: 200,
+  },
+  {
     id: "eqNr",
-    accessorFn: (row) =>
-      Array.isArray(row.refEquipmentList) ? row.refEquipmentList.length : 0,
-    header: "Nr. Echipamente",
+    accessorFn: (row) => (Array.isArray(row.eqList) ? row.eqList.length : 0),
+    header: "Nr. echip.",
     enableEditing: false,
-    size: 40,
+    // size: 40,
   },
 ];
