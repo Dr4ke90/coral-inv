@@ -1,11 +1,10 @@
-import { Project } from "../types/project.type";
+import { Employee } from "../types/employee.type";
 
-
-export const createProject = (
+export const createEmployee = (
   values: Record<string, any>,
   userName: string | undefined,
   nextId: string,
-): Partial<Project> => {
+): Partial<Employee> => {
   const { id, eqList, ...rest } = values;
 
   return {

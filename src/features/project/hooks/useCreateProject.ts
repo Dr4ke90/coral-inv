@@ -1,14 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Project } from "../types/project.type";
 import { postNewProject } from "../api/postNewProjects";
-import { useGeneratedId } from "@/hooks/useIdGeneration";
-import { useProjects } from "./useProjects";
-import { PROJECT_PREFIX } from "../constants/constants";
 
-export const useCreateProject = () => {
+export const useCreateProject = (nextId: string) => {
   const queryClient = useQueryClient();
-  const { data } = useProjects();
-  const nextId = useGeneratedId(PROJECT_PREFIX, data);
 
   return useMutation({
     mutationFn: postNewProject,

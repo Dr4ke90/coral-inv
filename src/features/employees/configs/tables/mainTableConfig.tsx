@@ -4,14 +4,27 @@ import TopToolbarActions from "../../components/TopToolbarActions";
 import { useUpdateRow } from "@/hooks/useUpdateRow";
 import { useUpdateEmployee } from "../../hooks/useUpdateEmployee";
 import { Employee } from "../../types/employee.type";
-import { useCreateRow } from "../../hooks/useCreateRow";
+import { useCreateEmployee } from "../../hooks/useCreateEmployee";
+import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useEmployees } from "../../hooks/useEmployees";
+import { useCreateRow } from "@/hooks/useCreateRow";
+import { generatedId } from "@/utils/generateId";
+import { EMPLOYEE_PREFIX } from "../../constants/constants";
+import { createEmployee } from "../../factories/createEmployee";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
+  const { data } = useEmployees();
+  const nextId = generatedId(EMPLOYEE_PREFIX, data);
   const { mutate: updateEmployee } = useUpdateEmployee();
+  const { mutate: postNewEmployee } = useCreateEmployee(nextId);
+  const { user } = useUserContext();
   const updateRow = useUpdateRow<Employee>(updateEmployee);
 
-  const handleCreate = useCreateRow();
-
+  const handleCreate = useCreateRow<Partial<Employee>>({
+    mutate: postNewEmployee,
+    createEntity: (values) => createEmployee(values, user?.name, nextId),
+  });
+  
   return {
     onEditingRowSave: updateRow,
     onCreatingRowSave: handleCreate,
