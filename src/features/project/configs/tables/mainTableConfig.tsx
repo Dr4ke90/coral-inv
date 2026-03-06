@@ -9,7 +9,7 @@ import { createProject } from "../../factories/createProject";
 import { useProjects } from "../../hooks/useProjects";
 import { useCreateProject } from "../../hooks/useCreateProject";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
-import { generatedId } from "@/utils/generateId";
+import { generatedId } from "@/shared/utils/generateId";
 import { PROJECT_PREFIX } from "../../constants/constants";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
@@ -34,8 +34,6 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
     ),
 
     renderDetailPanel: ({ row }) => {
-      console.log(row.original);
-
       if (row.original.eqList?.length === 0) return null;
 
       return <DetailsPanel row={row} />;

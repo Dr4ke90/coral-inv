@@ -2,9 +2,11 @@
 
 import { createContext, ReactNode, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { authService } from "@/features/users/services/authService";
 import { User } from "@/features/users/types/userInterface";
 import { LoginData } from "@/features/users/types/loginData";
+import { fetchCurrentUser } from "./api/fetchCurrentUser";
+import { loginUser } from "./api/login";
+import { logoutUser } from "./api/logout";
 
 export interface UserContextType {
   user: User | null;
@@ -22,13 +24,13 @@ export function UserProvider({ children }: { readonly children: ReactNode }) {
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["authUser"],
-    queryFn: authService.getCurrentUser,
+    queryFn: fetchCurrentUser,
     retry: false,
     staleTime: 1000 * 60 * 5,
   });
 
   const login = useMutation({
-    mutationFn: authService.login,
+    mutationFn: loginUser,
     onSuccess: (newUser) => {
       queryClient.setQueryData(["authUser"], newUser);
     },
@@ -36,7 +38,7 @@ export function UserProvider({ children }: { readonly children: ReactNode }) {
 
   const logout = async () => {
     try {
-      await authService.logout();
+      await logoutUser();
     } finally {
       queryClient.setQueryData<User | null>(["authUser"], null);
     }

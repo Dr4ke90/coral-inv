@@ -1,5 +1,5 @@
 "use client";
-import { Handover } from "@/shared/types/handoverInterface";
+import { Handover } from "@/shared/types/handoverSheet.type";
 import dayjs from "dayjs";
 import { MRT_ColumnDef } from "material-react-table";
 

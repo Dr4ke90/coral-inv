@@ -8,7 +8,7 @@ import { useCreateEmployee } from "../../hooks/useCreateEmployee";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
 import { useEmployees } from "../../hooks/useEmployees";
 import { useCreateRow } from "@/hooks/useCreateRow";
-import { generatedId } from "@/utils/generateId";
+import { generatedId } from "@/shared/utils/generateId";
 import { EMPLOYEE_PREFIX } from "../../constants/constants";
 import { createEmployee } from "../../factories/createEmployee";
 

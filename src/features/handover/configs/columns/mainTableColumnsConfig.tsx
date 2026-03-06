@@ -1,9 +1,9 @@
 "use client";
-import { Handover } from "@/shared/types/handoverInterface";
+import { HandoverSheet } from "@/shared/types/handoverSheet.type";
 import dayjs from "dayjs";
 import { MRT_ColumnDef } from "material-react-table";
 
-export const mainHanoverColumnsConfig: MRT_ColumnDef<Handover>[] = [
+export const mainHanoverColumnsConfig: MRT_ColumnDef<HandoverSheet>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -36,9 +36,8 @@ export const mainHanoverColumnsConfig: MRT_ColumnDef<Handover>[] = [
   },
   {
     id: "eqNr",
-    accessorFn: (row) =>
-      Array.isArray(row.refEquipmentList) ? row.refEquipmentList?.length : 0,
-    header: "Nr. Echipamente",
+    accessorFn: (row) => (Array.isArray(row.eqList) ? row.eqList?.length : 0),
+    header: "Nr. echip.",
     enableEditing: false,
     size: 50,
   },
