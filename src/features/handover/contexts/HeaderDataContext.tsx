@@ -9,7 +9,8 @@ const HeaderDataContext = createContext<HeaderDataContextType | undefined>(
 
 export const ModalHeaderProvider = ({ children }: { children: ReactNode }) => {
   const [headerData, setHeaderData] = useState<Partial<HandoverSheet>>({
-    project: "",
+    id: "",
+    createdBy: "",
     date: undefined,
   });
 
@@ -21,7 +22,7 @@ export const ModalHeaderProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const resetHeader = () => {
-    setHeaderData({ project: "", date: undefined });
+    setHeaderData({ createdBy: "", date: undefined, id: "" });
   };
 
   const contextValue = useMemo(() => {

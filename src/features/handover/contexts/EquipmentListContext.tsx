@@ -1,9 +1,9 @@
 "use client";
 import { createContext, useState, ReactNode, useMemo, useContext } from "react";
-import { ItemsListContextType } from "../types/itemsListContext.type";
 import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { EquipmentListType } from "../types/eqListContext.type";
 
-const ItemsListContext = createContext<ItemsListContextType | undefined>(
+const EquipmentListContext = createContext<EquipmentListType | undefined>(
   undefined,
 );
 
@@ -34,17 +34,17 @@ export const EquipmentListProvider = ({
   }, [eqList, addItem, removeItem, clearItems]);
 
   return (
-    <ItemsListContext.Provider value={providerValues}>
+    <EquipmentListContext.Provider value={providerValues}>
       {children}
-    </ItemsListContext.Provider>
+    </EquipmentListContext.Provider>
   );
 };
 
 export const useEquipmentList = () => {
-  const context = useContext(ItemsListContext);
+  const context = useContext(EquipmentListContext);
   if (!context)
     throw new Error(
-      "useItemsList must be used within <EquipmentListProvider />",
+      "useEquipmentList must be used within <EquipmentListProvider />",
     );
   return context;
 };

@@ -1,6 +1,7 @@
 export interface HandoverSheet {
   id: string;
   date: Date;
+  createdBy: string;
   project: string;
   handoverPerson: string;
   recipientPerson: string;
