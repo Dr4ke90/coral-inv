@@ -1,16 +1,15 @@
-"use client";
 import CreateHandoverModal from "@/features/handover/components/CreateHandoverSheetModal";
 import { MainHandoverSheetsTable } from "@/features/handover/components/MainRequirmentTable";
-import { ItemsListProvider } from "@/features/handover/contexts/ItemsListContext";
+import { PreviewListProvider } from "@/features/handover/contexts/PreviewListContext";
 import { Box } from "@mui/material";
 
 const Handover = () => {
   return (
     <Box>
       <MainHandoverSheetsTable />
-      <ItemsListProvider>
+      <PreviewListProvider>
         <CreateHandoverModal />
-      </ItemsListProvider>
+      </PreviewListProvider>
     </Box>
   );
 };

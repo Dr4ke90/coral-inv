@@ -1,19 +1,20 @@
 import { Box, TextField } from "@mui/material";
-import { useHeaderData } from "../contexts/HeaderDataContext";
 import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useFormContext } from "react-hook-form";
 
 const ModalHeaderForm = () => {
-  const { headerData } = useHeaderData();
+  const { getValues, watch } = useFormContext();
+  const currentId = watch("id");
   const { user } = useUserContext();
 
   return (
     <Box component="form" sx={{ p: 2 }}>
       <Box className="flex gap-10">
         <TextField
-          value={headerData.id}
+          value={currentId}
           label="ID Fisa"
           fullWidth
           size="small"
@@ -58,7 +59,7 @@ const ModalHeaderForm = () => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Data"
-            value={headerData?.date ? dayjs(headerData.date) : undefined}
+            value={getValues("date") ? dayjs(getValues("date")) : undefined}
             format="DD/MM/YYYY"
             slotProps={{
               textField: {

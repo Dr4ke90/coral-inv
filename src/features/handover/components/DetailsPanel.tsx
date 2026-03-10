@@ -1,8 +1,8 @@
 import Table from "@/shared/components/table/Table";
 import { Box } from "@mui/material";
-import { rowSubtableColumnsConfig } from "../../requirement/configs/columns/rowSubtableColumnsConfig";
-import { subrowTableConfig } from "../../requirement/configs/tables/subrowTableConfig";
 import { MRT_RowData } from "material-react-table";
+import { subrowTableConfig } from "../configs/tables/subrowTableConfig";
+import { rowSubtableColumnsConfig } from "../configs/columns/rowSubtableColumnsConfig";
 
 const DetailsPanel = ({ row }: { row: MRT_RowData }) => {
   return (

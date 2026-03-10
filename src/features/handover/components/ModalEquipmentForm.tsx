@@ -2,7 +2,7 @@ import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useSelectedElement from "../hooks/useSelectedElement";
-import { useItemsList } from "../contexts/ItemsListContext";
+import { usePreviewList } from "../contexts/PreviewListContext";
 
 const ModalEquipmentForm = () => {
   const [equimentList, setEqList] = useState<EquipmentType[]>([
@@ -21,8 +21,6 @@ const ModalEquipmentForm = () => {
       status: "Nou",
     },
   ]);
-
-  const { addItem } = useItemsList();
 
   const { control, handleSubmit, reset, watch, setValue } =
     useForm<EquipmentType>({
@@ -52,6 +50,8 @@ const ModalEquipmentForm = () => {
       setValue("status", "");
     }
   }, [selectedElement, setValue]);
+
+  const { addItem } = usePreviewList();
 
   const onSubmit = (data: EquipmentType) => {
     if (!data.id) return;

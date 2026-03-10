@@ -1,42 +1,14 @@
 "use client";
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
-import { useRecipientData } from "../contexts/RecipientContext";
+import { Controller, useFormContext } from "react-hook-form";
 import { useProjects } from "@/hooks/useProjects";
 import { useEmployees } from "@/hooks/useEmployees";
-import { useEffect } from "react";
 
 const ModalRecipientForm = () => {
-  const { recipientData, setRecipientPerson } = useRecipientData();
   const { data: projects } = useProjects();
   const { data: employees } = useEmployees();
 
-  const { control, watch } = useForm<HandoverSheet>({
-    defaultValues: {
-      recipientPersonId: recipientData.recipientPersonId ?? "",
-      projectId: recipientData.projectId ?? "",
-    },
-    mode: "onChange",
-    shouldUnregister: false,
-  });
-
-  const { recipientPersonId, projectId } = watch();
-
-  useEffect(() => {
-    if (
-      recipientPersonId !== recipientData.recipientPersonId ||
-      projectId !== recipientData.projectId
-    ) {
-      setRecipientPerson({ recipientPersonId, projectId });
-    }
-  }, [
-    recipientPersonId,
-    projectId,
-    setRecipientPerson,
-    recipientData.recipientPersonId,
-    recipientData.projectId,
-  ]);
+  const { control } = useFormContext();
 
   return (
     <Box component="form" autoComplete="off" className="px-2 mb-2">

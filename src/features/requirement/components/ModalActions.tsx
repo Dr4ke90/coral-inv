@@ -38,11 +38,10 @@ const ModalActions = () => {
 
   return (
     <Modal.Actions>
-      <Modal.Close>
-        <Button variant="outlined" color="primary">
-          Anulează
-        </Button>
-      </Modal.Close>
+      <Button variant="outlined" color="primary" onClick={() => closeModal()}>
+        Anulează
+      </Button>
+
       <Button variant="contained" color="success" onClick={handleSaveData}>
         Salvează
       </Button>

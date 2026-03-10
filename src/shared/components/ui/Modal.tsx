@@ -49,25 +49,26 @@ const Trigger = ({
   const { open } = useModal();
   return React.cloneElement(children, {
     onClick: (e) => {
+      console.log(opensWindowName);
       children.props.onClick?.(e);
       open(opensWindowName);
     },
   });
 };
 
-const Close = ({
-  children,
-}: {
-  children: ReactElement<{ onClick?: React.MouseEventHandler }>;
-}) => {
-  const { closeModal } = useModal();
-  return React.cloneElement(children, {
-    onClick: (e) => {
-      children.props.onClick?.(e);
-      closeModal();
-    },
-  });
-};
+// const Close = ({
+//   children,
+// }: {
+//   children: ReactElement<{ onClick?: React.MouseEventHandler }>;
+// }) => {
+//   const { closeModal } = useModal();
+//   return React.cloneElement(children, {
+//     onClick: (e) => {
+//       children.props.onClick?.(e);
+//       closeModal();
+//     },
+//   });
+// };
 
 const Content = ({
   children,
@@ -149,6 +150,6 @@ Modal.Header = Header;
 Modal.Body = Body;
 Modal.Actions = Actions;
 Modal.Content = Content;
-Modal.Close = Close;
+// Modal.Close = Close;
 
 export default Modal;
