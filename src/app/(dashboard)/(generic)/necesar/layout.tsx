@@ -1,5 +1,5 @@
+import { ItemsListProvider } from "@/contexts/ItemsListContext";
 import React from "react";
-import { ItemsListProvider } from "@/features/requirement/contexts/ItemsListContext";
 
 const RequirementLayout = ({
   children,

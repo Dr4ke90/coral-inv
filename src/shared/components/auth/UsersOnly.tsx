@@ -1,12 +1,12 @@
 "use client";
 
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUser } from "@/features/users/hooks/useUser";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loader from "../ui/Loader";
 
 const UserOnly = ({ children }: { readonly children: React.ReactNode }) => {
-  const { user, authChecked } = useUserContext();
+  const { user, authChecked } = useUser();
   const router = useRouter();
 
   useEffect(() => {

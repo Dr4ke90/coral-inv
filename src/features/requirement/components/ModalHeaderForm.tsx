@@ -1,45 +1,21 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { RequirementType } from "../types/requiment.type";
-import DateInput from "../../../shared/components/ui/ReadOnlyDateInput";
-import { useHeaderDataContext } from "../hooks/useHeaderDataContext";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
-import { useGeneratedId } from "../hooks/useIdGeneration";
-import { useEffect, useRef } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
+import { useUser } from "@/features/users/hooks/useUser";
+import DateInput from "@/shared/components/ui/ReadOnlyDateInput";
+import { useProjects } from "@/hooks/useProjects";
 
 const ModalHeaderForm = () => {
-  const { setHeaderValues } = useHeaderDataContext();
-  const { user } = useUserContext();
-  const projects: { label: string; id: string | number }[] = [];
+  const { data: projects } = useProjects();
+  const { user } = useUser();
 
-  const nextId = useGeneratedId();
-
-  const { control, watch } = useForm<Partial<RequirementType>>({
-    defaultValues: {
-      id: nextId,
-      project: "",
-      date: new Date(),
-      createdBy: user?.name,
-    },
-  });
-
-  const formValues = watch();
-  const lastValuesRef = useRef("");
-
-  useEffect(() => {
-    const currentValuesStr = JSON.stringify(formValues);
-
-    if (lastValuesRef.current !== currentValuesStr) {
-      lastValuesRef.current = currentValuesStr;
-      setHeaderValues(formValues);
-    }
-  }, [formValues, setHeaderValues]);
+  const { control } = useFormContext();
 
   return (
-    <Box component="form" sx={{ p: 2 }}>
+    <Box component="form" sx={{ pb: 2 }}>
       <Box className="flex gap-10">
         <Controller
-          name="project"
+          name="projectId"
           control={control}
           rules={{ required: "Selectarea unui proiect este obligatorie" }}
           render={({
@@ -52,7 +28,7 @@ const ModalHeaderForm = () => {
               options={projects || []}
               value={projects?.find((p) => p.id === value) || null}
               isOptionEqualToValue={(option, val) => option.id === val.id}
-              getOptionLabel={(option) => option.label || ""}
+              getOptionLabel={(option) => option.name || ""}
               onChange={(_, newValue) => {
                 onChange(newValue ? newValue.id : "");
               }}
@@ -66,10 +42,11 @@ const ModalHeaderForm = () => {
                   sx={{
                     backgroundColor: "azure",
                     color: "crimson",
+                    margin: "10px 0 10px 0",
                     "& .MuiInputBase-input": {
-                      fontSize: "18px",
+                      fontSize: "16px",
                       fontWeight: "bold",
-                      color: "red",
+                      textAlign: "center",
                     },
                   }}
                 />
@@ -81,61 +58,18 @@ const ModalHeaderForm = () => {
         <Controller
           name="id"
           control={control}
-          rules={{ required: "Numele creatorului este obligatoriu" }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="Creat de"
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  readOnly: true,
-                },
-              }}
-              sx={{
-                backgroundColor: "azure",
-                color: "crimson",
-                "& .MuiInputBase-input": {
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  color: "red",
-                  textAlign: "center",
-                },
-              }}
-            />
+          render={({ field }) => (
+            <ReadOnlyInput value={field.value} className="w-full" />
           )}
         />
 
         <Controller
           name="createdBy"
           control={control}
-          rules={{ required: "Numele creatorului este obligatoriu" }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="Creat de"
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  readOnly: true,
-                },
-              }}
-              sx={{
-                backgroundColor: "azure",
-                color: "crimson",
-                "& .MuiInputBase-input": {
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  color: "red",
-                  textAlign: "center",
-                },
-              }}
+          render={() => (
+            <ReadOnlyInput
+              value={user?.name ?? "Necunoscut"}
+              className="w-full"
             />
           )}
         />

@@ -1,4 +1,4 @@
-export interface RequirementFormValues {
+export interface ResourceType {
   item: string;
   quantity: number | string;
   unitPrice: number | string;

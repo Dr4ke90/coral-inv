@@ -17,7 +17,7 @@ const requirementSheetSchema = new Schema(
       ],
       required: true,
     },
-    project: { type: String, required: true },
+    projectId: { type: String, required: true },
     totalCollectedPrice: { type: Number, required: true },
     status: { type: String, required: true },
     filePreview: { type: Boolean, default: false },

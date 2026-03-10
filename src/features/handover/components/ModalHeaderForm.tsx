@@ -2,13 +2,13 @@ import { Box, TextField } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUser } from "@/features/users/hooks/useUser";
 import { useFormContext } from "react-hook-form";
 
 const ModalHeaderForm = () => {
   const { getValues, watch } = useFormContext();
   const currentId = watch("id");
-  const { user } = useUserContext();
+  const { user } = useUser();
 
   return (
     <Box component="form" sx={{ p: 2 }}>

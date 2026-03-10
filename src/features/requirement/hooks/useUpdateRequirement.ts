@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { RequirementType } from "../types/requiment.type";
+import { Requirement} from "../types/requiment.type";
 import { updateOneRequirementSheet } from "../api/updateOneRequirementSheet";
 
 export const useUpdateRequirement = () => {
@@ -11,15 +11,15 @@ export const useUpdateRequirement = () => {
       payload,
     }: {
       id: string;
-      payload: Partial<RequirementType>;
+      payload: Partial<Requirement>;
     }) => updateOneRequirementSheet(id, payload),
 
     onMutate: async ({ id, payload }) => {
-      await queryClient.cancelQueries({ queryKey: ["requirement"] });
+      await queryClient.cancelQueries({ queryKey: ["requirements"] });
 
-      const previous = queryClient.getQueryData<RequirementType[]>(["requirement"]);
+      const previous = queryClient.getQueryData<Requirement[]>(["requirements"]);
 
-      queryClient.setQueryData<RequirementType[]>(["requirement"], (old) =>
+      queryClient.setQueryData<Requirement[]>(["requirements"], (old) =>
         old
           ? old.map((item) => (item.id === id ? { ...item, ...payload } : item))
           : [],
@@ -30,7 +30,7 @@ export const useUpdateRequirement = () => {
 
     onError: (_err, _variables, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(["requirement"], context.previous);
+        queryClient.setQueryData(["requirements"], context.previous);
       }
     },
 

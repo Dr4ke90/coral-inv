@@ -1,10 +1,10 @@
 import { Box, IconButton } from "@mui/material";
 import { MRT_RowData } from "material-react-table";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useItemsListContext } from "../hooks/useItemsListContext";
+import { useItemsList } from "@/contexts/ItemsListContext";
 
 const RowActions = ({ row }: { row: MRT_RowData }) => {
-  const { removeItem } = useItemsListContext();
+  const { removeItem } = useItemsList();
 
   return (
     <Box>

@@ -2,11 +2,11 @@
 import { Toolbar, Box, Typography, Button } from "@mui/material";
 import Image from "next/image";
 import logo from "../../../../public/assets/coral.png";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUser } from "@/features/users/hooks/useUser";
 import { useRouter } from "next/navigation";
 
 export function Navbar() {
-  const { user, logout } = useUserContext();
+  const { user, logout } = useUser();
   const router = useRouter();
 
   return (

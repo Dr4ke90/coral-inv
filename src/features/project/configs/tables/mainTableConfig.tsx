@@ -7,7 +7,7 @@ import { Project } from "../../types/project.type";
 import { useCreateRow } from "@/hooks/useCreateRow";
 import { createProject } from "../../factories/createProject";
 import { useCreateProject } from "../../hooks/useCreateProject";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUserContext } from "@/features/users/hooks/useUser";
 import { generatedId } from "@/shared/utils/generateId";
 import { PROJECT_PREFIX } from "../../constants/constants";
 import { useProjects } from "@/hooks/useProjects";

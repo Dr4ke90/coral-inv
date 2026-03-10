@@ -1,15 +1,13 @@
 import { Box, TextField, Button } from "@mui/material";
-import { ReactNode, useMemo } from "react";
-import { useForm, Controller, useWatch } from "react-hook-form";
-import { RequirementFormValues } from "../types/requirmentFormValues.types";
-import { useItemsListContext } from "../hooks/useItemsListContext";
+import { useMemo } from "react";
+import { Controller, useWatch, useFormContext } from "react-hook-form";
+import { useItemsList } from "@/contexts/ItemsListContext";
+import { ResourceType } from "../types/resource.type";
 
-const RequirmentForm = ({ children }: { children: ReactNode }) => {
-  const { addItem, items } = useItemsListContext();
+const ModalResourcesForm = () => {
+  const { addItem } = useItemsList();
 
-  const { control, handleSubmit, reset } = useForm<RequirementFormValues>({
-    defaultValues: { item: "", quantity: "", unitPrice: "" },
-  });
+  const { control, handleSubmit, reset } = useFormContext<ResourceType>();
 
   const watchedValues = useWatch({ control });
   const { quantity, unitPrice } = watchedValues;
@@ -19,11 +17,7 @@ const RequirmentForm = ({ children }: { children: ReactNode }) => {
     [quantity, unitPrice],
   );
 
-  const sheetTotalPrice = useMemo(() => {
-    return items.reduce((acc, item) => acc + (item.totalPrice || 0), 0);
-  }, [items]);
-
-  const onSubmit = (data: RequirementFormValues) => {
+  const onSubmit = (data: ResourceType) => {
     addItem({
       ...data,
       totalPrice,
@@ -38,31 +32,8 @@ const RequirmentForm = ({ children }: { children: ReactNode }) => {
       component="form"
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
-      className="p-2"
+      className="pt-4"
     >
-      <Box className="mb-2">
-        <Controller
-          name="item"
-          control={control}
-          rules={{ required: "Denumirea resursei este obligatorie" }}
-          render={({
-            field: { onChange, ...field },
-            fieldState: { error },
-          }) => (
-            <TextField
-              {...field}
-              size="small"
-              error={!!error}
-              label="Denumire resursa"
-              onChange={(e) => {
-                const val = e.target.value;
-                onChange(val);
-              }}
-              fullWidth
-            />
-          )}
-        />
-      </Box>
       <Box className="flex flex-row ">
         <Box className="flex flex-col items-center mb-4 mr-4 gap-4 ">
           <Controller
@@ -82,6 +53,8 @@ const RequirmentForm = ({ children }: { children: ReactNode }) => {
                   const val = e.target.value.replaceAll(/\D/g, "");
                   onChange(val === "" ? "" : Number(val));
                 }}
+                autoComplete="off"
+                fullWidth
               />
             )}
           />
@@ -103,6 +76,8 @@ const RequirmentForm = ({ children }: { children: ReactNode }) => {
                   const val = e.target.value.replaceAll(/\D/g, "");
                   onChange(val === "" ? "" : Number(val));
                 }}
+                autoComplete="off"
+                fullWidth
               />
             )}
           />
@@ -121,48 +96,20 @@ const RequirmentForm = ({ children }: { children: ReactNode }) => {
               "& .MuiInputBase-input": {
                 fontSize: "18px",
                 fontWeight: "bold",
-                color: "red",
+                color: "blue",
                 textAlign: "center",
               },
             }}
+            fullWidth
           />
 
           <Button type="submit" variant="contained" sx={{ mt: 2 }}>
             Adauga
           </Button>
         </Box>
-
-        <Box
-          sx={{ bgcolor: "#f5f5f5" }}
-          className="flex flex-col justify-center items-center"
-        >
-          <Box>{children}</Box>
-
-          <TextField
-            label="Total"
-            value={sheetTotalPrice}
-            placeholder="Pret colectat"
-            slotProps={{
-              input: {
-                readOnly: true,
-              },
-            }}
-            sx={{
-              backgroundColor: "azure",
-              color: "crimson",
-              margin: "10px 0 10px 0",
-              "& .MuiInputBase-input": {
-                fontSize: "18px",
-                fontWeight: "bold",
-                color: "red",
-                textAlign: "center",
-              },
-            }}
-          />
-        </Box>
       </Box>
     </Box>
   );
 };
 
-export default RequirmentForm;
+export default ModalResourcesForm;

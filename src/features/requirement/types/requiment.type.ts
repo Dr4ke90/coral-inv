@@ -1,12 +1,12 @@
 import { RequirementStatus } from "./requirementStatus";
+import { ResourceType } from "./resource.type";
 
-export interface RequirementType {
+export interface Requirement {
   id: string;
   date: Date | null;
   createdBy: string;
   totalCollectedPrice: number;
-  project: string;
+  projectId: string;
   status: RequirementStatus;
-  filePreview: boolean;
-  items: Record<string, any>[];
+  items: ResourceType[];
 }

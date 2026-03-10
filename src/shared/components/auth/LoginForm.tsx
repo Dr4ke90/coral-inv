@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUser } from "@/features/users/hooks/useUser";
 import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { login } = useUserContext();
+  const { login } = useUser();
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();

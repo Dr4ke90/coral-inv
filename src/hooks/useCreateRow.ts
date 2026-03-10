@@ -1,4 +1,4 @@
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUserContext } from "@/features/users/hooks/useUser";
 
 export interface CreateRowOptions<T> {
   mutate: (data: T) => void;

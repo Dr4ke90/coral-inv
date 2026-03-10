@@ -3,19 +3,19 @@ import Loader from "@/shared/components/ui/Loader";
 import { Box } from "@mui/material";
 import {
   MainRequirementTable,
-  RequirementType,
+  Requirement,
   useRequirementData,
   useUpdateRequirement,
 } from "@/features/requirement";
 import { MRT_Row, MRT_TableInstance } from "material-react-table";
 import { onRowUpdates } from "@/shared/utils/onRowUpdate";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUser } from "@/features/users/hooks/useUser";
 import Modal from "@/shared/components/ui/Modal";
 import CreateRequirementModal from "@/features/requirement/components/CreateRqSheetModal";
 
 const RequirementPage = () => {
   const { data, isLoading, isError } = useRequirementData();
-  const { user } = useUserContext();
+  const { user } = useUser();
   const { mutate: updateSheet } = useUpdateRequirement();
 
   const handleEditRow = ({
@@ -23,8 +23,8 @@ const RequirementPage = () => {
     row,
     values,
   }: {
-    table: MRT_TableInstance<RequirementType>;
-    row: MRT_Row<RequirementType>;
+    table: MRT_TableInstance<Requirement>;
+    row: MRT_Row<Requirement>;
     values: Record<string, unknown>;
   }) => {
     if (!user) {

@@ -52,13 +52,15 @@ const DateInput = <T extends FieldValues>({
                   helperText: error?.message || helperText,
                   sx: {
                     backgroundColor: "azure",
+                    color: "crimson",
+                    margin: "10px 0 10px 0",
                     "& .MuiPickersInputBase-sectionsContainer": {
                       justifyContent: "center",
                     },
                     "& .MuiPickersSectionList-sectionContent": {
                       fontSize: "18px !important",
                       fontWeight: "bold !important",
-                      color: "red !important",
+                      color: "blue !important",
                       padding: "0 5px",
                     },
                   },

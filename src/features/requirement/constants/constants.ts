@@ -1,0 +1,1 @@
+export const REQUIRMENTS_PREFIX = "N"

@@ -12,7 +12,7 @@ import { HandoverSheet } from "@/shared/types/handoverSheet.type";
 import { useHandoverSheets } from "../hooks/useHandoverSheets";
 import { generatedId } from "@/shared/utils/generateId";
 import { HANDOVER_PREFIX } from "../constants/constants";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUser } from "@/features/users/hooks/useUser";
 import { usePreviewList } from "../contexts/PreviewListContext";
 import { useEffect } from "react";
 import { useCreateHandoverSheet } from "../hooks/useCreateHandoverSheet";
@@ -24,7 +24,7 @@ const CreateHandoverModal = () => {
   const { closeModal } = useModal();
 
   const nextId = generatedId(HANDOVER_PREFIX, handovers);
-  const { user } = useUserContext();
+  const { user } = useUser();
 
   const methods = useForm<HandoverSheet>({
     defaultValues: {

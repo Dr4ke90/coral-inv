@@ -5,7 +5,7 @@ import { useUpdateRow } from "@/hooks/useUpdateRow";
 import { useUpdateEmployee } from "../../hooks/useUpdateEmployee";
 import { Employee } from "../../types/employee.type";
 import { useCreateEmployee } from "../../hooks/useCreateEmployee";
-import { useUserContext } from "@/features/users/hooks/useUserContext";
+import { useUserContext } from "@/features/users/hooks/useUser";
 import { useCreateRow } from "@/hooks/useCreateRow";
 import { generatedId } from "@/shared/utils/generateId";
 import { EMPLOYEE_PREFIX } from "../../constants/constants";
