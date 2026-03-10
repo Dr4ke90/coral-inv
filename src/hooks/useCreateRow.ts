@@ -1,4 +1,4 @@
-import { useUserContext } from "@/features/users/hooks/useUser";
+import { useUser } from "@/features/users/hooks/useUser";
 
 export interface CreateRowOptions<T> {
   mutate: (data: T) => void;
@@ -9,7 +9,7 @@ export const useCreateRow = <T>({
   mutate,
   createEntity,
 }: CreateRowOptions<T>) => {
-  const { user } = useUserContext();
+  const { user } = useUser();
 
   const handleCreate = async ({
     values,

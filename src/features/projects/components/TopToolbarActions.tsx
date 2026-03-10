@@ -9,7 +9,10 @@ const TopToolbarActions = <T extends MRT_RowData>({
 }) => {
   return (
     <Box>
-      <IconButton className="hover:bg-red-50 text-blue-600" onClick={() => table.setCreatingRow(true)}>
+      <IconButton
+        className="hover:bg-red-50 text-blue-600"
+        onClick={() => table.setCreatingRow(true)}
+      >
         <ControlPointIcon sx={{ fontSize: 40 }} />
       </IconButton>
     </Box>

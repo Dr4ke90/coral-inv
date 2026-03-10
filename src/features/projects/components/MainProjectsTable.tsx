@@ -1,16 +1,14 @@
-'use client'
+"use client";
 import Table from "@/shared/components/table/Table";
 import { mainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
-import { useProjects } from "../hooks/useProjects";
 import { Box } from "@mui/material";
 import Loader from "@/shared/components/ui/Loader";
+import { useProjects } from "@/hooks/useProjects";
 
 export const MainProjectsTable = () => {
-
   const { data, isLoading, isError } = useProjects();
-  const mainTableConfig = useMainTableConfig()
-
+  const mainTableConfig = useMainTableConfig();
 
   if (isLoading) {
     return <Loader />;
@@ -29,8 +27,8 @@ export const MainProjectsTable = () => {
   return (
     <Table
       columns={mainTableColumnsConfig}
-      data={data ?? []}
+      data={data?.slice().reverse() ?? []}
       tableCustomOptions={mainTableConfig}
     />
   );
-}
+};

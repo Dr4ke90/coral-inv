@@ -7,7 +7,7 @@ import { Project } from "../../types/project.type";
 import { useCreateRow } from "@/hooks/useCreateRow";
 import { createProject } from "../../factories/createProject";
 import { useCreateProject } from "../../hooks/useCreateProject";
-import { useUserContext } from "@/features/users/hooks/useUser";
+import { useUser } from "@/features/users/hooks/useUser";
 import { generatedId } from "@/shared/utils/generateId";
 import { PROJECT_PREFIX } from "../../constants/constants";
 import { useProjects } from "@/hooks/useProjects";
@@ -17,12 +17,12 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
   const nextId = generatedId(PROJECT_PREFIX, data);
   const { mutate: updateProject } = useUpdateProject();
   const { mutate: postNewEmployee } = useCreateProject(nextId);
-  const { user } = useUserContext();
+  const { user } = useUser();
   const updateRow = useUpdateRow<Project>(updateProject);
 
   const handleCreate = useCreateRow<Partial<Project>>({
     mutate: postNewEmployee,
-    createEntity: (values) => createProject(values, user?.name, nextId),
+    createEntity: (values) => createProject(values, user?.employeeId, nextId),
   });
 
   return {

@@ -1,4 +1,4 @@
-import { Project } from "@/features/project/types/project.type";
+import { Project } from "@/features/projects/types/project.type";
 import { MRT_ColumnDef } from "material-react-table";
 
 export const mainTableColumnsConfig: MRT_ColumnDef<Project>[] = [

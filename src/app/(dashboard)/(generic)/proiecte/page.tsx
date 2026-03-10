@@ -1,10 +1,10 @@
-import { MainProjectsTable } from "@/features/project/components/MainProjectsTable";
+import { MainProjectsTable } from "@/features/projects/components/MainProjectsTable";
 import { Box } from "@mui/material";
 
 const Projects = () => {
   return (
     <Box>
-        <MainProjectsTable />
+      <MainProjectsTable />
     </Box>
   );
 };

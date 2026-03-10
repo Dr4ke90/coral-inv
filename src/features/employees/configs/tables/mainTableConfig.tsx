@@ -5,7 +5,7 @@ import { useUpdateRow } from "@/hooks/useUpdateRow";
 import { useUpdateEmployee } from "../../hooks/useUpdateEmployee";
 import { Employee } from "../../types/employee.type";
 import { useCreateEmployee } from "../../hooks/useCreateEmployee";
-import { useUserContext } from "@/features/users/hooks/useUser";
+import { useUser } from "@/features/users/hooks/useUser";
 import { useCreateRow } from "@/hooks/useCreateRow";
 import { generatedId } from "@/shared/utils/generateId";
 import { EMPLOYEE_PREFIX } from "../../constants/constants";
@@ -17,7 +17,8 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
   const nextId = generatedId(EMPLOYEE_PREFIX, data);
   const { mutate: updateEmployee } = useUpdateEmployee();
   const { mutate: postNewEmployee } = useCreateEmployee(nextId);
-  const { user } = useUserContext();
+  const { user } = useUser();
+
   const updateRow = useUpdateRow<Employee>(updateEmployee);
 
   const handleCreate = useCreateRow<Partial<Employee>>({
