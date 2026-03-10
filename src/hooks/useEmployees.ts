@@ -1,6 +1,6 @@
+import { fetchEmployees } from "@/features/employees/api/fetchEmployees";
+import { Employee } from "@/features/employees/types/employee.type";
 import { useQuery } from "@tanstack/react-query";
-import { fetchEmployees } from "../api/fetchEmployees";
-import { Employee } from "../types/employee.type";
 
 export const useEmployees = () => {
   const { data, isLoading, isError } = useQuery<Employee[]>({

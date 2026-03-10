@@ -13,17 +13,22 @@ const handoverSheetSchema = new Schema(
   {
     id: { type: String, required: true, unique: true },
     date: { type: Date, required: true },
-    project: { type: String, required: true },
-    handoverPerson: { type: String, required: true },
-    recipientPerson: { type: String, required: true },
-    refEquipmentList: { type: [String], default: [] },
+    projectId: { type: String, required: true },
+    handoverPersonId: { type: String, required: true },
+    recipientPersonId: { type: String, required: true },
+    eqList: { type: [String], required: true },
     modifiedBy: { type: [modificationSchema], default: [] },
     filePreview: { type: Boolean, default: false },
+    notes: { type: [Object], default: [] },
   },
   { versionKey: false },
 );
 
+if (models.HandoverSheet) {
+  delete models.HandoverSheet;
+}
+
 const HandoverSheetModel =
-  models.HandoverSheetModel || model("HandoverSheet", handoverSheetSchema);
+  models.HandoverSheet || model("HandoverSheet", handoverSheetSchema);
 
 export default HandoverSheetModel;

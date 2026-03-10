@@ -1,37 +1,31 @@
 import Modal, { useModal } from "@/shared/components/ui/Modal";
 import { Button } from "@mui/material";
-import { usePostRequirement } from "../hooks/useCreateHandoverSheet";
-import { useHeaderDataContext } from "../hooks/useHeaderDataContext";
-import { useItemsListContext } from "../hooks/useItemsListContext";
-import { RequirementType } from "../types/handoverSheet.type";
-import { REQUIREMENT_STATUS_OPTIONS } from "../constants/requirementStatus";
+import { useHeaderData } from "../contexts/HeaderDataContext";
+import { useRecipientData } from "../contexts/RecipientContext";
+import { useItemsList } from "../contexts/ItemsListContext";
+import { useCreateHandoverSheet } from "../hooks/useCreateHandoverSheet";
 
 const ModalActions = () => {
-  const { headerData } = useHeaderDataContext();
-  const { items } = useItemsListContext();
-  const { mutate: postOneRequirementSheet } = usePostRequirement();
+  const { headerData, resetHeader } = useHeaderData();
+  const { recipientData, resetRecipient } = useRecipientData();
+  const { eqList, clearItems } = useItemsList();
+  const { mutate: postHandoverSheet } = useCreateHandoverSheet();
+
   const { closeModal } = useModal();
 
   const handleSaveData = () => {
-    if (items.length === 0) return;
-
-    const newSheet: RequirementType = {
-      id: headerData.id || "",
-      date: headerData.date || new Date(),
-      createdBy: headerData.createdBy || "",
-      project: headerData.project || "Coral Business Center",
-      status: REQUIREMENT_STATUS_OPTIONS[0],
-      items,
-      totalCollectedPrice: items.reduce(
-        (acc, item) => acc + (Number(item.totalPrice) || 0),
-        0,
-      ),
-      filePreview: false,
+    const newSheet = {
+      ...headerData,
+      ...recipientData,
+      eqList,
     };
 
-    postOneRequirementSheet(newSheet, {
+    postHandoverSheet(newSheet, {
       onSuccess: () => {
         closeModal();
+        resetHeader();
+        resetRecipient();
+        clearItems();
       },
     });
   };

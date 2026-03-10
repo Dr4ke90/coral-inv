@@ -1,10 +1,10 @@
 "use client";
 import Table from "@/shared/components/table/Table";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
-import { useEmployees } from "../hooks/useEmployees";
 import { Box } from "@mui/material";
 import Loader from "@/shared/components/ui/Loader";
 import { mainTableColumsConfig } from "../configs/columns/mainTableColumsConfig";
+import { useEmployees } from "@/hooks/useEmployees";
 
 export const MainEmployeesTable = () => {
   const { data, isLoading, isError } = useEmployees();

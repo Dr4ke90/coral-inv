@@ -1,11 +1,16 @@
-import Table from "@/shared/components/table/Table";
-import { mainHanoverColumnsConfig } from "@/features/handover/configs/columns/mainTableColumnsConfig";
+"use client";
+import CreateHandoverModal from "@/features/handover/components/CreateHandoverSheetModal";
+import { MainHandoverSheetsTable } from "@/features/handover/components/MainRequirmentTable";
+import { ItemsListProvider } from "@/features/handover/contexts/ItemsListContext";
 import { Box } from "@mui/material";
 
 const Handover = () => {
   return (
     <Box>
-      <Table columns={mainHanoverColumnsConfig} data={[]} />
+      <MainHandoverSheetsTable />
+      <ItemsListProvider>
+        <CreateHandoverModal />
+      </ItemsListProvider>
     </Box>
   );
 };

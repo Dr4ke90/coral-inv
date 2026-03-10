@@ -2,11 +2,11 @@
 
 import { createContext, ReactNode, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { User } from "@/features/users/types/userInterface";
 import { LoginData } from "@/features/users/types/loginData";
 import { fetchCurrentUser } from "./api/fetchCurrentUser";
 import { loginUser } from "./api/login";
 import { logoutUser } from "./api/logout";
+import { User } from "./types/user.type";
 
 export interface UserContextType {
   user: User | null;

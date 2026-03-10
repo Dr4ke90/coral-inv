@@ -1,146 +1,88 @@
-import { Autocomplete, Box, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { RequirementType } from "../types/handoverSheet.type";
-import DateInput from "../../../shared/components/ui/ReadOnlyDateInput";
-import { useHeaderDataContext } from "../hooks/useHeaderDataContext";
+import { Box, TextField } from "@mui/material";
+import { useHeaderData } from "../contexts/HeaderDataContext";
+import dayjs from "dayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
-import { useGeneratedId } from "../hooks/useIdGeneration";
-import { useEffect, useRef } from "react";
 
 const ModalHeaderForm = () => {
-  const { setHeaderValues } = useHeaderDataContext();
+  const { headerData } = useHeaderData();
   const { user } = useUserContext();
-  const projects: { label: string; id: string | number }[] = [];
-
-  const nextId = useGeneratedId();
-
-  const { control, watch } = useForm<Partial<RequirementType>>({
-    defaultValues: {
-      id: nextId,
-      project: "",
-      date: new Date(),
-      createdBy: user?.name,
-    },
-  });
-
-  const formValues = watch();
-  const lastValuesRef = useRef("");
-
-  useEffect(() => {
-    const currentValuesStr = JSON.stringify(formValues);
-
-    if (lastValuesRef.current !== currentValuesStr) {
-      lastValuesRef.current = currentValuesStr;
-      setHeaderValues(formValues);
-    }
-  }, [formValues, setHeaderValues]);
 
   return (
     <Box component="form" sx={{ p: 2 }}>
       <Box className="flex gap-10">
-        <Controller
-          name="project"
-          control={control}
-          rules={{ required: "Selectarea unui proiect este obligatorie" }}
-          render={({
-            field: { onChange, value, ...field },
-            fieldState: { error },
-          }) => (
-            <Autocomplete
-              {...field}
-              fullWidth
-              options={projects || []}
-              value={projects?.find((p) => p.id === value) || null}
-              isOptionEqualToValue={(option, val) => option.id === val.id}
-              getOptionLabel={(option) => option.label || ""}
-              onChange={(_, newValue) => {
-                onChange(newValue ? newValue.id : "");
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Proiect"
-                  error={!!error}
-                  helperText={error?.message}
-                  size="small"
-                  sx={{
-                    backgroundColor: "azure",
-                    color: "crimson",
-                    "& .MuiInputBase-input": {
-                      fontSize: "18px",
-                      fontWeight: "bold",
-                      color: "red",
-                    },
-                  }}
-                />
-              )}
-            />
-          )}
+        <TextField
+          value={headerData.id}
+          label="ID Fisa"
+          fullWidth
+          size="small"
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
+          sx={{
+            backgroundColor: "azure",
+            color: "crimson",
+            "& .MuiInputBase-input": {
+              fontSize: "18px",
+              fontWeight: "bold",
+              color: "red",
+              textAlign: "center",
+            },
+          }}
         />
 
-        <Controller
-          name="id"
-          control={control}
-          rules={{ required: "Numele creatorului este obligatoriu" }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="Creat de"
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  readOnly: true,
-                },
-              }}
-              sx={{
-                backgroundColor: "azure",
-                color: "crimson",
-                "& .MuiInputBase-input": {
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  color: "red",
-                  textAlign: "center",
-                },
-              }}
-            />
-          )}
+        <TextField
+          value={user?.name}
+          label="Creat de"
+          fullWidth
+          size="small"
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
+          sx={{
+            backgroundColor: "azure",
+            color: "crimson",
+            "& .MuiInputBase-input": {
+              fontSize: "18px",
+              fontWeight: "bold",
+              color: "red",
+              textAlign: "center",
+            },
+          }}
         />
-
-        <Controller
-          name="createdBy"
-          control={control}
-          rules={{ required: "Numele creatorului este obligatoriu" }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              error={!!error}
-              helperText={error?.message}
-              label="Creat de"
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  readOnly: true,
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Data"
+            value={headerData?.date ? dayjs(headerData.date) : undefined}
+            format="DD/MM/YYYY"
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                size: "small",
+                sx: {
+                  backgroundColor: "azure",
+                  "& .MuiPickersInputBase-sectionsContainer": {
+                    justifyContent: "center",
+                  },
+                  "& .MuiPickersSectionList-sectionContent": {
+                    fontSize: "18px !important",
+                    fontWeight: "bold !important",
+                    color: "red !important",
+                    padding: "0 5px",
+                  },
                 },
-              }}
-              sx={{
-                backgroundColor: "azure",
-                color: "crimson",
-                "& .MuiInputBase-input": {
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  color: "red",
-                  textAlign: "center",
-                },
-              }}
-            />
-          )}
-        />
-
-        <DateInput name="date" control={control} label="Data" />
+              },
+              openPickerButton: {
+                sx: { display: "none" },
+              },
+            }}
+          />
+        </LocalizationProvider>
       </Box>
     </Box>
   );

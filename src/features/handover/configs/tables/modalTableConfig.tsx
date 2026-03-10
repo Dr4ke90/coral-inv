@@ -7,9 +7,7 @@ export const modalTableConfig = {
   enableRowActions: true,
   muiTableContainerProps: {
     sx: {
-      width: "100%",
       height: "40vh",
-      overflowY: "auto",
     },
   },
 

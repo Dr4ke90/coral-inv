@@ -3,10 +3,13 @@ import Table from "@/shared/components/table/Table";
 import { Box } from "@mui/material";
 import Loader from "@/shared/components/ui/Loader";
 import { useHandoverSheets } from "../hooks/useHandoverSheets";
+import { useMainTableConfig } from "../configs/tables/mainTableConfig";
+import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
 
 export const MainHandoverSheetsTable = () => {
   const { data, isLoading, isError } = useHandoverSheets();
-  const mainTableConfig = useMainTableConfi();
+  const mainTableConfig = useMainTableConfig();
+  const mainTableColumsConfig = useMainTableColumnsConfig();
 
   if (isLoading) {
     return <Loader />;

@@ -6,11 +6,11 @@ import { useUpdateEmployee } from "../../hooks/useUpdateEmployee";
 import { Employee } from "../../types/employee.type";
 import { useCreateEmployee } from "../../hooks/useCreateEmployee";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
-import { useEmployees } from "../../hooks/useEmployees";
 import { useCreateRow } from "@/hooks/useCreateRow";
 import { generatedId } from "@/shared/utils/generateId";
 import { EMPLOYEE_PREFIX } from "../../constants/constants";
 import { createEmployee } from "../../factories/createEmployee";
+import { useEmployees } from "@/hooks/useEmployees";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
   const { data } = useEmployees();
@@ -24,7 +24,7 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
     mutate: postNewEmployee,
     createEntity: (values) => createEmployee(values, user?.name, nextId),
   });
-  
+
   return {
     onEditingRowSave: updateRow,
     onCreatingRowSave: handleCreate,

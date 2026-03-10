@@ -2,31 +2,33 @@
 import { createContext, useState, ReactNode, useMemo, useContext } from "react";
 import { HeaderDataContextType } from "../types/headerDataContext.type";
 import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { generatedId } from "@/shared/utils/generateId";
+import { useHandoverSheets } from "../hooks/useHandoverSheets";
+import { HANDOVER_PREFIX } from "../constants/constants";
+import { useUserContext } from "@/features/users/hooks/useUserContext";
 
 const HeaderDataContext = createContext<HeaderDataContextType | undefined>(
   undefined,
 );
 
 export const ModalHeaderProvider = ({ children }: { children: ReactNode }) => {
+  const { data } = useHandoverSheets();
+  const nextId = generatedId(HANDOVER_PREFIX, data);
+
+  const { user } = useUserContext();
+
   const [headerData, setHeaderData] = useState<Partial<HandoverSheet>>({
-    id: "",
-    createdBy: "",
-    date: undefined,
+    id: nextId,
+    handoverPersonId: user?.employeeId,
+    date: new Date(),
   });
 
-  const setHeaderValues = (values: Partial<HandoverSheet>) => {
-    setHeaderData((prev) => ({
-      ...prev,
-      ...values,
-    }));
-  };
-
   const resetHeader = () => {
-    setHeaderData({ createdBy: "", date: undefined, id: "" });
+    setHeaderData({ handoverPersonId: "", date: undefined, id: "" });
   };
 
   const contextValue = useMemo(() => {
-    return { headerData, setHeaderValues, resetHeader };
+    return { headerData, resetHeader };
   }, [headerData]);
 
   return (

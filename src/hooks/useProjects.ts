@@ -1,7 +1,6 @@
+import { getAllProjects } from "@/features/project/api/getAllProjects";
+import { Project } from "@/features/project/types/project.type";
 import { useQuery } from "@tanstack/react-query";
-import { Project } from "../types/project.type";
-import { getAllProjects } from "../api/getAllProjects";
-
 
 export const useProjects = () => {
   const { data, isLoading, isError } = useQuery<Project[]>({

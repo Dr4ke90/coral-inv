@@ -2,6 +2,6 @@ interface EquipmentType {
     id: string,
     type: string,
     model: string,
-    serie: string,
+    series: string,
     status: string
 }

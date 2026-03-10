@@ -6,11 +6,11 @@ import { useUpdateProject } from "../../hooks/useUpdateProject";
 import { Project } from "../../types/project.type";
 import { useCreateRow } from "@/hooks/useCreateRow";
 import { createProject } from "../../factories/createProject";
-import { useProjects } from "../../hooks/useProjects";
 import { useCreateProject } from "../../hooks/useCreateProject";
 import { useUserContext } from "@/features/users/hooks/useUserContext";
 import { generatedId } from "@/shared/utils/generateId";
 import { PROJECT_PREFIX } from "../../constants/constants";
+import { useProjects } from "@/hooks/useProjects";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
   const { data } = useProjects();
