@@ -3,9 +3,9 @@ import { ResourceType } from "./resource.type";
 
 export interface Requirement {
   id: string;
-  date: Date | null;
+  date: Date | string;
   createdBy: string;
-  totalCollectedPrice: number;
+  totalCollectedPrice: number | string;
   projectId: string;
   status: RequirementStatus;
   items: ResourceType[];

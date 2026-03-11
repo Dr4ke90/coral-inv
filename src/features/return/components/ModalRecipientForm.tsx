@@ -13,7 +13,7 @@ const ModalRecipientForm = () => {
 
   return (
     <Box component="form" autoComplete="off" className="px-2 mb-2">
-      <Box className="flex flex-col gap-2">
+      <Box className="flex flex-col">
         <ControlledAutocomplete
           control={control}
           name="recipientPersonId"

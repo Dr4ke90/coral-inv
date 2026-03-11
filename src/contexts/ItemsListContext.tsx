@@ -16,11 +16,22 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-export const ItemsListProvider = <T,>({ children }: ProviderProps) => {
+export const ItemsListProvider = <T extends { id: string | void }>({
+  children,
+}: ProviderProps) => {
   const [items, setItems] = useState<T[]>([]);
 
   const addItem = (item: T) => {
-    setItems((prev) => [...prev, item]);
+    setItems((prev) => {
+      const exists = prev.some((e) => e.id === item.id);
+
+      if (exists) {
+        console.log("Echipamentul este deja adăugat");
+        return prev;
+      }
+
+      return [...prev, item];
+    });
   };
 
   const removeItem = (index: number) => {

@@ -1,89 +1,23 @@
-import { Box, TextField } from "@mui/material";
-import dayjs from "dayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Box } from "@mui/material";
 import { useUser } from "@/features/users/hooks/useUser";
 import { useFormContext } from "react-hook-form";
+import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
+import ReadOnlyDate from "@/shared/components/ui/ReadOnlyDate";
 
 const ModalHeaderForm = () => {
-  const { getValues, watch } = useFormContext();
-  const currentId = watch("id");
+  const { watch } = useFormContext();
   const { user } = useUser();
 
   return (
-    <Box component="form" sx={{ p: 2 }}>
-      <Box className="flex gap-10">
-        <TextField
-          value={currentId}
-          label="ID Fisa"
-          fullWidth
-          size="small"
-          slotProps={{
-            input: {
-              readOnly: true,
-            },
-          }}
-          sx={{
-            backgroundColor: "azure",
-            color: "crimson",
-            "& .MuiInputBase-input": {
-              fontSize: "18px",
-              fontWeight: "bold",
-              color: "red",
-              textAlign: "center",
-            },
-          }}
+    <Box component="form" sx={{ p: 2 }} className="w-full">
+      <Box className="flex gap-10 w-full">
+        <ReadOnlyInput
+          value={user?.name ?? "Necunoscut"}
+          label="Predat de"
+          className="w-full"
         />
-
-        <TextField
-          value={user?.name}
-          label="Creat de"
-          fullWidth
-          size="small"
-          slotProps={{
-            input: {
-              readOnly: true,
-            },
-          }}
-          sx={{
-            backgroundColor: "azure",
-            color: "crimson",
-            "& .MuiInputBase-input": {
-              fontSize: "18px",
-              fontWeight: "bold",
-              color: "red",
-              textAlign: "center",
-            },
-          }}
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="Data"
-            value={getValues("date") ? dayjs(getValues("date")) : undefined}
-            format="DD/MM/YYYY"
-            slotProps={{
-              textField: {
-                fullWidth: true,
-                size: "small",
-                sx: {
-                  backgroundColor: "azure",
-                  "& .MuiPickersInputBase-sectionsContainer": {
-                    justifyContent: "center",
-                  },
-                  "& .MuiPickersSectionList-sectionContent": {
-                    fontSize: "18px !important",
-                    fontWeight: "bold !important",
-                    color: "red !important",
-                    padding: "0 5px",
-                  },
-                },
-              },
-              openPickerButton: {
-                sx: { display: "none" },
-              },
-            }}
-          />
-        </LocalizationProvider>
+        <ReadOnlyInput value={watch("id")} label="ID Fisa" className="w-full" />
+        <ReadOnlyDate value={watch("date")} className="w-full" />
       </Box>
     </Box>
   );

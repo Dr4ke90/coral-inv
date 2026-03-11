@@ -21,8 +21,6 @@ const ModalResourcesForm = () => {
     addItem({
       ...data,
       totalPrice,
-      um: "BUC",
-      currency: "RON",
     });
     reset();
   };

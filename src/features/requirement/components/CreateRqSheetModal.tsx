@@ -19,6 +19,8 @@ import { Box, Button } from "@mui/material";
 import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
 import ControlledTextField from "@/shared/components/ui/ControlledTextField";
 import { REQUIREMENT_STATUS_OPTIONS } from "../constants/requirementStatus";
+import { REQUIREMENT_SHEET_INITIAL_STATE } from "../constants/sheetInitialState";
+import { RESOURCES_INITIAL_STATE } from "../constants/resourcesInitialState";
 
 const CreateRequirementModal = () => {
   const { items, clearItems } = useItemsList<ResourceType>();
@@ -36,18 +38,16 @@ const CreateRequirementModal = () => {
 
   const mainMethods = useForm<Requirement>({
     defaultValues: {
+      ...REQUIREMENT_SHEET_INITIAL_STATE,
       id: nextId,
       date: new Date(),
       createdBy: user?.employeeId ?? "Necunoscut",
-      projectId: "",
-      totalCollectedPrice: 0,
       status: REQUIREMENT_STATUS_OPTIONS[0],
-      items: [],
     },
   });
 
   const resourceMethods = useForm<ResourceType>({
-    defaultValues: { item: "", quantity: "", unitPrice: "" },
+    defaultValues: { ...RESOURCES_INITIAL_STATE, um: "BUC", currency: "RON" },
   });
 
   useEffect(() => {
@@ -67,6 +67,8 @@ const CreateRequirementModal = () => {
   };
 
   const onSubmit = (data: Requirement) => {
+    if (data.items.length === 0) return
+    
     postOneRequirementSheet(data, {
       onSuccess: () => {
         closeModal();
@@ -87,7 +89,12 @@ const CreateRequirementModal = () => {
       </Modal.Header>
 
       <Modal.Body>
-        <ControlledTextField control={resourceMethods.control} />
+        <ControlledTextField
+          control={resourceMethods.control}
+          name="item"
+          label="Denumire resursa"
+          requiredText="Numele resursei este obligatoriu"
+        />
         <Box className="flex flex-row gap-2">
           <FormProvider {...resourceMethods}>
             <ModalResourcesForm />

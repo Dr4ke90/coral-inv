@@ -1,6 +1,6 @@
 export interface HandoverSheet {
   id: string;
-  date: Date;
+  date: Date | string;
   createdBy: string;
   projectId: string;
   handoverPersonId: string;

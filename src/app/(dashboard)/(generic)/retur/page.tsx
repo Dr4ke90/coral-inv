@@ -1,11 +1,18 @@
-import Table from "@/shared/components/table/Table";
-import { mainReturnColumnsConfig } from "@/features/return/configs/rtnMainColumnsConfig";
+import { ItemsListProvider } from "@/contexts/ItemsListContext";
+import CreateReturnModal from "@/features/return/components/CreateReturnSheetModal";
+import { MainRetunSheetTable } from "@/features/return/components/MainReturnTable";
+import Modal from "@/shared/components/ui/Modal";
 import { Box } from "@mui/material";
 
 const Return = () => {
   return (
     <Box>
-      <Table columns={mainReturnColumnsConfig} data={[]} />
+      <Modal>
+        <MainRetunSheetTable />
+        <ItemsListProvider>
+          <CreateReturnModal />
+        </ItemsListProvider>
+      </Modal>
     </Box>
   );
 };

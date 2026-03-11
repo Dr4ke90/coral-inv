@@ -1,80 +1,35 @@
-import { Autocomplete, Box, TextField } from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
+import { Box } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
 import { useUser } from "@/features/users/hooks/useUser";
-import DateInput from "@/shared/components/ui/ReadOnlyDateInput";
+import DateInput from "@/shared/components/ui/ReadOnlyDate";
 import { useProjects } from "@/hooks/useProjects";
+import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
 
 const ModalHeaderForm = () => {
   const { data: projects } = useProjects();
   const { user } = useUser();
 
-  const { control } = useFormContext();
+  const { control, getValues } = useFormContext();
 
   return (
     <Box component="form" sx={{ pb: 2 }}>
       <Box className="flex gap-10">
-        <Controller
+        <ControlledAutocomplete
+          control={control}
           name="projectId"
-          control={control}
-          rules={{ required: "Selectarea unui proiect este obligatorie" }}
-          render={({
-            field: { onChange, value, ...field },
-            fieldState: { error },
-          }) => (
-            <Autocomplete
-              {...field}
-              fullWidth
-              options={projects || []}
-              value={projects?.find((p) => p.id === value) || null}
-              isOptionEqualToValue={(option, val) => option.id === val.id}
-              getOptionLabel={(option) => option.name || ""}
-              onChange={(_, newValue) => {
-                onChange(newValue ? newValue.id : "");
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Proiect"
-                  error={!!error}
-                  helperText={error?.message}
-                  size="small"
-                  sx={{
-                    backgroundColor: "azure",
-                    color: "crimson",
-                    margin: "10px 0 10px 0",
-                    "& .MuiInputBase-input": {
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              )}
-            />
-          )}
+          label="Proiect"
+          options={projects ?? []}
+          requiredText="Selectarea unui proiect este obligatorie"
+          className="w-full"
+          optionLabel="name"
         />
 
-        <Controller
-          name="id"
-          control={control}
-          render={({ field }) => (
-            <ReadOnlyInput value={field.value} className="w-full" />
-          )}
-        />
+        <ReadOnlyInput value={getValues("id")} className="w-full" />
 
-        <Controller
-          name="createdBy"
-          control={control}
-          render={() => (
-            <ReadOnlyInput
-              value={user?.name ?? "Necunoscut"}
-              className="w-full"
-            />
-          )}
-        />
+        <ReadOnlyInput value={user?.name ?? "Necunoscut"} className="w-full" />
 
-        <DateInput name="date" control={control} label="Data" />
+        <DateInput value={getValues("date")} />
       </Box>
     </Box>
   );

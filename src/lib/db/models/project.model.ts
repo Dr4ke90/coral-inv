@@ -28,6 +28,6 @@ const projectSchema = new Schema(
   { toJSON: { getters: true } },
 );
 
-const ProjectModel = models.ProjectModel || model("Project", projectSchema);
+const ProjectModel = models.Project || model("Project", projectSchema);
 
 export default ProjectModel;

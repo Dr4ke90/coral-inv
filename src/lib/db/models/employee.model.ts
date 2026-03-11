@@ -27,6 +27,6 @@ const employeeSchema = new Schema(
   { versionKey: false },
 );
 
-const EmployeeModel = models.EmployeeModel || model("Employee", employeeSchema);
+const EmployeeModel = models.Employee || model("Employee", employeeSchema);
 
 export default EmployeeModel;

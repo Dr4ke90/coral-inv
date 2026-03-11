@@ -16,6 +16,7 @@ import { useUser } from "@/features/users/hooks/useUser";
 import { usePreviewList } from "../contexts/PreviewListContext";
 import { useEffect } from "react";
 import { useCreateHandoverSheet } from "../hooks/useCreateHandoverSheet";
+import { HANDOVER_SHEET_INITIAL_STATE } from "../constants/handoverInitialState";
 
 const CreateHandoverModal = () => {
   const { previewList, clearItems } = usePreviewList();
@@ -28,12 +29,10 @@ const CreateHandoverModal = () => {
 
   const methods = useForm<HandoverSheet>({
     defaultValues: {
+      ...HANDOVER_SHEET_INITIAL_STATE,
       id: nextId,
       date: new Date(),
       handoverPersonId: user?.employeeId ?? "Necunoscut",
-      recipientPersonId: "",
-      projectId: "",
-      eqList: [],
     },
   });
 
@@ -56,10 +55,15 @@ const CreateHandoverModal = () => {
   };
 
   const onSubmit = (data: HandoverSheet) => {
+    if (data.eqList.length === 0) return;
+
     postHandoverSheet(data, {
       onSuccess: () => {
         closeModal();
         handleReset();
+      },
+      onError: (error) => {
+        console.log(error);
       },
     });
   };

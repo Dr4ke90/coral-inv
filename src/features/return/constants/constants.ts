@@ -1,0 +1,20 @@
+import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+
+export const RETURN_PREFIX = "R";
+
+export const EQUIPMENT_INITIAL_STATE: EquipmentType = {
+  id: "",
+  type: "",
+  model: "",
+  series: "",
+  status: "",
+};
+
+export const HANDOVER_SHEET_INITIAL_STATE: Partial<HandoverSheet> = {
+  id: "",
+  date: "",
+  handoverPersonId: "",
+  recipientPersonId: "",
+  projectId: "",
+  eqList: [],
+};

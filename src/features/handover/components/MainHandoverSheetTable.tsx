@@ -28,7 +28,7 @@ export const MainHandoverSheetsTable = () => {
   return (
     <Table
       columns={mainTableColumsConfig}
-      data={data ?? []}
+      data={data?.slice().reverse() ?? []}
       tableCustomOptions={mainTableConfig}
     />
   );

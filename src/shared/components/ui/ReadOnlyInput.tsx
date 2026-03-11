@@ -3,18 +3,23 @@ import { Box, TextField } from "@mui/material";
 const ReadOnlyInput = ({
   value,
   className,
+  label,
+  placeholder,
 }: {
   value: string | number;
+  label?: string;
+  placeholder?: string;
   className?: string;
 }) => {
   return (
     <Box className={className}>
       <TextField
         fullWidth
-        label="Total"
+        label={label}
+        focused={false}
         value={value}
         size="small"
-        placeholder="Pret colectat"
+        placeholder={placeholder}
         slotProps={{
           input: {
             readOnly: true,
@@ -23,7 +28,7 @@ const ReadOnlyInput = ({
         sx={{
           backgroundColor: "azure",
           color: "crimson",
-          margin: "10px 0 10px 0",
+          margin: "2px 0 2px 0",
           "& .MuiInputBase-input": {
             fontSize: "18px",
             fontWeight: "bold",

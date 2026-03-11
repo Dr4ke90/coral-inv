@@ -1,1 +1,6 @@
-export type RequirementStatus = "Aprobat" | "In asteptare" | "Respins" | "Null";
+export type RequirementStatus =
+  | "Aprobat"
+  | "In asteptare"
+  | "Respins"
+  | "Null"
+  | "";

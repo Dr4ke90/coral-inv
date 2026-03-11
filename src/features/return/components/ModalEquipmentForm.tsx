@@ -1,11 +1,11 @@
 import { Box, Button } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useSelectedElement from "../hooks/useSelectedElement";
-import { usePreviewList } from "../contexts/PreviewListContext";
-import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
-import { EQUIPMENT_INITIAL_STATE } from "../constants/equipmentInitialState";
+import { useItemsList } from "@/contexts/ItemsListContext";
 import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
+import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
+import { EQUIPMENT_INITIAL_STATE } from "../constants/constants";
 
 const ModalEquipmentForm = () => {
   const [equimentList, setEqList] = useState<EquipmentType[]>([
@@ -25,24 +25,22 @@ const ModalEquipmentForm = () => {
     },
   ]);
 
-  const { control, handleSubmit, reset, watch } = useForm<EquipmentType>({
-    defaultValues: EQUIPMENT_INITIAL_STATE,
-  });
+  const { control, handleSubmit, reset } = useFormContext<EquipmentType>();
 
-  const watchedValues = watch();
+  const watchedValues = useWatch({ control });
   const { id } = watchedValues;
 
   const selectedElement = useSelectedElement(id, equimentList);
 
   useEffect(() => {
-    if (selectedElement) {
-      reset({ ...selectedElement });
-    } else {
-      reset(EQUIPMENT_INITIAL_STATE);
-    }
-  }, [selectedElement]);
+    if (!selectedElement) return;
 
-  const { addItem } = usePreviewList();
+    reset({
+      ...selectedElement,
+    });
+  }, [selectedElement, reset]);
+
+  const { addItem } = useItemsList<EquipmentType>();
 
   const onSubmit = (data: EquipmentType) => {
     if (!data.id) return;
@@ -52,16 +50,20 @@ const ModalEquipmentForm = () => {
   };
 
   return (
-    <Box component="form" autoComplete="off" className="p-2">
-      <Box className="flex flex-col gap-2">
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
+      className="p-2"
+    >
+      <Box className="flex flex-col">
         <ControlledAutocomplete
           name="id"
           control={control}
+          requiredText="Selectarea unui echipament este obligatorie"
           label="CIT"
           options={equimentList}
           optionLabel="id"
-          requiredText="Selectarea unui proiect este obligatorie"
-          className="w-full"
         />
 
         <ReadOnlyInput value={watchedValues.type ?? ""} label="Tip" />
