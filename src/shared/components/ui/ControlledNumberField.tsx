@@ -1,46 +1,44 @@
 import { Box, TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 
-type ControlledTextFieldProps = {
+type ControlledNumberFieldProps = {
   name: string;
   control: Control<any>;
   required?: boolean;
   requiredText?: string;
   label?: string;
   className?: string;
-  trim?: boolean;
 };
 
-const ControlledTextField = ({
+const ControlledNumberField = ({
   name,
   control,
   required = false,
   requiredText,
   label,
   className,
-  trim,
-}: ControlledTextFieldProps) => {
+}: ControlledNumberFieldProps) => {
   return (
     <Box className={className}>
       <Controller
         name={name}
         control={control}
         rules={{ required: required ? requiredText || true : false }}
-        render={({ field: { onChange, ...field }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, value, ...field },
+          fieldState: { error },
+        }) => (
           <TextField
             {...field}
+            value={value ?? ""}
             size="small"
             error={!!error}
             helperText={error?.message}
             label={label}
             onChange={(e) => {
-              let val = e.target.value;
+              const onlyNumbers = e.target.value.replaceAll(/\D/g, "");
 
-              if (trim) {
-                val = val.toUpperCase().replaceAll(/[^A-Z0-9]/g, "");
-              }
-
-              onChange(val);
+              onChange(onlyNumbers === "" ? null : Number(onlyNumbers));
             }}
             required={required}
             autoComplete="off"
@@ -53,4 +51,4 @@ const ControlledTextField = ({
   );
 };
 
-export default ControlledTextField;
+export default ControlledNumberField;

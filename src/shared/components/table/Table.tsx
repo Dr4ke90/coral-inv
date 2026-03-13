@@ -9,6 +9,8 @@ import {
 } from "material-react-table";
 import { DEFAULT_CONFIG } from "@/shared/components/table/configs/tableDefaultConfig";
 import { useState } from "react";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import PushPinIcon from "@mui/icons-material/PushPin";
 
 export interface CustomTableProps<T extends MRT_RowData> {
   columns: MRT_ColumnDef<T>[];
@@ -61,6 +63,25 @@ export const Table = <T extends Record<string, any>>({
     muiTableContainerProps: {
       ...DEFAULT_CONFIG<T>().muiTableContainerProps,
       ...tableCustomOptions?.muiTableContainerProps,
+    },
+
+    displayColumnDefOptions: {
+      ...DEFAULT_CONFIG<T>().displayColumnDefOptions, // Aduce tot din .ts (acțiuni, select, etc)
+      ...tableCustomOptions?.displayColumnDefOptions, // Adaugă opțiunile extra trimise prin prop-uri
+
+      "mrt-row-expand": {
+        ...DEFAULT_CONFIG<T>().displayColumnDefOptions?.["mrt-row-expand"],
+        ...tableCustomOptions?.displayColumnDefOptions?.["mrt-row-expand"],
+
+        Header: <UnfoldMoreIcon fontSize="small" titleAccess="Expand" />,
+      },
+
+      "mrt-row-pin": {
+        ...DEFAULT_CONFIG<T>().displayColumnDefOptions?.["mrt-row-pin"],
+        ...tableCustomOptions?.displayColumnDefOptions?.["mrt-row-pin"],
+
+        Header: <PushPinIcon fontSize="small" titleAccess="Pin" />,
+      },
     },
   });
 

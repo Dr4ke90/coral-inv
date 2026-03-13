@@ -35,7 +35,8 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   enableStickyHeader: true,
   enableClickToCopy: true,
 
-  editDisplayMode: "row", // ('modal', 'cell', 'table', and 'custom' are also available)
+  editDisplayMode: "row",
+  layoutMode: "semantic",
 
   muiExpandButtonProps: ({ row, table }) => ({
     onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
@@ -89,7 +90,7 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
         align: "center",
         sx: {
           textAlign: "center",
-          p: 0,
+          padding: "4px 0",
           margin: 0,
         },
       },
@@ -113,26 +114,90 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 
     "mrt-row-select": {
       size: 30,
-      muiTableHeadCellProps: { align: "center" },
-      muiTableBodyCellProps: { align: "center" },
+      muiTableHeadCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px !important",
+        },
+      },
+      muiTableBodyCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px !important",
+        },
+      },
     },
 
     "mrt-row-pin": {
       size: 30,
-      muiTableHeadCellProps: { align: "center" },
-      muiTableBodyCellProps: { align: "center" },
+      muiTableHeadCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px!important",
+        },
+      },
+      muiTableBodyCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px!important",
+        },
+      },
     },
 
     "mrt-row-expand": {
       size: 30,
-      muiTableHeadCellProps: { align: "center" },
-      muiTableBodyCellProps: { align: "center" },
+      muiTableHeadCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px!important",
+          maxWidth: "30px !important",
+        },
+      },
+      muiTableBodyCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px !important",
+        },
+      },
     },
 
     "mrt-row-numbers": {
       size: 30,
-      muiTableHeadCellProps: { align: "center" },
-      muiTableBodyCellProps: { align: "center" },
+      muiTableHeadCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px !important",
+        },
+      },
+      muiTableBodyCellProps: {
+        align: "center",
+        sx: {
+          padding: "0 !important",
+          width: "30px !important",
+          minWidth: "30px !important",
+          maxWidth: "30px !important",
+        },
+      },
     },
   },
 });

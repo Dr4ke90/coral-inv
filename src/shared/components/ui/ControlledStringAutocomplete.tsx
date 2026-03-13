@@ -1,61 +1,55 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 
-type ControlledAutocompleteProps = {
+type ControlledStringAutocompleteProps = {
   control: Control<any>;
-  required?: boolean;
   requiredText?: string;
   name: string;
   label?: string;
-  options?: any[];
+  options: string[];
   className?: string;
-  optionLabel: string;
 };
 
-const ControlledAutocomplete = ({
+const ControlledStringAutocomplete = ({
   control,
-  required = false,
   requiredText,
   name,
   label,
   className,
-  options,
-  optionLabel,
-}: ControlledAutocompleteProps) => {
+  options = [],
+}: ControlledStringAutocompleteProps) => {
   return (
     <Box className={className}>
       <Controller
         name={name}
         control={control}
-        rules={{ required: required ? requiredText || true : false }}
+        rules={{ required: requiredText }}
         render={({
-          field: { onChange, value, ...field },
+          field: { onChange, value, ref, ...field },
           fieldState: { error },
         }) => (
           <Autocomplete
             {...field}
             fullWidth
-            options={options || []}
-            getOptionLabel={(option) => option?.[optionLabel] || ""}
-            value={options?.find((p) => p.id === value) || null}
-            isOptionEqualToValue={(option, val) =>
-              !!val && option.id === val.id
-            }
+            options={options}
+            getOptionLabel={(option) => option || ""}
+            value={value || null}
+            isOptionEqualToValue={(option, val) => option === val}
             onChange={(_, newValue) => {
-              onChange(newValue ? newValue.id : "");
+              onChange(newValue || "");
             }}
             renderOption={(props, option) => (
-              <li {...props} key={option.id ?? option.name}>
-                {option[optionLabel]}
+              <li {...props} key={option}>
+                {option}
               </li>
             )}
             renderInput={(params) => (
               <TextField
                 {...params}
+                inputRef={ref}
                 label={label}
                 error={!!error}
-                required={required}
-                helperText={error?.message}
+                // helperText={error?.message}
                 size="small"
                 sx={{ margin: "2px 0 2px 0" }}
               />
@@ -67,4 +61,4 @@ const ControlledAutocomplete = ({
   );
 };
 
-export default ControlledAutocomplete;
+export default ControlledStringAutocomplete;
