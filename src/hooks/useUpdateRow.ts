@@ -1,5 +1,5 @@
 import { useUser } from "@/features/users/hooks/useUser";
-import { onRowUpdates } from "@/shared/utils/onRowUpdate";
+import { onRowUpdates } from "@/utils/onRowUpdate";
 import { MRT_Row, MRT_RowData, MRT_TableInstance } from "material-react-table";
 
 type UpdateFn<T> = (params: { id: string; payload: Partial<T> }) => void;

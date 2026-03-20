@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateReturnSheet } from "../api/updateReturnSheet";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 
 export const useUpdateReturnSheet = () => {
   const queryClient = useQueryClient();

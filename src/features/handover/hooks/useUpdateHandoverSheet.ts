@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateHandoverSheet } from "../api/updateHandoverSheet";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 
 export const useUpdateHandoverSheet = () => {
   const queryClient = useQueryClient();
@@ -17,9 +17,7 @@ export const useUpdateHandoverSheet = () => {
     onMutate: async ({ id, payload }) => {
       await queryClient.cancelQueries({ queryKey: ["handovers"] });
 
-      const previous = queryClient.getQueryData<HandoverSheet[]>([
-        "handovers",
-      ]);
+      const previous = queryClient.getQueryData<HandoverSheet[]>(["handovers"]);
 
       queryClient.setQueryData<HandoverSheet[]>(["handovers"], (old) =>
         old

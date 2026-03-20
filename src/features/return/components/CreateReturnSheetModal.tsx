@@ -1,16 +1,16 @@
 "use client";
-import Modal, { useModal } from "@/shared/components/ui/Modal";
+import Modal, { useModal } from "@/components/ui/Modal";
 import ModalHeaderForm from "./ModalHeaderForm";
 import { useForm, FormProvider } from "react-hook-form";
 import { Box, Button } from "@mui/material";
 import ModalRecipientForm from "./ModalRecipientForm";
 import ModalEquipmentForm from "./ModalEquipmentForm";
-import Table from "@/shared/components/table/Table";
+import Table from "@/components/table/Table";
 import { modalTableColumsConfig } from "../configs/columns/modalTableColumnsConfig";
 import { modalTableConfig } from "../configs/tables/modalTableConfig";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 import { useReturnSheets } from "../hooks/useReturnSheets";
-import { generatedId } from "@/shared/utils/generateId";
+import { generatedId } from "@/utils/generateId";
 import {
   EQUIPMENT_INITIAL_STATE,
   HANDOVER_SHEET_INITIAL_STATE,

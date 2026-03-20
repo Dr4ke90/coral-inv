@@ -8,7 +8,7 @@ import { useCreateRow } from "@/hooks/useCreateRow";
 import { createProject } from "../../factories/createProject";
 import { useCreateProject } from "../../hooks/useCreateProject";
 import { useUser } from "@/features/users/hooks/useUser";
-import { generatedId } from "@/shared/utils/generateId";
+import { generatedId } from "@/utils/generateId";
 import { PROJECT_PREFIX } from "../../constants/constants";
 import { useProjects } from "@/hooks/useProjects";
 

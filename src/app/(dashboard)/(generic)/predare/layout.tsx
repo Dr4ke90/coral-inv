@@ -1,4 +1,4 @@
-import Modal from "@/shared/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import { ToastContainer } from "react-toastify";
 
 const HandoverLayout = ({ children }: { children: React.ReactNode }) => {

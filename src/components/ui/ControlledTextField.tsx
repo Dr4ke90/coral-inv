@@ -9,6 +9,7 @@ type ControlledTextFieldProps = {
   label?: string;
   className?: string;
   trim?: boolean;
+  disabled?: boolean;
 };
 
 const ControlledTextField = ({
@@ -19,6 +20,7 @@ const ControlledTextField = ({
   label,
   className,
   trim,
+  disabled = false,
 }: ControlledTextFieldProps) => {
   return (
     <Box className={className}>
@@ -26,7 +28,7 @@ const ControlledTextField = ({
         name={name}
         control={control}
         rules={{ required: required ? requiredText || true : false }}
-        render={({ field: { onChange, ...field }, fieldState: { error } }) => (
+        render={({ field, fieldState: { error } }) => (
           <TextField
             {...field}
             size="small"
@@ -40,12 +42,14 @@ const ControlledTextField = ({
                 val = val.toUpperCase().replaceAll(/[^A-Z0-9]/g, "");
               }
 
-              onChange(val);
+              field.onChange(val);
             }}
+            value={field.value || ""}
             required={required}
             autoComplete="off"
             fullWidth
             sx={{ margin: "2px 0 2px 0" }}
+            disabled={disabled}
           />
         )}
       />

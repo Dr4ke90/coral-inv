@@ -49,7 +49,6 @@ const Trigger = ({
   const { open } = useModal();
   return React.cloneElement(children, {
     onClick: (e) => {
-      console.log(opensWindowName);
       children.props.onClick?.(e);
       open(opensWindowName);
     },
@@ -77,7 +76,7 @@ const Content = ({
 }: {
   children: ReactNode;
   name: string;
-  maxWidth?: "xs" | "sm" | "md" | "lg";
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
 }) => {
   const { openName, closeModal } = useModal();
 

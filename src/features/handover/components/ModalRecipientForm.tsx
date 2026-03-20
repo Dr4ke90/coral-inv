@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { useProjects } from "@/hooks/useProjects";
 import { useEmployees } from "@/hooks/useEmployees";
-import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
+import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 
 const ModalRecipientForm = () => {
   const { data: projects } = useProjects();

@@ -8,23 +8,27 @@ interface DateInputProps {
   name: string;
   control: Control<any>;
   requiredText?: string;
+  required?: boolean;
   label?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 const ControlledDate = ({
   name,
   control,
   requiredText,
+  required = false,
   label,
   className,
+  disabled,
 }: DateInputProps) => {
   return (
     <Box className={className}>
       <Controller
         name={name}
         control={control}
-        rules={{ required: requiredText }}
+        rules={{ required: required ? requiredText || true : false }}
         render={({
           field: { onChange, value, ref, ...restField },
           fieldState: { error },
@@ -40,9 +44,10 @@ const ControlledDate = ({
                 textField: {
                   fullWidth: true,
                   size: "small",
-                  error: !!error, //
-                //   helperText: error ? error.message : null,
-                  inputRef: ref,
+                  required: required,
+                  error: !!error,
+                  helperText: error ? error.message : null,
+                  disabled: disabled,
                 },
               }}
             />

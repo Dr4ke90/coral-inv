@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postReturnSheet } from "../api/postReturnSheet";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
-import { generatedId } from "@/shared/utils/generateId";
+import { HandoverSheet } from "@/types/handoverSheet.type";
+import { generatedId } from "@/utils/generateId";
 import { RETURN_PREFIX } from "../constants/constants";
 import { useReturnSheets } from "./useReturnSheets";
 

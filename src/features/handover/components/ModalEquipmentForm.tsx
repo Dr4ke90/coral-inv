@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useSelectedElement from "../hooks/useSelectedElement";
 import { usePreviewList } from "../contexts/PreviewListContext";
-import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
+import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/equipmentInitialState";
-import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
+import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
 
 const ModalEquipmentForm = () => {
   const [equimentList, setEqList] = useState<EquipmentType[]>([

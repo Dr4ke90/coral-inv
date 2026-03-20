@@ -1,9 +1,9 @@
 "use client";
-import Table from "@/shared/components/table/Table";
+import Table from "@/components/table/Table";
 import { mainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { Box } from "@mui/material";
-import Loader from "@/shared/components/ui/Loader";
+import Loader from "@/components/ui/Loader";
 import { useProjects } from "@/hooks/useProjects";
 
 export const MainProjectsTable = () => {

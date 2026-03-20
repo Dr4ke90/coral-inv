@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllReturnSheets } from "../api/fetchAllReturnSheets";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 
 export const useReturnSheets = () => {
   const { data, isLoading, isError } = useQuery<HandoverSheet[]>({

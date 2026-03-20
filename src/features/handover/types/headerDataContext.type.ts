@@ -1,4 +1,4 @@
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 
 export interface HeaderDataContextType {
   headerData: Partial<HandoverSheet>;

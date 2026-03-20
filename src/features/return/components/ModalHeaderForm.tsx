@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
-import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
+import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
+import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { useEmployees } from "@/hooks/useEmployees";
-import ReadOnlyDate from "@/shared/components/ui/ReadOnlyDate";
+import ReadOnlyDate from "@/components/ui/ReadOnlyDate";
 
 const ModalHeaderForm = () => {
   const { control, getValues, watch } = useFormContext();

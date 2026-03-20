@@ -10,6 +10,7 @@ type ControlledAutocompleteProps = {
   options?: any[];
   className?: string;
   optionLabel: string;
+  disabled?: boolean;
 };
 
 const ControlledAutocomplete = ({
@@ -20,6 +21,7 @@ const ControlledAutocomplete = ({
   label,
   className,
   options,
+  disabled = false,
   optionLabel,
 }: ControlledAutocompleteProps) => {
   return (
@@ -58,6 +60,7 @@ const ControlledAutocomplete = ({
                 helperText={error?.message}
                 size="small"
                 sx={{ margin: "2px 0 2px 0" }}
+                disabled={disabled}
               />
             )}
           />

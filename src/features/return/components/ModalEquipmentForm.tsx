@@ -3,8 +3,8 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useSelectedElement from "../hooks/useSelectedElement";
 import { useItemsList } from "@/contexts/ItemsListContext";
-import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
-import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
+import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
+import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/constants";
 
 const ModalEquipmentForm = () => {

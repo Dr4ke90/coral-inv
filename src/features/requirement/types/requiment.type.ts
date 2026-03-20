@@ -9,4 +9,5 @@ export interface Requirement {
   projectId: string;
   status: RequirementStatus;
   items: ResourceType[];
+  filePreview: boolean;
 }

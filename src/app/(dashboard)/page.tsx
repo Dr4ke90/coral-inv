@@ -1,4 +1,4 @@
-import ItemCard from "@/shared/components/ui/ItemCard";
+import ItemCard from "@/components/ui/ItemCard";
 import { IMAGE_MAPPING } from "@/features/dashboard/constants/image_mapping";
 import { MODULES } from "@/features/dashboard/constants/modules";
 import { PNG_LIST } from "@/features/dashboard/constants/png_list";

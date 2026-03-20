@@ -1,4 +1,4 @@
-import Table from "@/shared/components/table/Table";
+import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import { MRT_RowData } from "material-react-table";
 import { subrowTableConfig } from "../configs/tables/subrowTableConfig";

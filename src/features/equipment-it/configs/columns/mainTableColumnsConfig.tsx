@@ -4,6 +4,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { MRT_ColumnDef } from "material-react-table";
 import { Equipment } from "../../types/equipment.type";
 import Link from "next/link";
+import { Box } from "@mui/material";
 
 export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
   const { data: employees } = useEmployees();
@@ -28,7 +29,7 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       accessorKey: "model",
       header: "Model",
       enableEditing: true,
-      size: 200,
+      size: 150,
     },
     {
       accessorKey: "config",
@@ -40,7 +41,7 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       accessorKey: "series",
       header: "Serie",
       enableEditing: true,
-      size: 130,
+      size: 150,
     },
     {
       accessorKey: "status",
@@ -52,10 +53,11 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       accessorKey: "custodianId",
       header: "Responsabil",
       enableEditing: false,
-      size: 200,
+      size: 150,
       Cell: ({ cell }) => {
         const id = cell.getValue<string>();
-        if (id === "E0000") return;
+        if (id === "E0000")
+          return <Box>{employees?.find((p) => p.id === id)?.name}</Box>;
         return (
           <Link href={`/employees/${id.toLowerCase()}`}>
             {employees?.find((p) => p.id === id)?.name}
@@ -81,18 +83,18 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       accessorKey: "invoice",
       header: "S/N Fact.",
       enableEditing: false,
-      size: 50,
+      size: 120,
       minSize: 50,
     },
     {
-      accessorKey: "requirmentId",
+      accessorKey: "requirementId",
       header: "Necesar",
       enableEditing: false,
       size: 30,
       minSize: 30,
       Cell: ({ cell }) => {
-        const pvList = cell.getValue<string[]>();
-        return Array.isArray(pvList) ? pvList.length : 0;
+        const id = cell.getValue<string>();
+        return <Link href={`/requirements/${id?.toLowerCase()}`}>{id}</Link>;
       },
     },
   ];

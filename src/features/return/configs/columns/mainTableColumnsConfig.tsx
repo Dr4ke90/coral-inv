@@ -1,7 +1,7 @@
 "use client";
 import { useEmployees } from "@/hooks/useEmployees";
 import { useProjects } from "@/hooks/useProjects";
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 import dayjs from "dayjs";
 import { MRT_ColumnDef } from "material-react-table";
 
@@ -24,11 +24,11 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<HandoverSheet>[] => {
       Cell: ({ cell }) => dayjs(cell.getValue<Date>()).format("DD/MM/YYYY"),
     },
     {
-      accessorKey: "handoverPersonId", 
+      accessorKey: "handoverPersonId",
       header: "Predator",
       enableEditing: false,
       size: 300,
-     
+
       Cell: ({ cell }) => {
         const id = cell.getValue<string>();
         return employees?.find((e) => e.id === id)?.name || "Se încarcă...";

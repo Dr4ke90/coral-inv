@@ -1,6 +1,6 @@
 import { Equipment } from "../types/equipment.type";
 
-export const EQUIPMENT_INITIAL_STATE: Partial<Equipment> = {
+export const EQ_INITIAL_STATE: Partial<Equipment> = {
   id: "",
   type: "",
   model: "",
@@ -8,6 +8,8 @@ export const EQUIPMENT_INITIAL_STATE: Partial<Equipment> = {
   series: "",
   price: "",
   requirementId: "",
-  invoice: "",
-  createdBy: "",
+  refInvoice: {
+    sn: "",
+    date: ""
+  },
 };

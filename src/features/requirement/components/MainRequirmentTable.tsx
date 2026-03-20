@@ -1,10 +1,10 @@
 "use Client";
-import Table from "@/shared/components/table/Table";
+import Table from "@/components/table/Table";
 import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
 import { useRequirementData } from "../hooks/useRequirementData";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { Box } from "@mui/material";
-import Loader from "@/shared/components/ui/Loader";
+import Loader from "@/components/ui/Loader";
 
 export const MainRequirementTable = () => {
   const { data, isLoading, isError } = useRequirementData();

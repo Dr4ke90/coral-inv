@@ -1,4 +1,4 @@
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 import { MRT_TableOptions } from "material-react-table";
 import DetailsPanel from "../../components/DetailsPanel";
 import TopToolbarActions from "../../components/TopToolbarActions";

@@ -1,6 +1,6 @@
 import { Box, IconButton } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import Modal from "@/shared/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 
 const TopToolbarActions = () => {
   return (

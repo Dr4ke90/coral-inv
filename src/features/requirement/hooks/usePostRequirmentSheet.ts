@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postOneRequirementSheet } from "../api/postOneRequirementSheet";
 import { Requirement } from "../types/requiment.type";
-import { generatedId } from "@/shared/utils/generateId";
+import { generatedId } from "@/utils/generateId";
 import { REQUIRMENTS_PREFIX } from "../constants/constants";
 import { useRequirementData } from "./useRequirementData";
 

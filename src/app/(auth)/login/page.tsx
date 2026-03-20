@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 
-import LoginForm from "@/shared/components/auth/LoginForm";
-import GuestOnly from "@/shared/components/auth/GuestOnly";
+import LoginForm from "@/components/auth/LoginForm";
+import GuestOnly from "@/components/auth/GuestOnly";
 
 const Login = () => {
   return (

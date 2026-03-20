@@ -1,4 +1,4 @@
-import { HandoverSheet } from "@/shared/types/handoverSheet.type";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 
 export const RETURN_PREFIX = "R";
 

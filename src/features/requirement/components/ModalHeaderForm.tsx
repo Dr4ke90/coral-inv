@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
+import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
 import { useUser } from "@/features/users/hooks/useUser";
-import DateInput from "@/shared/components/ui/ReadOnlyDate";
+import DateInput from "@/components/ui/ReadOnlyDate";
 import { useProjects } from "@/hooks/useProjects";
-import ControlledAutocomplete from "@/shared/components/ui/ControlledAutocomplete";
+import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 
 const ModalHeaderForm = () => {
   const { data: projects } = useProjects();

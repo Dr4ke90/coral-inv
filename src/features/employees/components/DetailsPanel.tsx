@@ -1,4 +1,4 @@
-import Table from "@/shared/components/table/Table";
+import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import { rowSubtableColumnsConfig } from "../configs/columns/rowSubtableColumnsConfig";
 import { subrowTableConfig } from "../configs/tables/subrowTableConfig";

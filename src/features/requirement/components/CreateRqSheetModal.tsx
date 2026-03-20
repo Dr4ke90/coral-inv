@@ -1,14 +1,14 @@
 "use client";
-import Modal, { useModal } from "@/shared/components/ui/Modal";
+import Modal, { useModal } from "@/components/ui/Modal";
 import ModalHeaderForm from "./ModalHeaderForm";
 import ModalResourcesForm from "./ModalResourcesForm";
-import Table from "@/shared/components/table/Table";
+import Table from "@/components/table/Table";
 import { rowSubtableColumnsConfig } from "../configs/columns/rowSubtableColumnsConfig";
 import { modalTableConfig } from "../configs/tables/modalTableConfig";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { useRequirementData } from "../hooks/useRequirementData";
 import { usePostRequirement } from "../hooks/usePostRequirmentSheet";
-import { generatedId } from "@/shared/utils/generateId";
+import { generatedId } from "@/utils/generateId";
 import { REQUIRMENTS_PREFIX } from "../constants/constants";
 import { useUser } from "@/features/users/hooks/useUser";
 import { useForm, FormProvider } from "react-hook-form";
@@ -16,8 +16,8 @@ import { Requirement } from "../types/requiment.type";
 import { useEffect, useMemo } from "react";
 import { ResourceType } from "../types/resource.type";
 import { Box, Button } from "@mui/material";
-import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
-import ControlledTextField from "@/shared/components/ui/ControlledTextField";
+import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
+import ControlledTextField from "@/components/ui/ControlledTextField";
 import { REQUIREMENT_STATUS_OPTIONS } from "../constants/requirementStatus";
 import { REQUIREMENT_SHEET_INITIAL_STATE } from "../constants/sheetInitialState";
 import { RESOURCES_INITIAL_STATE } from "../constants/resourcesInitialState";
@@ -67,8 +67,8 @@ const CreateRequirementModal = () => {
   };
 
   const onSubmit = (data: Requirement) => {
-    if (data.items.length === 0) return
-    
+    if (data.items.length === 0) return;
+
     postOneRequirementSheet(data, {
       onSuccess: () => {
         closeModal();

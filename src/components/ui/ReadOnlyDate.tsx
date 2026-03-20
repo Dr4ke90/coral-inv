@@ -6,15 +6,17 @@ import { Box } from "@mui/material";
 interface DateInputProps {
   value: Date;
   className?: string;
+  label?: string
 }
 
-const ReadOnlyDate = ({ value, className }: DateInputProps) => {
+const ReadOnlyDate = ({ value, label, className }: DateInputProps) => {
   return (
     <Box className={className}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           value={dayjs(value)}
           format="DD/MM/YYYY"
+          label={label}
           slotProps={{
             textField: {
               fullWidth: true,

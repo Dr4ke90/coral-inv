@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import { useUser } from "@/features/users/hooks/useUser";
 import { useFormContext } from "react-hook-form";
-import ReadOnlyInput from "@/shared/components/ui/ReadOnlyInput";
-import ReadOnlyDate from "@/shared/components/ui/ReadOnlyDate";
+import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
+import ReadOnlyDate from "@/components/ui/ReadOnlyDate";
 
 const ModalHeaderForm = () => {
   const { watch } = useFormContext();

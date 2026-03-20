@@ -7,7 +7,7 @@ import {
   MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import { DEFAULT_CONFIG } from "@/shared/components/table/configs/tableDefaultConfig";
+import { DEFAULT_CONFIG } from "@/components/table/configs/tableDefaultConfig";
 import { useState } from "react";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import PushPinIcon from "@mui/icons-material/PushPin";
@@ -23,8 +23,6 @@ export const Table = <T extends Record<string, any>>({
   data,
   tableCustomOptions,
 }: Readonly<CustomTableProps<T>>) => {
-  console.log(data);
-
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -66,8 +64,8 @@ export const Table = <T extends Record<string, any>>({
     },
 
     displayColumnDefOptions: {
-      ...DEFAULT_CONFIG<T>().displayColumnDefOptions, // Aduce tot din .ts (acțiuni, select, etc)
-      ...tableCustomOptions?.displayColumnDefOptions, // Adaugă opțiunile extra trimise prin prop-uri
+      ...DEFAULT_CONFIG<T>().displayColumnDefOptions,
+      ...tableCustomOptions?.displayColumnDefOptions,
 
       "mrt-row-expand": {
         ...DEFAULT_CONFIG<T>().displayColumnDefOptions?.["mrt-row-expand"],
