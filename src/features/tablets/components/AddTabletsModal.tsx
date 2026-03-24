@@ -2,32 +2,32 @@
 import Modal, { useModal } from "@/components/ui/Modal";
 import ModalHeaderForm from "./ModalHeaderForm";
 import { Box, Button } from "@mui/material";
-import ModalEquipmentForm from "./ModalEquipmentForm";
+import ModalEquipmentForm from "./ModalTabletForm";
 import Table from "@/components/table/Table";
 import { useModalTableColumsConfig } from "../configs/columns/modalTableColumnsConfig";
 import { useModalTableConfig } from "../configs/tables/modalTableConfig";
-import { Equipment } from "../types/equipment.type";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
-import { useCreateEquipment } from "../hooks/useCreateEquipment";
 import { useDocument } from "@/contexts/DocumentContext";
 import { uploadPdfInvoice } from "@/shared/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
-import { EQ_INITIAL_STATE } from "../constants/eqInitialState";
+import { TABLET_INITIAL_STATE } from "../constants/tabletInitialState";
+import { Tablet } from "../types/tablet.type";
+import { useCreateTablet } from "../hooks/useCreateTablet";
 
-const AddEquipmentModal = () => {
+const AddTabletsModal = () => {
   const { closeModal } = useModal();
-  const { items, clearItems } = useItemsList<Equipment>();
-  const { mutate: postEquipment } = useCreateEquipment();
+  const { items, clearItems } = useItemsList<Tablet>();
+  const { mutate: postTablet } = useCreateTablet();
   const modalTableConfig = useModalTableConfig();
   const { document, clearDocument } = useDocument();
   const modalTableColumnsConfig = useModalTableColumsConfig();
   const { user } = useUser();
 
-  const eqMethods = useForm<Equipment>({
+  const eqMethods = useForm<Tablet>({
     defaultValues: {
-      ...EQ_INITIAL_STATE,
+      ...TABLET_INITIAL_STATE,
       createdBy: user?.employeeId,
       createdAt: new Date(),
     },
@@ -36,7 +36,7 @@ const AddEquipmentModal = () => {
   const handleReset = () => {
     clearItems();
     clearDocument();
-    eqMethods.reset();
+    eqMethods.reset(TABLET_INITIAL_STATE);
   };
 
   const handleSubmit = () => {
@@ -47,7 +47,7 @@ const AddEquipmentModal = () => {
     }
 
     const hasEmptySeries = items.some(
-      (item) => !item.series || item.series.trim() === "",
+      (item) => !item.imei || item.imei.trim() === "",
     );
 
     if (hasEmptySeries) {
@@ -76,13 +76,13 @@ const AddEquipmentModal = () => {
       }
 
       await toast.promise(uploadPdfInvoice(fileToUpload, year), {
-        pending: "Se salvează datele și factura...",
-        success: "Date și factură încărcate cu succes! 👌",
+        pending: "Se salvează factura...",
+        success: "Factură încărcata cu succes! 👌",
         error: "Eroare la salvare! 🤯",
       });
     };
 
-    postEquipment(items, {
+    postTablet(items, {
       onSuccess: () => {
         toast.success("Echipamente adaugate cu succes");
         handleUploadInvoice();
@@ -137,4 +137,4 @@ const AddEquipmentModal = () => {
   );
 };
 
-export default AddEquipmentModal;
+export default AddTabletsModal;

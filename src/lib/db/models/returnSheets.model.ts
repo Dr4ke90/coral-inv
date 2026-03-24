@@ -24,8 +24,8 @@ const returnSheetSchema = new Schema(
   { versionKey: false },
 );
 
-if (models.HandoverSheet) {
-  delete models.HandoverSheet;
+if (models.ReturnSheet) {
+  delete models.ReturnSheet;
 }
 
 const ReturnSheetModel =

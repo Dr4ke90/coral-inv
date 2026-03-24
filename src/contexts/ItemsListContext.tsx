@@ -59,12 +59,11 @@ export const ItemsListProvider = <T extends { id?: string | null }>({
 
   const clearItems = () => setItems([]);
 
-  // 3. Adăugăm addItemsBatch în useMemo
   const providerValues = useMemo(() => {
     return {
       items,
       addItem,
-      addItemsBatch, // IMPORTANT
+      addItemsBatch, 
       removeItem,
       clearItems,
       setItems,
