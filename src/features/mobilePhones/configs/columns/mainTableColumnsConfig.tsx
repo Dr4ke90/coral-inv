@@ -2,11 +2,11 @@
 import { useEmployees } from "@/hooks/useEmployees";
 import { useProjects } from "@/hooks/useProjects";
 import { MRT_ColumnDef } from "material-react-table";
-import { Tablet } from "../../types/tablet.type";
+import { MobilePhone } from "../../types/phones.type";
 import Link from "next/link";
 import { Box } from "@mui/material";
 
-export const useMainTableColumnsConfig = (): MRT_ColumnDef<Tablet>[] => {
+export const useMainTableColumnsConfig = (): MRT_ColumnDef<MobilePhone>[] => {
   const { data: employees } = useEmployees();
   const { data: projects } = useProjects();
 
@@ -15,6 +15,8 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Tablet>[] => {
       accessorKey: "id",
       header: "ID",
       size: 30,
+      minSize: 30,
+      maxSize: 30,
       enableEditing: false,
     },
     {

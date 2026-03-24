@@ -5,7 +5,7 @@ import Modal from "@/components/ui/Modal";
 const TopToolbarActions = () => {
   return (
     <Box>
-      <Modal.Trigger opens="add-tablets-modal">
+      <Modal.Trigger opens="add-mobilePhones-modal">
         <IconButton className="hover:bg-red-50 text-blue-600">
           <ControlPointIcon sx={{ fontSize: 40 }} />
         </IconButton>

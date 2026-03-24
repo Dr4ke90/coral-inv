@@ -2,7 +2,7 @@
 import Modal, { useModal } from "@/components/ui/Modal";
 import ModalHeaderForm from "./ModalHeaderForm";
 import { Box, Button } from "@mui/material";
-import ModalEquipmentForm from "./ModalTabletForm";
+import ModalEquipmentForm from "./ModalMobilePhoneForm";
 import Table from "@/components/table/Table";
 import { useModalTableColumsConfig } from "../configs/columns/modalTableColumnsConfig";
 import { useModalTableConfig } from "../configs/tables/modalTableConfig";
@@ -12,22 +12,22 @@ import { useDocument } from "@/contexts/DocumentContext";
 import { uploadPdfInvoice } from "@/shared/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
-import { TABLET_INITIAL_STATE } from "../constants/tabletInitialState";
-import { Tablet } from "../types/tablet.type";
-import { useCreateTablet } from "../hooks/useCreateTablet";
+import { MobilePhone } from "../types/phones.type";
+import { PHONES_INITIAL_STATE } from "../constants/phonesInitialState";
+import { useCreateMobilePhone } from "../hooks/useCreateMobilePhone";
 
-const AddTabletsModal = () => {
+const AddMobilePhonesModal = () => {
   const { closeModal } = useModal();
-  const { items, clearItems } = useItemsList<Tablet>();
-  const { mutate: postTablet } = useCreateTablet();
+  const { items, clearItems } = useItemsList<MobilePhone>();
+  const { mutate: postMobilePhone } = useCreateMobilePhone();
   const modalTableConfig = useModalTableConfig();
   const { document, clearDocument } = useDocument();
   const modalTableColumnsConfig = useModalTableColumsConfig();
   const { user } = useUser();
 
-  const eqMethods = useForm<Tablet>({
+  const eqMethods = useForm<MobilePhone>({
     defaultValues: {
-      ...TABLET_INITIAL_STATE,
+      ...PHONES_INITIAL_STATE,
       createdBy: user?.employeeId,
       createdAt: new Date(),
     },
@@ -36,13 +36,13 @@ const AddTabletsModal = () => {
   const handleReset = () => {
     clearItems();
     clearDocument();
-    eqMethods.reset(TABLET_INITIAL_STATE);
+    eqMethods.reset(PHONES_INITIAL_STATE);
   };
 
   const handleSubmit = () => {
     if (items.length === 0) {
-      console.log("Lista de echipamente nu poate fi goala");
-      toast.warning("Lista de echipamente nu poate fi goala");
+      console.log("Lista de telefoane nu poate fi goala");
+      toast.warning("Lista de telefoane nu poate fi goala");
       return;
     }
 
@@ -51,7 +51,7 @@ const AddTabletsModal = () => {
     );
 
     if (hasEmptySeries) {
-      console.log("Toate echipamentele trebuie să aibă o serie validă");
+      console.log("Toate telefoanele trebuie să aibă o serie validă");
       toast.warning("Toate echipamentele trebuie să aibă o serie validă!");
       return;
     }
@@ -82,16 +82,16 @@ const AddTabletsModal = () => {
       });
     };
 
-    postTablet(items, {
+    postMobilePhone(items, {
       onSuccess: () => {
-        toast.success("Echipamente adaugate cu succes");
+        toast.success("Telefoanele au fost adaugate cu succes");
         handleUploadInvoice();
         handleReset();
         closeModal();
       },
       onError: (error) => {
         console.log(items);
-        toast.error("Eroare la salvarea echipamentelor");
+        toast.error("Eroare la salvarea telefoanelor");
         console.log(error);
       },
     });
@@ -99,8 +99,8 @@ const AddTabletsModal = () => {
 
   return (
     <FormProvider {...eqMethods}>
-      <Modal.Content maxWidth="lg" name="add-tablets-modal">
-        <Modal.Header title="Adauga noile tablete">
+      <Modal.Content maxWidth="lg" name="add-mobilePhones-modal">
+        <Modal.Header title="Adauga telefoane">
           <ModalHeaderForm />
         </Modal.Header>
 
@@ -137,4 +137,4 @@ const AddTabletsModal = () => {
   );
 };
 
-export default AddTabletsModal;
+export default AddMobilePhonesModal;
