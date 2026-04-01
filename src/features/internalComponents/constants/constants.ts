@@ -1,1 +1,1 @@
-export const EQUIPMENT_PREFIX = "CIT";
+export const COMPONENT_PREFIX = "CCP";

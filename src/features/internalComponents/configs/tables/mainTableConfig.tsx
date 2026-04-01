@@ -4,8 +4,12 @@ import TopToolbarActions from "../../components/TopToolbarActions";
 import { useUpdateRow } from "@/hooks/useUpdateRow";
 import { useUpdateComponent } from "../../hooks/useUpdateComponent";
 import { CategoryType } from "../../types/category.type";
+import { subrowTableConfig } from "./subrowTableConfig";
+import { rowSubtableColumnsConfig } from "../columns/rowSubtableColumnsConfig";
 
-export const useMainTableConfig = (): Partial<MRT_TableOptions<CategoryType>> => {
+export const useMainTableConfig = (): Partial<
+  MRT_TableOptions<CategoryType>
+> => {
   const { mutate: updateComponent } = useUpdateComponent();
   const onRowUpdate = useUpdateRow(updateComponent);
 
@@ -16,7 +20,13 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<CategoryType>> =>
     renderDetailPanel: ({ row }) => {
       if (row.original.items?.length === 0) return null;
 
-      return <DetailsPanel row={row} />;
+      return (
+        <DetailsPanel
+          columns={rowSubtableColumnsConfig}
+          data={row.original?.items ?? []}
+          tableCustomOptions={subrowTableConfig}
+        />
+      );
     },
 
     enableEditing: true,

@@ -3,15 +3,30 @@ import { MRT_RowData, MRT_TableOptions } from "material-react-table";
 import RowActions from "../../components/RowActions";
 import { CategoryType } from "../../types/category.type";
 import useUpdateModalTable from "@/hooks/useUpdateModalTable";
-
+import DetailsPanel from "../../components/DetailsPanel";
+import { useModalSubRowTableConfig } from "./modalSubRowTableConfig";
+import { modalSubTableColumnsConfig } from "../columns/modalSubTableColumnsConfig";
 
 export const useModalTableConfig = (): Partial<
   MRT_TableOptions<Partial<CategoryType>>
 > => {
   const { update } = useUpdateModalTable();
+  const modalSubRowTableConfig = useModalSubRowTableConfig();
 
   return {
     ...subrowTableConfig,
+
+    renderDetailPanel: ({ row }) => {
+      if (row.original.items?.length === 0) return null;
+
+      return (
+        <DetailsPanel
+          columns={modalSubTableColumnsConfig}
+          data={row.original?.items ?? []}
+          tableCustomOptions={modalSubRowTableConfig}
+        />
+      );
+    },
 
     muiEditTextFieldProps: ({ cell, row, table }) => ({
       onBlur: (event) => {

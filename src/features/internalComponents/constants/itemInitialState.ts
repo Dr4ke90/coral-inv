@@ -1,11 +1,11 @@
 import { ComponentType } from "../types/component.type"
-import { Invoice } from "../types/invoice.type"
+import { INVOICE_INITIAL_STATE } from "./invoiceInitialState"
 
 export const ITEMS_INITIAL_STATE: ComponentType = {
     id: "",
     series: "",
     price: 0,
-    refInvoice: {},
+    refInvoice: INVOICE_INITIAL_STATE,
     requirementId: "",
     eqId: "",
     pvId: "",

@@ -2,7 +2,6 @@
 import Modal, { useModal } from "@/components/ui/Modal";
 import ModalHeaderForm from "./ModalHeaderForm";
 import { Box, Button } from "@mui/material";
-import ModalEquipmentForm from "./ModalEquipmentForm";
 import Table from "@/components/table/Table";
 import { useModalTableColumsConfig } from "../configs/columns/modalTableColumnsConfig";
 import { useModalTableConfig } from "../configs/tables/modalTableConfig";
@@ -14,16 +13,18 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { CategoryType } from "../types/category.type";
 import { useCreateComponent } from "../hooks/useCreateComponent";
-import { CATEGORY_INITIAL_STATE } from "../constants/eqInitialState";
+import { CATEGORY_INITIAL_STATE } from "../constants/categoryInitialState";
 import { ComponentType } from "../types/component.type";
+import ModalComponentForm from "./ModalComponentForm";
 
-const AddEquipmentModal = () => {
+const AddComponentsModal = () => {
   const { closeModal } = useModal();
   const { items, clearItems } = useItemsList<ComponentType>();
   const { mutate: postComponent } = useCreateComponent();
   const modalTableConfig = useModalTableConfig();
   const { document, clearDocument } = useDocument();
   const modalTableColumnsConfig = useModalTableColumsConfig();
+
   const { user } = useUser();
 
   const eqMethods = useForm<CategoryType>({
@@ -47,13 +48,15 @@ const AddEquipmentModal = () => {
       return;
     }
 
-    const hasEmptySeries = items.some(
-      (item) => !item.series || item.series.trim() === "",
+    const hasEmptyRefInvoice = items.some(
+      (item) => !item.refInvoice?.sn || item.refInvoice?.sn.trim() === "",
     );
 
-    if (hasEmptySeries) {
-      console.log("Toate echipamentele trebuie să aibă o serie validă");
-      toast.warning("Toate echipamentele trebuie să aibă o serie validă!");
+    console.log(hasEmptyRefInvoice);
+
+    if (!hasEmptyRefInvoice) {
+      console.log("Toate echipamentele trebuie să aibă o factura validă");
+      toast.warning("Toate echipamentele trebuie să aibă o factura validă!");
       return;
     }
 
@@ -83,6 +86,8 @@ const AddEquipmentModal = () => {
       });
     };
 
+    console.log(items);
+
     postComponent(items, {
       onSuccess: () => {
         toast.success("Echipamente adaugate cu succes");
@@ -107,7 +112,7 @@ const AddEquipmentModal = () => {
 
         <Modal.Body className="flex flex-row gap-2">
           <Box className="w-[250px]">
-            <ModalEquipmentForm />
+            <ModalComponentForm />
           </Box>
           <Box className="flex-1">
             <Table
@@ -138,4 +143,4 @@ const AddEquipmentModal = () => {
   );
 };
 
-export default AddEquipmentModal;
+export default AddComponentsModal;

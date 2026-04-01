@@ -6,7 +6,7 @@ import { useComponents } from "../hooks/useComponents";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
 
-export const MainEquipmentTable = () => {
+export const MainComponentsTable = () => {
   const { data, isLoading, isError } = useComponents();
   const mainTableConfig = useMainTableConfig();
   const mainTableColumsConfig = useMainTableColumnsConfig();

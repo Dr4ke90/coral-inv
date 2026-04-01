@@ -1,22 +1,16 @@
 "use client";
-import { useEmployees } from "@/hooks/useEmployees";
-import { useProjects } from "@/hooks/useProjects";
 import { MRT_ColumnDef } from "material-react-table";
-import { Equipment } from "../../types/component.type";
-import Link from "next/link";
-import { Box } from "@mui/material";
+import dayjs from "dayjs";
+import { CategoryType } from "../../types/category.type";
 
-export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
-  const { data: employees } = useEmployees();
-  const { data: projects } = useProjects();
-
+export const useMainTableColumnsConfig = (): MRT_ColumnDef<CategoryType>[] => {
   return [
     {
       accessorKey: "id",
       header: "ID",
-      size: 30,
-      minSize: 30,
-      maxSize: 30,
+      size: 50,
+      minSize: 50,
+      maxSize: 50,
       enableEditing: false,
     },
     {
@@ -32,70 +26,48 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       size: 150,
     },
     {
+      accessorKey: "brand",
+      header: "Brand",
+      enableEditing: true,
+      size: 150,
+    },
+    {
       accessorKey: "config",
       header: "Config",
       enableEditing: true,
       size: 300,
     },
     {
-      accessorKey: "series",
-      header: "Serie",
-      enableEditing: true,
+      accessorFn: (row) => {
+        const latest = row.items.sort(
+          (a, b) =>
+            (b?.addedAt ? new Date(b.addedAt).getTime() : 0) -
+            (a?.addedAt ? new Date(a.addedAt).getTime() : 0),
+        )[0]?.addedAt;
+        return latest ? dayjs(new Date(latest)).format("DD/MM/YYYY") : "";
+      },
+      header: "Ultima intrare",
+      enableEditing: false,
+      size: 150,
+    },
+
+    {
+      accessorFn: (row) => row.items.length,
+      header: "Stoc Total",
+      enableEditing: false,
       size: 150,
     },
     {
-      accessorKey: "status",
-      header: "Stare",
-      enableEditing: true,
-      size: 150,
-    },
-    {
-      accessorKey: "custodianId",
-      header: "Responsabil",
+      accessorFn: (row) => row.items.filter((item) => item.pvId !== "").length,
+      header: "Utilizat",
       enableEditing: false,
       size: 150,
-      Cell: ({ cell }) => {
-        const id = cell.getValue<string>();
-        if (id === "E0000")
-          return <Box>{employees?.find((p) => p.id === id)?.name}</Box>;
-        return (
-          <Link href={`/employees/${id.toLowerCase()}`}>
-            {employees?.find((p) => p.id === id)?.name}
-          </Link>
-        );
-      },
     },
     {
-      accessorKey: "projectId",
-      header: "Proiect",
+      accessorFn: (row) => row.items.filter((item) => item.pvId === "").length,
+      header: "Disponibil",
       enableEditing: false,
-      size: 200,
-      Cell: ({ cell }) => {
-        const id = cell.getValue<string>();
-        return (
-          <Link href={`/projects/${id.toLowerCase()}`}>
-            {projects?.find((p) => p.id === id)?.name}
-          </Link>
-        );
-      },
-    },
-    {
-      accessorKey: "invoice",
-      header: "S/N Fact.",
-      enableEditing: false,
-      size: 120,
-      minSize: 50,
-    },
-    {
-      accessorKey: "requirementId",
-      header: "Necesar",
-      enableEditing: false,
-      size: 30,
-      minSize: 30,
-      Cell: ({ cell }) => {
-        const id = cell.getValue<string>();
-        return <Link href={`/requirements/${id?.toLowerCase()}`}>{id}</Link>;
-      },
+      size: 150,
     },
   ];
 };

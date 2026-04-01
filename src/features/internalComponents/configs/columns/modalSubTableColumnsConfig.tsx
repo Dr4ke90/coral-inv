@@ -1,4 +1,4 @@
-export const rowSubtableColumnsConfig = [
+export const modalSubTableColumnsConfig = [
   {
     accessorKey: "id",
     header: "Nr. Inv.",
@@ -30,20 +30,6 @@ export const rowSubtableColumnsConfig = [
   {
     accessorKey: "requirementId",
     header: "ID Necesar",
-    grow: true,
-    size: 80,
-    enableEditing: false,
-  },
-  {
-    accessorKey: "eqId",
-    header: "ID Echipament",
-    grow: true,
-    size: 80,
-    enableEditing: false,
-  },
-  {
-    accessorKey: "pvId",
-    header: "ID PV",
     grow: true,
     size: 80,
     enableEditing: false,

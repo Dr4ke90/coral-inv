@@ -5,7 +5,9 @@ export interface CategoryType {
   type: string;
   brand: string;
   model: string;
+  config: string;
   items: ComponentType[];
+  requirementId: string;
   createdAt: Date;
   createdBy: string;
 }

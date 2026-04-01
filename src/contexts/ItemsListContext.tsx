@@ -12,14 +12,13 @@ import {
 export interface ItemsListContextType<T> {
   items: T[];
   addItem: (item: T) => void;
-  // 1. Adăugăm batch-ul în interfață
   addItemsBatch: (newItems: T[]) => void;
   removeItem: (index: number) => void;
+  updateItem: (id: string, updatedItem: T) => void;
   clearItems: () => void;
   setItems: Dispatch<SetStateAction<T[]>>;
 }
 
-// Folosim 'any' aici pentru definiție, dar genericul va fi aplicat corect prin useItemsList
 export const ItemsListContext = createContext<
   ItemsListContextType<any> | undefined
 >(undefined);
@@ -53,6 +52,12 @@ export const ItemsListProvider = <T extends { id?: string | null }>({
     });
   };
 
+  const updateItem = (id: string, updatedItem: T) => {
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? updatedItem : item)),
+    );
+  };
+
   const removeItem = (index: number) => {
     setItems((prev) => prev.filter((_, i) => i !== index));
   };
@@ -63,8 +68,9 @@ export const ItemsListProvider = <T extends { id?: string | null }>({
     return {
       items,
       addItem,
-      addItemsBatch, 
+      addItemsBatch,
       removeItem,
+      updateItem,
       clearItems,
       setItems,
     };

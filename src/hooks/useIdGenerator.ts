@@ -1,35 +1,43 @@
 import { useCallback } from "react";
-import { MobilePhone } from "../features/mobilePhones/types/phones.type";
+
+interface Identifiable {
+  id?: string;
+}
 
 const useIdGenerator = () => {
   const generateId = useCallback(
-    (prefix: string, data?: Partial<MobilePhone>[]): string => {
+    <T extends Identifiable>(prefix: string, data?: T[]): string => {
       if (!Array.isArray(data) || data.length === 0) {
-        return prefix + "0001";
+        return `${prefix}0001`;
       }
 
-      const maxNumber = data.reduce((max, item) => {
-        if (!item?.id?.startsWith(prefix)) return max;
+      const existingNumbers = data
+        .map((item) => {
+          if (!item?.id || !item.id.startsWith(prefix)) return null;
+          const numericPart = Number(item.id.slice(prefix.length));
+          return isNaN(numericPart) ? null : numericPart;
+        })
+        .filter((nr): nr is number => nr !== null)
+        .sort((a, b) => a - b); 
 
-        const numericPart = Number(item.id.slice(prefix.length));
-        if (!Number.isFinite(numericPart)) return max;
-
-        return Math.max(numericPart, max);
-      }, 0);
-
-      let nextInvNo = maxNumber + 1;
-
-      while (true) {
-        const paddedNr = nextInvNo.toString().padStart(4, "0");
-        const newInvNo = prefix + paddedNr;
-
-        const exists = data.some((item) => item.id === newInvNo);
-        if (!exists) return newInvNo;
-
-        nextInvNo++;
+      if (existingNumbers.length === 0 || existingNumbers[0] > 1) {
+        return `${prefix}0001`;
       }
+
+      let nextNumber = 1;
+
+      for (let i = 0; i < existingNumbers.length; i++) {
+        if (existingNumbers[i] === nextNumber) {
+          nextNumber++;
+        } else if (existingNumbers[i] > nextNumber) {
+          break; 
+        }
+      }
+
+      const paddedNr = nextNumber.toString().padStart(4, "0");
+      return `${prefix}${paddedNr}`;
     },
-    [],
+    []
   );
 
   return generateId;

@@ -1,8 +1,8 @@
 import { MRT_ColumnDef } from "material-react-table";
-import { Equipment } from "../../types/component.type";
+import { CategoryType } from "../../types/category.type";
 
 export const useModalTableColumsConfig = (): MRT_ColumnDef<
-  Partial<Equipment>
+  Partial<CategoryType>
 >[] => {
   return [
     {
@@ -24,15 +24,21 @@ export const useModalTableColumsConfig = (): MRT_ColumnDef<
       size: 150,
     },
     {
-      accessorKey: "config",
-      header: "Config",
+      accessorKey: "brand",
+      header: "Brand",
       enableEditing: true,
       size: 150,
     },
     {
-      accessorKey: "series",
-      header: "Serie",
+      accessorKey: "config",
+      header: "Configuratie",
       enableEditing: true,
+      size: 150,
+    },
+    {
+      accessorKey: "items.length",
+      header: "Cantitate",
+      enableEditing: false,
       size: 100,
     },
   ];

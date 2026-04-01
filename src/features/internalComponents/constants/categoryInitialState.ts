@@ -5,5 +5,6 @@ export const CATEGORY_INITIAL_STATE: Partial<CategoryType> = {
   type: "",
   model: "",
   brand: "",
+  config: "",
   items: [],
 };

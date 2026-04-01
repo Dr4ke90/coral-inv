@@ -1,11 +1,10 @@
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import { useItemsList } from "@/contexts/ItemsListContext";
-import { IT_EQUIPMENT_TYPES } from "../constants/componentsType";
+import { COMPONENTS_EQUIPMENT_TYPES } from "../constants/componentsType";
 import ControlledTextField from "@/components/ui/ControlledTextField";
 import ControlledStringAutocomplete from "@/components/ui/ControlledStringAutocomplete";
 import { COMPONENT_PREFIX } from "../constants/constants";
 import { useState } from "react";
-import ControlledNumberField from "@/components/ui/ControlledNumberField";
 import { useDocument } from "@/contexts/DocumentContext";
 import UploadPdfButton from "@/components/ui/UploadPdfButton";
 import { useForm, useFormContext } from "react-hook-form";
@@ -18,23 +17,30 @@ import useIdGenerator from "@/hooks/useIdGenerator";
 import { CategoryType } from "../types/category.type";
 import { useComponents } from "../hooks/useComponents";
 import { ITEMS_INITIAL_STATE } from "../constants/itemInitialState";
+import { useUser } from "@/features/users/hooks/useUser";
+import { toast } from "react-toastify";
+import { generatedId } from "@/utils/generateId";
 
 const ModalComponentForm = () => {
   const { control, handleSubmit, reset, getValues } =
     useFormContext<ComponentType>();
 
-  const { data: components = [] } = useComponents();
+  const { user } = useUser();
 
+  const { data: components = [] } = useComponents();
 
   const invMethods = useForm<Invoice>({
     defaultValues: INVOICE_INITIAL_STATE,
   });
 
-  const { items, addItemsBatch } = useItemsList<Partial<ComponentType>>();
+  const { items: contextItems, addItem } =
+    useItemsList<Partial<CategoryType>>();
+
   const { setDocument, clearDocument, document } = useDocument();
   const generateId = useIdGenerator();
 
   const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
 
   const handleReset = () => {
     const currentRequirementId = getValues("requirementId");
@@ -46,38 +52,78 @@ const ModalComponentForm = () => {
       refInvoice: currentInvoice,
     });
 
-    invMethods.reset();
     setQuantity(0);
+    setPrice(0);
   };
 
   const onSubmit = (data: Partial<CategoryType>) => {
-    const currentItemsPool = [...components, ...items];
-
     const numToAdd = quantity > 0 ? quantity : 1;
 
-    const newBatch: Partial<ComponentType>[] = [];
-    let updatedPool = [...currentItemsPool];
+    const existingCategoryInDb = components.find(
+      (c) =>
+        c.type === data.type &&
+        c.brand === data.brand &&
+        c.model === data.model,
+    );
 
-    for (let i = 0; i < numToAdd; i++) {
-      const nextId = generateId(COMPONENT_PREFIX, updatedPool);
+    const baseCategoryId =
+      existingCategoryInDb?.id ||
+      generateId(COMPONENT_PREFIX, [...components, ...contextItems]);
 
-      const newItem = {
-        ...data,
-        id: nextId,
-        refInvoice: {
-          ...invMethods.getValues(),
-          preview: !!document,
-        },
-      };
-      newBatch.push(newItem);
-      updatedPool.push(newItem);
+    let tempSubItems = existingCategoryInDb?.items
+      ? [...existingCategoryInDb.items]
+      : [];
+
+    const newSubItems: ComponentType[] = Array.from({ length: numToAdd }).map(
+      () => {
+        const newId = generatedId(baseCategoryId, tempSubItems);
+
+        const newItem = {
+          ...ITEMS_INITIAL_STATE,
+          id: newId,
+          refInvoice: {
+            ...invMethods.getValues(),
+            preview: !!document,
+          },
+          price: price,
+          addedBy: user?.employeeId || "",
+          addedAt: new Date(),
+          requirementId: data.requirementId ?? "",
+        };
+
+        tempSubItems.push(newItem);
+        return newItem;
+      },
+    );
+
+    const categoryToSubmit: Partial<CategoryType> = {
+      ...data,
+      id: baseCategoryId,
+      items: newSubItems,
+    };
+
+    delete categoryToSubmit.requirementId;
+
+    const existingInContext = contextItems.find(
+      (c) =>
+        c.type === data.type &&
+        c.brand === data.brand &&
+        c.model === data.model,
+    );
+
+    if (existingInContext) {
+      toast.warning("Componenta există deja în coș.");
+      return;
+    } else {
+      if (!existingCategoryInDb) {
+        categoryToSubmit.createdAt = new Date();
+        categoryToSubmit.createdBy = user?.employeeId || "";
+      }
+      addItem(categoryToSubmit);
     }
-
-    addItemsBatch(newBatch as CategoryType[]);
 
     handleReset();
   };
-
 
   return (
     <Box component="form" autoComplete="off" className="p-2">
@@ -87,7 +133,7 @@ const ModalComponentForm = () => {
             className="w-full"
             label="Incarca factura"
             onFileSelect={(file) => setDocument(file)}
-            disabled={items.length !== 0}
+            disabled={contextItems.length !== 0}
           />
 
           {document ? (
@@ -99,7 +145,7 @@ const ModalComponentForm = () => {
                 }}
                 sx={{ padding: "0" }}
                 color="error"
-                disabled={items.length !== 0}
+                disabled={contextItems.length !== 0}
               >
                 <CloseIcon />
               </IconButton>
@@ -113,7 +159,7 @@ const ModalComponentForm = () => {
             requiredText=""
             label="Ref. Factura"
             className="w-full"
-            disabled={items.length !== 0}
+            disabled={contextItems.length !== 0}
             trim={true}
           />
 
@@ -126,7 +172,7 @@ const ModalComponentForm = () => {
                 requiredText=""
                 label="DD/MM/YYY"
                 className="w-full"
-                disabled={items.length !== 0}
+                disabled={contextItems.length !== 0}
               />
 
               <ControlledTextField
@@ -136,7 +182,7 @@ const ModalComponentForm = () => {
                 requiredText=""
                 label="Vendor"
                 className="w-full"
-                disabled={items.length !== 0}
+                disabled={contextItems.length !== 0}
               />
             </>
           ) : null}
@@ -148,7 +194,7 @@ const ModalComponentForm = () => {
           name="type"
           control={control}
           label="Tip"
-          options={IT_EQUIPMENT_TYPES}
+          options={COMPONENTS_EQUIPMENT_TYPES}
           requiredText="Selectarea unui tip este obligatorie"
           className="w-full"
         />
@@ -163,22 +209,34 @@ const ModalComponentForm = () => {
         />
 
         <ControlledTextField
-          name="config"
+          name="brand"
           control={control}
           required={true}
+          requiredText=""
+          label="Brand"
+          className="w-full"
+        />
+
+        <ControlledTextField
+          name="config"
+          control={control}
+          required={false}
           requiredText=""
           label="Configuratie"
           className="w-full"
         />
 
         <Box className="flex flex gap-2">
-          <ControlledNumberField
-            name="price"
-            control={control}
-            required={true}
-            requiredText=""
+          <TextField
+            value={price ?? 0}
+            size="small"
             label="Pret"
-            className="w-full"
+            onChange={(e) => {
+              const onlyNumbers = e.target.value.replaceAll(/\D/g, "");
+              setPrice(onlyNumbers === "" ? 0 : Number(onlyNumbers));
+            }}
+            autoComplete="off"
+            sx={{ margin: "2px 0 2px 0" }}
           />
 
           <TextField

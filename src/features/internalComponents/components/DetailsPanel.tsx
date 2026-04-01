@@ -1,16 +1,28 @@
 import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
-import { MRT_RowData } from "material-react-table";
-import { subrowTableConfig } from "../configs/tables/subrowTableConfig";
-import { rowSubtableColumnsConfig } from "../configs/columns/rowSubtableColumnsConfig";
+import {
+  MRT_ColumnDef,
+  MRT_RowData,
+  MRT_TableOptions,
+} from "material-react-table";
 
-const DetailsPanel = ({ row }: { row: MRT_RowData }) => {
+interface DetailsPanelProps<T extends MRT_RowData> {
+  columns: MRT_ColumnDef<T>[];
+  data: T[];
+  tableCustomOptions: Partial<MRT_TableOptions<T>>;
+}
+
+const DetailsPanel = <T extends MRT_RowData>({
+  columns,
+  data,
+  tableCustomOptions,
+}: DetailsPanelProps<T>) => {
   return (
     <Box>
       <Table
-        columns={rowSubtableColumnsConfig}
-        data={row.original.pvList}
-        tableCustomOptions={subrowTableConfig}
+        columns={columns}
+        data={data}
+        tableCustomOptions={tableCustomOptions}
       />
     </Box>
   );
