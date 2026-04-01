@@ -33,7 +33,7 @@ export const mainTableColumnsConfig: MRT_ColumnDef<Project>[] = [
     size: 200,
   },
   {
-    accessorKey: "eqList",
+    accessorKey: "eqList.length",
     header: "Echipament",
     enableEditing: false,
     size: 200,

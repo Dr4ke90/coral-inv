@@ -1,52 +1,60 @@
-export const rowSubtableColumnsConfig = [
+"use client";
+
+import { Equipment } from "@/features/equipment-it/types/equipment.type";
+import { MRT_ColumnDef } from "material-react-table";
+
+export const rowSubtableColumnsConfig: MRT_ColumnDef<Equipment>[] = [
   {
-    accessorKey: "item",
-    header: "Resursa",
-    size: 400,
-    grow: false,
-    enableEditing: false,
-    muiTableBodyCellProps: {
-      sx: {
-        whiteSpace: "normal",
-        wordBreak: "break-word",
-        maxWidth: "280px",
-        overflow: "hidden",
-      },
-    },
-  },
-  {
-    accessorKey: "quantity",
-    header: "Cant.",
-    size: 40,
-    grow: false,
+    accessorKey: "id",
+    header: "ID",
+    size: 30,
+    minSize: 30,
+    maxSize: 30,
     enableEditing: false,
   },
   {
-    accessorKey: "um",
-    header: "U.M.",
-    size: 40,
-    grow: false,
+    accessorKey: "type",
+    header: "Tip",
     enableEditing: false,
+    size: 150,
   },
   {
-    accessorKey: "unitPrice",
-    header: "Pret",
-    size: 40,
-    grow: false,
-    enableEditing: false,
+    accessorKey: "model",
+    header: "Model",
+    enableEditing: true,
+    size: 150,
   },
   {
-    accessorKey: "totalPrice",
-    header: "Total",
-    size: 40,
-    grow: true,
-    enableEditing: false,
+    accessorKey: "config",
+    header: "Config",
+    enableEditing: true,
+    size: 300,
   },
   {
-    accessorKey: "currency",
-    header: "Moneda",
-    size: 40,
-    grow: false,
+    accessorKey: "series",
+    header: "Serie",
+    enableEditing: true,
+    size: 150,
+  },
+  {
+    accessorKey: "status",
+    header: "Stare",
+    enableEditing: true,
+    size: 150,
+  },
+
+  {
+    accessorKey: "invoice",
+    header: "S/N Fact.",
     enableEditing: false,
+    size: 120,
+    minSize: 50,
+  },
+  {
+    accessorKey: "requirementId",
+    header: "Necesar",
+    enableEditing: false,
+    size: 30,
+    minSize: 30,
   },
 ];

@@ -32,6 +32,9 @@ export const useCreateHandoverSheet = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["handovers"] });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["equipmentIt"] });
     },
   });
 };
