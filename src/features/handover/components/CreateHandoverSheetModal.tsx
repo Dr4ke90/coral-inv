@@ -17,10 +17,18 @@ import { usePreviewList } from "../contexts/PreviewListContext";
 import { useEffect } from "react";
 import { useCreateHandoverSheet } from "../hooks/useCreateHandoverSheet";
 import { HANDOVER_SHEET_INITIAL_STATE } from "../constants/handoverInitialState";
+import { generateDocx } from "@/utils/generateDocx";
+import { mapHandoverDataForDocx } from "../utils/mapHandoverData";
+import { useEmployees } from "@/hooks/useEmployees";
+import { useProjects } from "@/hooks/useProjects";
+import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
 
 const CreateHandoverModal = () => {
   const { previewList, clearItems } = usePreviewList();
   const { data: handovers } = useHandoverSheets();
+  const { data: employees = [] } = useEmployees();
+  const { data: projects = [] } = useProjects();
+  const { data: equipments = [] } = useEquipment();
   const { mutate: postHandoverSheet } = useCreateHandoverSheet();
   const { closeModal } = useModal();
 
@@ -57,8 +65,18 @@ const CreateHandoverModal = () => {
   const onSubmit = (data: HandoverSheet) => {
     if (data.eqList.length === 0) return;
 
+    const mapedData = mapHandoverDataForDocx(
+      data,
+      employees,
+      projects,
+      equipments,
+    );
+
+    console.log("mapedData", mapedData);
+
     postHandoverSheet(data, {
       onSuccess: () => {
+        generateDocx(process.env.NEXT_PUBLIC_API_HANDOVER ?? "", mapedData);
         closeModal();
         handleReset();
       },

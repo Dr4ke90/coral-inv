@@ -6,24 +6,10 @@ import { usePreviewList } from "../contexts/PreviewListContext";
 import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/equipmentInitialState";
 import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
+import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
 
 const ModalEquipmentForm = () => {
-  const [equimentList, setEqList] = useState<EquipmentType[]>([
-    {
-      id: "CIT002",
-      type: "Boxe",
-      model: "CORAL",
-      series: "N/A",
-      status: "Nou",
-    },
-    {
-      id: "CIT004",
-      type: "Imprimanta",
-      model: "Brother",
-      series: "N/A",
-      status: "Nou",
-    },
-  ]);
+  const { data: equimentList } = useEquipment();
 
   const { control, handleSubmit, reset, watch } = useForm<EquipmentType>({
     defaultValues: EQUIPMENT_INITIAL_STATE,
@@ -32,7 +18,7 @@ const ModalEquipmentForm = () => {
   const watchedValues = watch();
   const { id } = watchedValues;
 
-  const selectedElement = useSelectedElement(id, equimentList);
+  const selectedElement = useSelectedElement(id, equimentList ?? []);
 
   useEffect(() => {
     if (selectedElement) {

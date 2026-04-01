@@ -14,7 +14,7 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Equipment>> => {
     renderTopToolbarCustomActions: () => <TopToolbarActions />,
 
     renderDetailPanel: ({ row }) => {
-      if (row.original.pvList?.length === 0) return null;
+      if (row.original.pvRef?.length === 0) return null;
 
       return <DetailsPanel row={row} />;
     },

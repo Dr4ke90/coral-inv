@@ -4,10 +4,12 @@ import { useFormContext } from "react-hook-form";
 import { useProjects } from "@/hooks/useProjects";
 import { useEmployees } from "@/hooks/useEmployees";
 import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
+import { useUser } from "@/features/users/hooks/useUser";
 
 const ModalRecipientForm = () => {
   const { data: projects } = useProjects();
   const { data: employees } = useEmployees();
+  const { user } = useUser();
 
   const { control } = useFormContext();
 
@@ -19,7 +21,7 @@ const ModalRecipientForm = () => {
           name="recipientPersonId"
           requiredText="Selectarea unui primitor este obligatorie"
           label="Primitor"
-          options={employees}
+          options={employees?.filter((e) => e.id !== user?.employeeId)}
           optionLabel="name"
         />
 

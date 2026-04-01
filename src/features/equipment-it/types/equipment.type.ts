@@ -10,5 +10,5 @@ export interface Equipment {
   requirementId: string;
   createdBy: string;
   createdAt: Date | null;
-  pvList: string[];
+  pvRef: string[];
 }

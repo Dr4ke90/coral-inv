@@ -9,7 +9,7 @@ const DetailsPanel = ({ row }: { row: MRT_RowData }) => {
     <Box>
       <Table
         columns={rowSubtableColumnsConfig}
-        data={row.original.pvList}
+        data={row.original.pvRef}
         tableCustomOptions={subrowTableConfig}
       />
     </Box>

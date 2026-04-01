@@ -20,6 +20,7 @@ import { ITEMS_INITIAL_STATE } from "../constants/itemInitialState";
 import { useUser } from "@/features/users/hooks/useUser";
 import { toast } from "react-toastify";
 import { generatedId } from "@/utils/generateId";
+import { generatedSubId } from "../utils/genereteSubId";
 
 const ModalComponentForm = () => {
   const { control, handleSubmit, reset, getValues } =
@@ -76,7 +77,7 @@ const ModalComponentForm = () => {
 
     const newSubItems: ComponentType[] = Array.from({ length: numToAdd }).map(
       () => {
-        const newId = generatedId(baseCategoryId, tempSubItems);
+        const newId = generatedSubId(baseCategoryId, tempSubItems);
 
         const newItem = {
           ...ITEMS_INITIAL_STATE,

@@ -9,6 +9,6 @@ export const MODULES: ModuleSection[] = [
   {
     id: 2,
     departament: "it",
-    list: ["echipament", "componente", "tablete", "telefoane", "consumabile"],
+    list: ["echipament", "componente", "tablete", "telefoane"],
   },
 ];
