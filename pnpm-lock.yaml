@@ -26,6 +26,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.90.21
         version: 5.90.21(react@19.2.3)
+      angular-expressions:
+        specifier: ^1.5.1
+        version: 1.5.1
       axios:
         specifier: ^1.13.5
         version: 1.13.6
@@ -1022,6 +1025,9 @@ packages:
 
   ajv@6.14.0:
     resolution: {integrity: sha512-IWrosm/yrn43eiKqkfkHis7QioDleaXQHdDVPKg0FSwwd/DuvyX79TZnFOnYpB7dcsFAMmtFztZuXPDvSePkFw==}
+
+  angular-expressions@1.5.1:
+    resolution: {integrity: sha512-Ukcyuye0eb15zuvMFR7Kziuf7gV0gYAZXMevNI40rXF8f9k+/yk8+r5edFWRFOwnqSvAEFoP2bKNXaXgYa+Ayw==}
 
   ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
@@ -3347,6 +3353,8 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
+
+  angular-expressions@1.5.1: {}
 
   ansi-styles@4.3.0:
     dependencies:

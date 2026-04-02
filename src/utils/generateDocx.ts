@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
+import expressions from "angular-expressions";
 
 export interface TemplateData {
   id: string | number;
@@ -29,11 +30,38 @@ const processDocxTemplate = (
   binaryData: ArrayBuffer,
   object: TemplateData,
 ): void => {
-  const template = new Docxtemplater();
   const buffer = new Uint8Array(binaryData);
   const zip = new PizZip(buffer);
 
-  template.loadZip(zip);
+  const parser = (tag: string) => {
+    // Compilăm tag-ul (ex: "$index + 1") folosind angular-expressions
+    const expr = expressions.compile(
+      tag.replace(/(^|[^\w!])\$index($|[^\w])/g, "$1index$2"),
+    );
+
+    return {
+      get: (scope: any, context: any) => {
+        // Identificăm indexul curent din calea scopePathItem
+        // context.scopePathItem conține indecșii loop-urilor curente
+        const index = context.scopePathItem[context.scopePathItem.length - 1];
+
+        // Creăm un context temporar care conține indexul pentru calcul
+        const newScope = {
+          ...scope,
+          index: index,
+        };
+
+        return expr(newScope);
+      },
+    };
+  };
+
+  const template = new Docxtemplater(zip, {
+    parser: parser,
+    paragraphLoop: true,
+    linebreaks: true,
+  });
+
   template.setData(object);
 
   try {

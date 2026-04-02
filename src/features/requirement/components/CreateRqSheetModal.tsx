@@ -21,10 +21,16 @@ import ControlledTextField from "@/components/ui/ControlledTextField";
 import { REQUIREMENT_STATUS_OPTIONS } from "../constants/requirementStatus";
 import { REQUIREMENT_SHEET_INITIAL_STATE } from "../constants/sheetInitialState";
 import { RESOURCES_INITIAL_STATE } from "../constants/resourcesInitialState";
+import { generateDocx } from "@/utils/generateDocx";
+import { mapRequirementDataForDocx } from "../utils/mapRequirementData";
+import { useProjects } from "@/hooks/useProjects";
+import { useEmployees } from "@/hooks/useEmployees";
 
 const CreateRequirementModal = () => {
   const { items, clearItems } = useItemsList<ResourceType>();
   const { data: requirments } = useRequirementData();
+  const { data: employees = [] } = useEmployees();
+  const { data: projects = [] } = useProjects();
   const { mutate: postOneRequirementSheet } = usePostRequirement();
 
   const { closeModal } = useModal();
@@ -69,8 +75,14 @@ const CreateRequirementModal = () => {
   const onSubmit = (data: Requirement) => {
     if (data.items.length === 0) return;
 
+    const mappedData = mapRequirementDataForDocx(data, employees, projects);
+
     postOneRequirementSheet(data, {
       onSuccess: () => {
+        generateDocx(
+          process.env.NEXT_PUBLIC_API_FILES_REQUIREMENT!,
+          mappedData,
+        );
         closeModal();
         handleReset();
       },

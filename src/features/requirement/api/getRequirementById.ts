@@ -1,9 +1,18 @@
 import axios from "axios";
-import { RequirementType } from "../types/requiment.type";
+import { Requirement } from "../types/requiment.type";
 
 export const getRequirmentSheetById = async (
   id: string,
-): Promise<RequirementType> => {
-  const { data } = await axios.get(`/api/requirement/${id}`);
+): Promise<Requirement> => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_REQUIREMENTS}/${id}`,
+  );
+  return data.data;
+};
+
+export const getRequirementDocx = async (id: string) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_REQUIREMENTS}/${id}/docx`,
+  );
   return data.data;
 };

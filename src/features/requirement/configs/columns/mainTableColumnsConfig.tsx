@@ -47,7 +47,7 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Requirement>[] => {
       enableEditing: false,
     },
     {
-      id: "itemsCount",
+      accessorKey: "items.length",
       header: "Nr. Echipamente",
       enableEditing: false,
       size: 50,

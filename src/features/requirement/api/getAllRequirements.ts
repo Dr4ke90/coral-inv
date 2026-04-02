@@ -1,7 +1,9 @@
 import axios from "axios";
-import { RequirementType } from "../types/requiment.type";
+import { Requirement } from "../types/requiment.type";
 
-export const getAllRequirements = async (): Promise<RequirementType[]> => {
-  const { data } = await axios.get("/api/requirement");
+export const getAllRequirements = async (): Promise<Requirement[]> => {
+  const { data } = await axios.get(
+    process.env.NEXT_PUBLIC_API_REQUIREMENTS ?? "",
+  );
   return data.data;
 };

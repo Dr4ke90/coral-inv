@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db/mongo";
 import RequirementSheetModel from "@/lib/db/models/requirment.model";
+import mongoose from "mongoose";
+import { generateDocx } from "@/utils/generateDocx";
 
 export async function GET(req: NextRequest) {
   try {
@@ -21,16 +23,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-
     const body = await req.json();
 
-    const newRequirement = await RequirementSheetModel.create(body);
+    const [newRequirement] = await RequirementSheetModel.create([body]);
 
     return NextResponse.json({ data: newRequirement });
   } catch (error) {
-    console.error(error);
+    console.error("Eroare severă la server:", error);
     return NextResponse.json(
-      { error: "Failed to create requirement" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }

@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const body = await req.json();
 
-    // 1. Inițializează sesiunea și pornește tranzacția
     const session = await mongoose.startSession();
     session.startTransaction();
 

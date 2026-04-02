@@ -20,6 +20,7 @@ const ModalResourcesForm = () => {
   const onSubmit = (data: ResourceType) => {
     addItem({
       ...data,
+      id: Math.floor(Math.random() * 100),
       totalPrice,
     });
     reset();
