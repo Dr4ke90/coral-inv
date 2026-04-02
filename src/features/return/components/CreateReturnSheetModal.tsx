@@ -20,10 +20,18 @@ import { useUser } from "@/features/users/hooks/useUser";
 import { useEffect } from "react";
 import { useCreateReturnSheet } from "../hooks/useCreateReturnSheet";
 import { useItemsList } from "@/contexts/ItemsListContext";
+import { useProjects } from "@/hooks/useProjects";
+import { useEmployees } from "@/hooks/useEmployees";
+import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
+import { mapReturnDataForDocx } from "../utils/mapReturnData";
+import { generateDocx } from "@/utils/generateDocx";
 
 const CreateReturnModal = () => {
   const { items, clearItems } = useItemsList<EquipmentType>();
   const { data: returns } = useReturnSheets();
+  const { data: projects } = useProjects();
+  const { data: employees } = useEmployees();
+  const { data: equipments } = useEquipment();
   const { mutate: postHandoverSheet } = useCreateReturnSheet();
   const { closeModal } = useModal();
 
@@ -63,8 +71,17 @@ const CreateReturnModal = () => {
 
   const onSubmit = (data: HandoverSheet) => {
     if (data.eqList.length === 0) return;
+
+    const mappedData = mapReturnDataForDocx(
+      data,
+      employees!,
+      projects!,
+      equipments!,
+    );
+
     postHandoverSheet(data, {
       onSuccess: () => {
+        generateDocx(process.env.NEXT_PUBLIC_API_FILES_RETURN!, mappedData);
         closeModal();
         handleReset();
       },

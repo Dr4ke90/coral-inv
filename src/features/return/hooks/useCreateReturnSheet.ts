@@ -32,6 +32,9 @@ export const useCreateReturnSheet = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["returns"] });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["equipmentIt"] });
     },
   });
 };

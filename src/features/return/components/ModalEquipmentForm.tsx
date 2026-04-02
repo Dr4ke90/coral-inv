@@ -6,25 +6,10 @@ import { useItemsList } from "@/contexts/ItemsListContext";
 import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
 import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/constants";
+import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
 
 const ModalEquipmentForm = () => {
-  const [equimentList, setEqList] = useState<EquipmentType[]>([
-    {
-      id: "CIT002",
-      type: "Boxe",
-      model: "CORAL",
-      series: "N/A",
-      status: "Nou",
-    },
-    {
-      id: "CIT004",
-      type: "Imprimanta",
-      model: "Brother",
-      series: "N/A",
-      status: "Nou",
-    },
-  ]);
-
+  const { data: equimentList = [] } = useEquipment();
   const { control, handleSubmit, reset } = useFormContext<EquipmentType>();
 
   const watchedValues = useWatch({ control });
