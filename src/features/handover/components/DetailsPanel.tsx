@@ -2,12 +2,13 @@ import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import { MRT_RowData } from "material-react-table";
 import { subrowTableConfig } from "../configs/tables/subrowTableConfig";
-import { rowSubtableColumnsConfig } from "../configs/columns/rowSubtableColumnsConfig";
-import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
+import { useEquipment } from "@/hooks/useEquipment";
 import Loader from "@/components/ui/Loader";
+import { useMainTableColumnsConfig } from "../configs/columns/rowSubtableColumnsConfig";
 
 const DetailsPanel = ({ row }: { row: MRT_RowData }) => {
   const { data: equipment, isLoading } = useEquipment();
+  const columns = useMainTableColumnsConfig();
 
   if (isLoading) {
     return (
@@ -26,7 +27,7 @@ const DetailsPanel = ({ row }: { row: MRT_RowData }) => {
   return (
     <Box>
       <Table
-        columns={rowSubtableColumnsConfig}
+        columns={columns}
         data={mappedEquipments ?? []}
         tableCustomOptions={subrowTableConfig}
       />

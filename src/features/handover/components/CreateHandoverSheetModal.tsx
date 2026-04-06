@@ -9,7 +9,6 @@ import Table from "@/components/table/Table";
 import { modalTableColumsConfig } from "../configs/columns/modalTableColumnsConfig";
 import { modalTableConfig } from "../configs/tables/modalTableConfig";
 import { HandoverSheet } from "@/types/handoverSheet.type";
-import { useHandoverSheets } from "../hooks/useHandoverSheets";
 import { generatedId } from "@/utils/generateId";
 import { HANDOVER_PREFIX } from "../constants/constants";
 import { useUser } from "@/features/users/hooks/useUser";
@@ -21,7 +20,8 @@ import { generateDocx } from "@/utils/generateDocx";
 import { mapHandoverDataForDocx } from "../utils/mapHandoverData";
 import { useEmployees } from "@/hooks/useEmployees";
 import { useProjects } from "@/hooks/useProjects";
-import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
+import { useEquipment } from "@/hooks/useEquipment";
+import { useHandoverSheets } from "@/hooks/useHandoverSheets";
 
 const CreateHandoverModal = () => {
   const { previewList, clearItems } = usePreviewList();

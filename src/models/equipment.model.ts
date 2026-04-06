@@ -29,7 +29,6 @@ const baseSchema = new Schema(
     createdAt: { type: Date, default: Date.now },
     modifiedBy: { type: [modificationSchema], default: [] },
     pvRef: { type: [String], default: [] },
-    archive: { type: [Object], default: [] },
     inventoryDate: { type: Date, default: Date.now },
     custodianId: { type: String, default: "E0000" },
     projectId: { type: String, default: "PJ0001" },

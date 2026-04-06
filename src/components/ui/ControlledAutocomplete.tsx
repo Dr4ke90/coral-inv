@@ -40,9 +40,11 @@ const ControlledAutocomplete = ({
             options={options || []}
             getOptionLabel={(option) => option?.[optionLabel] || ""}
             value={options?.find((p) => p.id === value) || null}
-            isOptionEqualToValue={(option, val) =>
-              !!val && option.id === val.id
-            }
+            isOptionEqualToValue={(option, val) => {
+              if (!val) return false;
+              if (typeof val === "string") return option.id === val;
+              return option.id === val.id;
+            }}
             onChange={(_, newValue) => {
               onChange(newValue ? newValue.id : "");
             }}

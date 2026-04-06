@@ -6,7 +6,7 @@ import { usePreviewList } from "../contexts/PreviewListContext";
 import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/equipmentInitialState";
 import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
-import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
+import { useEquipment } from "@/hooks/useEquipment";
 
 const ModalEquipmentForm = () => {
   const { data: equimentList } = useEquipment();

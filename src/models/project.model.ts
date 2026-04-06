@@ -5,10 +5,9 @@ const projectSchema = new Schema(
     id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     address: { type: String, required: true },
-    owner: { type: String, required: true },
+    owner: { type: String, default: "" },
     team: { type: Array, default: [] },
-    eqList: { type: [], default: [] },
-    status: { type: String, default: "" },
+    status: { type: String, required: true },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
     modifiedBy: {

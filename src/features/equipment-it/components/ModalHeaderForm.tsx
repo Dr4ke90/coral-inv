@@ -22,7 +22,7 @@ const ModalHeaderForm = () => {
           options={requirment
             ?.slice()
             .reverse()
-            .filter((r) => r.filePreview === true)}
+            .filter((r) => r.status === "Aprobat")}
           optionLabel="id"
           requiredText=""
           className="w-full"

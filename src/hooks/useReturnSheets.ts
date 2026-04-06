@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllHandoverSheets } from "../api/fetchAllHandoverSheets";
 import { HandoverSheet } from "@/types/handoverSheet.type";
+import { fetchAllReturnSheets } from "@/features/return/api/fetchAllReturnSheets";
 
-export const useHandoverSheets = () => {
+export const useReturnSheets = () => {
   const { data, isLoading, isError } = useQuery<HandoverSheet[]>({
-    queryKey: ["handovers"],
-    queryFn: fetchAllHandoverSheets,
+    queryKey: ["returns"],
+    queryFn: fetchAllReturnSheets,
     refetchOnWindowFocus: false,
     retry: 1,
     staleTime: 1000 * 60 * 5,

@@ -2,9 +2,9 @@
 import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import Loader from "@/components/ui/Loader";
-import { useReturnSheets } from "../hooks/useReturnSheets";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
+import { useReturnSheets } from "@/hooks/useReturnSheets";
 
 export const MainRetunSheetTable = () => {
   const { data, isLoading, isError } = useReturnSheets();

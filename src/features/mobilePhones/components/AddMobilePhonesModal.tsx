@@ -9,7 +9,7 @@ import { useModalTableConfig } from "../configs/tables/modalTableConfig";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
 import { useDocument } from "@/contexts/DocumentContext";
-import { uploadPdfInvoice } from "@/shared/api/uploadPdfInvoice";
+import { uploadPdfInvoice } from "@/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { MobilePhone } from "../types/phones.type";

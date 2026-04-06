@@ -3,7 +3,7 @@ import { postHandoverSheet } from "../api/postHandoverSheet";
 import { HandoverSheet } from "@/types/handoverSheet.type";
 import { generatedId } from "@/utils/generateId";
 import { HANDOVER_PREFIX } from "../constants/constants";
-import { useHandoverSheets } from "./useHandoverSheets";
+import { useHandoverSheets } from "@/hooks/useHandoverSheets";
 
 export const useCreateHandoverSheet = () => {
   const queryClient = useQueryClient();
@@ -32,8 +32,6 @@ export const useCreateHandoverSheet = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["handovers"] });
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["equipmentIt"] });
     },
   });

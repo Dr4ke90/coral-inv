@@ -2,9 +2,9 @@
 import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import Loader from "@/components/ui/Loader";
-import { useHandoverSheets } from "../hooks/useHandoverSheets";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
+import { useHandoverSheets } from "@/hooks/useHandoverSheets";
 
 export const MainHandoverSheetsTable = () => {
   const { data, isLoading, isError } = useHandoverSheets();

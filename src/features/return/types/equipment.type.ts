@@ -3,5 +3,5 @@ interface EquipmentType {
     type: string,
     model: string,
     series: string,
-    status: string
+    status: string,
 }

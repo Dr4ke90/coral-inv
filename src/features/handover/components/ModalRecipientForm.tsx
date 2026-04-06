@@ -5,6 +5,8 @@ import { useProjects } from "@/hooks/useProjects";
 import { useEmployees } from "@/hooks/useEmployees";
 import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { useUser } from "@/features/users/hooks/useUser";
+import { useWatch } from "react-hook-form";
+import { useMemo } from "react";
 
 const ModalRecipientForm = () => {
   const { data: projects } = useProjects();
@@ -12,6 +14,25 @@ const ModalRecipientForm = () => {
   const { user } = useUser();
 
   const { control } = useFormContext();
+
+  const selectedRecipientId = useWatch({
+    control,
+    name: "recipientPersonId",
+  });
+
+  const filteredProjects = useMemo(() => {
+    if (!selectedRecipientId) return [];
+
+    const selectedEmployee = employees?.find(
+      (e) => e.id === selectedRecipientId,
+    );
+
+    if (selectedEmployee && selectedEmployee.project) {
+      return projects?.filter((p) => p.id === selectedEmployee.project);
+    }
+
+    return [];
+  }, [selectedRecipientId, employees, projects]);
 
   return (
     <Box component="form" autoComplete="off" className="px-2 mb-2">
@@ -30,7 +51,7 @@ const ModalRecipientForm = () => {
           name="projectId"
           requiredText="Selectarea unui proiect este obligatorie"
           label="Project"
-          options={projects}
+          options={filteredProjects}
           optionLabel="name"
         />
       </Box>

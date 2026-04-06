@@ -4,10 +4,14 @@ import TopToolbarActions from "../../components/TopToolbarActions";
 import { Equipment } from "../../types/equipment.type";
 import { useUpdateRow } from "@/hooks/useUpdateRow";
 import { useUpdateEquipment } from "../../hooks/useUpdateEquipment";
+import { useHandoverSheets } from "@/hooks/useHandoverSheets";
+import { useReturnSheets } from "@/hooks/useReturnSheets";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Equipment>> => {
   const { mutate: updateEquipment } = useUpdateEquipment();
   const onRowUpdate = useUpdateRow(updateEquipment);
+  const { data: handoverSheets } = useHandoverSheets();
+  const { data: returns } = useReturnSheets();
 
   return {
     onEditingRowSave: onRowUpdate,
@@ -16,7 +20,13 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Equipment>> => {
     renderDetailPanel: ({ row }) => {
       if (row.original.pvRef?.length === 0) return null;
 
-      return <DetailsPanel row={row} />;
+      const pvPool = [...(handoverSheets ?? []), ...(returns ?? [])];
+
+      const pvRefIds = new Set(row.original.pvRef);
+
+      const filteredPvPool = pvPool.filter((item) => pvRefIds.has(item.id));
+
+      return <DetailsPanel pvList={filteredPvPool} />;
     },
 
     enableEditing: true,

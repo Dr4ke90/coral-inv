@@ -6,7 +6,7 @@ import ControlledTextField from "@/components/ui/ControlledTextField";
 import ControlledStringAutocomplete from "@/components/ui/ControlledStringAutocomplete";
 import useIdGenerator from "../hooks/useIdGenerator";
 import { EQUIPMENT_PREFIX } from "../constants/constants";
-import { useEquipment } from "../hooks/useEquipment";
+import { useEquipment } from "../../../hooks/useEquipment";
 import { useState } from "react";
 import ControlledNumberField from "@/components/ui/ControlledNumberField";
 import { useDocument } from "@/contexts/DocumentContext";

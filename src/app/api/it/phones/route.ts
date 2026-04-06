@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import MobilePhoneModel from "@/lib/db/models/mobilePhone.model";
+import connectDB from "@/lib/mongo";
+import MobilePhoneModel from "@/models/mobilePhone.model";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const employees = await MobilePhoneModel.find({});
+    const mobilePhones = await MobilePhoneModel.find({});
 
-    return NextResponse.json({ data: employees });
+    return NextResponse.json({ data: mobilePhones });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -24,9 +24,9 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const newEmployee = await MobilePhoneModel.create(body);
+    const newMobilePhone = await MobilePhoneModel.create(body);
 
-    return NextResponse.json({ data: newEmployee });
+    return NextResponse.json({ data: newMobilePhone });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

@@ -11,7 +11,7 @@ import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
 import { useCreateEquipment } from "../hooks/useCreateEquipment";
 import { useDocument } from "@/contexts/DocumentContext";
-import { uploadPdfInvoice } from "@/shared/api/uploadPdfInvoice";
+import { uploadPdfInvoice } from "@/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { EQ_INITIAL_STATE } from "../constants/eqInitialState";

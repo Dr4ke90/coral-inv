@@ -19,8 +19,6 @@ const employeeSchema = new Schema(
     createdBy: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     project: { type: String, default: "" },
-    pv: { type: [String], default: [] },
-    eqList: { type: [String], default: [] },
     status: { type: String, default: "" },
     modifiedBy: { type: [modificationSchema], default: [] },
   },

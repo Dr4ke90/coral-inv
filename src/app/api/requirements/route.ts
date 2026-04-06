@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import RequirementSheetModel from "@/lib/db/models/requirment.model";
+import connectDB from "@/lib/mongo";
+import RequirementSheetModel from "@/models/requirment.model";
 import mongoose from "mongoose";
 import { generateDocx } from "@/utils/generateDocx";
 

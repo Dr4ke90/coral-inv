@@ -10,7 +10,7 @@ export const EQUIPMENT_INITIAL_STATE: EquipmentType = {
   status: "",
 };
 
-export const HANDOVER_SHEET_INITIAL_STATE: Partial<HandoverSheet> = {
+export const RETURN_SHEET_INITIAL_STATE: Partial<HandoverSheet> = {
   id: "",
   date: "",
   handoverPersonId: "",

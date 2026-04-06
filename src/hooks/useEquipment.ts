@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Equipment } from "../types/equipment.type";
-import { fetchAllEquipment } from "../api/fetchAllEquipment";
+import { Equipment } from "../features/equipment-it/types/equipment.type";
+import { fetchAllEquipment } from "../features/equipment-it/api/fetchAllEquipment";
 
 export const useEquipment = () => {
   const { data, isLoading, isError } = useQuery<Equipment[]>({

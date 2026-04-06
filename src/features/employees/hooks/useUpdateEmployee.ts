@@ -31,6 +31,7 @@ export const useUpdateEmployee = () => {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
   });
 };

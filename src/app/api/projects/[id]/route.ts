@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import ProjectModel from "@/lib/db/models/project.model";
+import connectDB from "@/lib/mongo";
+import ProjectModel from "@/models/project.model";
 
 export async function GET(
   req: NextRequest,

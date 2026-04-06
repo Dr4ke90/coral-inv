@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import InternalComponentModel from "@/lib/db/models/internalComponents.model";
+import connectDB from "@/lib/mongo";
+import InternalComponentModel from "@/models/internalComponents.model";
 
 export async function GET() {
   try {

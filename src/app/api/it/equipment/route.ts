@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import EquipmentModel from "@/lib/db/models/equipment.model";
+import connectDB from "@/lib/mongo";
+import { addEquipment, readAllEquipment } from "@/services/equipmentService";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const employees = await EquipmentModel.find({});
+    const employees = await readAllEquipment();
 
     return NextResponse.json({ data: employees });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return NextResponse.json(
-      { error: "Failed to fetch equipment" },
-      { status: 500 },
+      { error: error.message || "Failed to fetch equipment" },
+      { status: error.statusCode || 500 },
     );
   }
 }
@@ -21,17 +21,16 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-
     const body = await req.json();
 
-    const newEmployee = await EquipmentModel.create(body);
+    const result = await addEquipment(body);
 
-    return NextResponse.json({ data: newEmployee });
-  } catch (error) {
+    return NextResponse.json({ data: result });
+  } catch (error: any) {
     console.error(error);
     return NextResponse.json(
-      { error: "Failed to create new equipment" },
-      { status: 500 },
+      { error: error.message || "Failed to create equipment" },
+      { status: error.statusCode || 500 },
     );
   }
 }

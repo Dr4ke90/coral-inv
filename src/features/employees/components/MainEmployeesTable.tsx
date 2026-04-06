@@ -3,12 +3,13 @@ import Table from "@/components/table/Table";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { Box } from "@mui/material";
 import Loader from "@/components/ui/Loader";
-import { mainTableColumsConfig } from "../configs/columns/mainTableColumsConfig";
+import { useMainTableColumsConfig } from "../configs/columns/mainTableColumsConfig";
 import { useEmployees } from "@/hooks/useEmployees";
 
 export const MainEmployeesTable = () => {
   const { data, isLoading, isError } = useEmployees();
   const mainTableConfig = useMainTableConfig();
+  const mainTableColumsConfig = useMainTableColumsConfig();
 
   if (isLoading) {
     return <Loader />;

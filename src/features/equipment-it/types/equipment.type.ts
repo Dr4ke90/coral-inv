@@ -11,4 +11,5 @@ export interface Equipment {
   createdBy: string;
   createdAt: Date | null;
   pvRef: string[];
+  custodianId?: string;
 }

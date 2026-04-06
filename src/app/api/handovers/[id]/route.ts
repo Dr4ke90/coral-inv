@@ -1,56 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import HandoverSheetModel from "@/lib/db/models/handoversSheet.model";
+import connectDB from "@/lib/mongo";
+import {
+  getHandoverDetails,
+  updateHandoverDetails,
+} from "@/services/handoverService";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  await connectDB();
+  const { id } = await params;
+  try {
+    await connectDB();
 
-  const id = await params;
+    const data = await getHandoverDetails(id);
 
-  const handoverSheet = await HandoverSheetModel.findOne({ id });
+    return NextResponse.json({ data });
+  } catch (error: any) {
+    console.error(`Error fetching handover ${error.message}`);
 
-  if (!handoverSheet)
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-
-  return NextResponse.json({ data: handoverSheet });
+    const status = error.statusCode || 500;
+    return NextResponse.json(
+      { error: error.message || "Internal Server Error" },
+      { status },
+    );
+  }
 }
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  await connectDB();
-
   const { id } = await params;
-  const body = await req.json();
+  try {
+    await connectDB();
 
-  const updated = await HandoverSheetModel.findOneAndUpdate({ id }, body, {
-    returnDocument: "after",
-  });
+    const body = await req.json();
 
-  if (!updated)
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const updatedData = await updateHandoverDetails(id, body);
 
-  return NextResponse.json({ data: updated });
-}
+    return NextResponse.json({ data: updatedData });
+  } catch (error: any) {
+    console.error(`Update error for ID ${id}: ${error.message}`);
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  await connectDB();
-
-  const { id } = await params;
-
-  const deleted = await HandoverSheetModel.findOneAndDelete({
-    id,
-  });
-
-  if (!deleted)
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-
-  return NextResponse.json({ data: { id } });
+    const status = error.statusCode || 400;
+    return NextResponse.json(
+      { error: error.message || "Failed to update handover sheet" },
+      { status },
+    );
+  }
 }

@@ -11,11 +11,13 @@ import { generatedId } from "@/utils/generateId";
 import { EMPLOYEE_PREFIX } from "../../constants/constants";
 import { createEmployee } from "../../factories/createEmployee";
 import { useEmployees } from "@/hooks/useEmployees";
+import { useEquipment } from "@/hooks/useEquipment";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
   const { data } = useEmployees();
   const nextId = generatedId(EMPLOYEE_PREFIX, data);
   const { mutate: updateEmployee } = useUpdateEmployee();
+  const { data: equipment } = useEquipment();
   const { mutate: postNewEmployee } = useCreateEmployee(nextId);
   const { user } = useUser();
 
@@ -35,9 +37,13 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
     ),
 
     renderDetailPanel: ({ row }) => {
-      if (row.original.eqList?.length === 0) return null;
+      const mappedEquipments = equipment?.filter(
+        (e: any) => e.custodianId === row.original.id,
+      );
 
-      return <DetailsPanel row={row} />;
+      if (mappedEquipments?.length === 0) return null;
+
+      return <DetailsPanel equipments={mappedEquipments!} />;
     },
 
     createDisplayMode: "row",

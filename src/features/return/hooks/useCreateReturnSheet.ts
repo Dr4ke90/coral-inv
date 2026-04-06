@@ -3,7 +3,7 @@ import { postReturnSheet } from "../api/postReturnSheet";
 import { HandoverSheet } from "@/types/handoverSheet.type";
 import { generatedId } from "@/utils/generateId";
 import { RETURN_PREFIX } from "../constants/constants";
-import { useReturnSheets } from "./useReturnSheets";
+import { useReturnSheets } from "@/hooks/useReturnSheets";
 
 export const useCreateReturnSheet = () => {
   const queryClient = useQueryClient();
@@ -32,8 +32,6 @@ export const useCreateReturnSheet = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["returns"] });
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["equipmentIt"] });
     },
   });

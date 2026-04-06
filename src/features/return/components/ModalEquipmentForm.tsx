@@ -1,21 +1,38 @@
 import { Box, Button } from "@mui/material";
-import { useFormContext, useWatch } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useForm, useFormContext, useWatch } from "react-hook-form";
+import { useEffect, useMemo } from "react";
 import useSelectedElement from "../hooks/useSelectedElement";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
 import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/constants";
-import { useEquipment } from "@/features/equipment-it/hooks/useEquipment";
+import { useEquipment } from "@/hooks/useEquipment";
+import { HandoverSheet } from "@/types/handoverSheet.type";
 
 const ModalEquipmentForm = () => {
   const { data: equimentList = [] } = useEquipment();
-  const { control, handleSubmit, reset } = useFormContext<EquipmentType>();
 
-  const watchedValues = useWatch({ control });
-  const { id } = watchedValues;
+  const {
+    control: eqControl,
+    handleSubmit,
+    reset,
+  } = useForm<EquipmentType>({
+    defaultValues: EQUIPMENT_INITIAL_STATE,
+  });
 
-  const selectedElement = useSelectedElement(id, equimentList);
+  const watchedEqValues = useWatch({ control: eqControl });
+  const { id } = watchedEqValues;
+
+  const { control: returnControl } = useFormContext<HandoverSheet>();
+  const watchedReturnValues = useWatch({ control: returnControl });
+
+  const filteredEquipmentList = useMemo(() => {
+    return equimentList.filter(
+      (eq) => eq.custodianId === watchedReturnValues.handoverPersonId,
+    );
+  }, [equimentList, watchedReturnValues]);
+
+  const selectedElement = useSelectedElement(id, filteredEquipmentList);
 
   useEffect(() => {
     if (!selectedElement) return;
@@ -44,17 +61,17 @@ const ModalEquipmentForm = () => {
       <Box className="flex flex-col">
         <ControlledAutocomplete
           name="id"
-          control={control}
+          control={eqControl}
           requiredText="Selectarea unui echipament este obligatorie"
           label="CIT"
-          options={equimentList}
+          options={filteredEquipmentList}
           optionLabel="id"
         />
 
-        <ReadOnlyInput value={watchedValues.type ?? ""} label="Tip" />
-        <ReadOnlyInput value={watchedValues.model ?? ""} label="Model" />
-        <ReadOnlyInput value={watchedValues.series ?? ""} label="Serie" />
-        <ReadOnlyInput value={watchedValues.status ?? ""} label="Stare" />
+        <ReadOnlyInput value={watchedEqValues.type ?? ""} label="Tip" />
+        <ReadOnlyInput value={watchedEqValues.model ?? ""} label="Model" />
+        <ReadOnlyInput value={watchedEqValues.series ?? ""} label="Serie" />
+        <ReadOnlyInput value={watchedEqValues.status ?? ""} label="Stare" />
       </Box>
       <Box className="flex justify-center mt-3">
         <Button variant="outlined" onClick={handleSubmit(onSubmit)}>

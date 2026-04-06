@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db/mongo";
-import EquipmentModel from "@/lib/db/models/equipment.model";
+import connectDB from "@/lib/mongo";
+import EquipmentModel from "@/models/equipment.model";
+import {
+  readEquipmentById,
+  updateEquipment,
+  updateEquipmentDataInTransaction,
+} from "@/services/equipmentService";
 
 export async function GET(
   req: NextRequest,
@@ -8,9 +13,9 @@ export async function GET(
 ) {
   await connectDB();
 
-  const id = await params;
+  const { id } = await params;
 
-  const equipment = await EquipmentModel.findOne({ id });
+  const equipment = await readEquipmentById(id);
 
   if (!equipment)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -27,9 +32,7 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
-  const updated = await EquipmentModel.findOneAndUpdate({ id }, body, {
-    returnDocument: "after",
-  });
+  const updated = await updateEquipment(id, body);
 
   if (!updated)
     return NextResponse.json({ error: "Not found" }, { status: 404 });

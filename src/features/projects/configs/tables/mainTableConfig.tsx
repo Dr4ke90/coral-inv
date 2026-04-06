@@ -11,6 +11,7 @@ import { useUser } from "@/features/users/hooks/useUser";
 import { generatedId } from "@/utils/generateId";
 import { PROJECT_PREFIX } from "../../constants/constants";
 import { useProjects } from "@/hooks/useProjects";
+import { useEquipment } from "@/hooks/useEquipment";
 
 export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
   const { data } = useProjects();
@@ -19,6 +20,7 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
   const { mutate: postNewEmployee } = useCreateProject(nextId);
   const { user } = useUser();
   const updateRow = useUpdateRow<Project>(updateProject);
+  const { data: equipment } = useEquipment();
 
   const handleCreate = useCreateRow<Partial<Project>>({
     mutate: postNewEmployee,
@@ -34,9 +36,13 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Project>> => {
     ),
 
     renderDetailPanel: ({ row }) => {
-      if (row.original.eqList?.length === 0) return null;
+      const mappedEquipments = equipment?.filter(
+        (e: any) => e.projectId === row.original.id,
+      );
 
-      return <DetailsPanel row={row} />;
+      if (mappedEquipments?.length === 0) return null;
+
+      return <DetailsPanel equipments={mappedEquipments!} />;
     },
 
     createDisplayMode: "row",

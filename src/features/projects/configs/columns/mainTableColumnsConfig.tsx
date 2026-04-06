@@ -1,9 +1,13 @@
 import { Project } from "@/features/projects/types/project.type";
 import { useRequirementData } from "@/features/requirement";
 import { MRT_ColumnDef } from "material-react-table";
+import { useEquipment } from "@/hooks/useEquipment";
+import { useEmployees } from "@/hooks/useEmployees";
 
 export const useMainTableColumnsConfig = (): MRT_ColumnDef<Project>[] => {
   const { data: requirements } = useRequirementData();
+  const { data: equipment } = useEquipment();
+  const { data: employees } = useEmployees();
 
   return [
     {
@@ -31,27 +35,56 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Project>[] => {
       size: 200,
     },
     {
-      accessorKey: "team",
+      id: "teamMembers",
       header: "Echipa",
-      enableEditing: true,
-      size: 200,
+      enableEditing: false,
+      size: 250,
+      Cell: ({ row }) => {
+        const team = employees?.filter(
+          (e: any) => e.project === row.original.id && e.id !== "E0000",
+        );
+
+        if (!team || team.length === 0) return "-";
+
+        return (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {team.map((e: any) => (
+              <span key={e.id}>{e.name}</span>
+            ))}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: "eqList.length",
+      id: "eqNr",
       header: "Echipament",
       enableEditing: false,
       size: 200,
+      Cell: ({ row }) => {
+        const eqList = equipment?.filter(
+          (e: any) => e.projectId === row.original.id,
+        );
+
+        return eqList ? eqList.length : 0;
+      },
     },
     {
-      accessorFn: (row) => requirements?.filter((r) => r.projectId === row.id).length,
+      id: "necesarCount",
       header: "Necesar",
       enableEditing: false,
       size: 200,
+      Cell: ({ row }) => {
+        const reqList = requirements?.filter(
+          (r: any) => r.projectId === row.original.id,
+        );
+
+        return reqList ? reqList.length : 0;
+      },
     },
     {
       accessorKey: "status",
       header: "Status",
-      enableEditing: false,
+      enableEditing: true,
       size: 200,
     },
   ];
