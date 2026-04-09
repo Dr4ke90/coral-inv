@@ -9,20 +9,23 @@ import { useModalTableConfig } from "../configs/tables/modalTableConfig";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
 import { useDocument } from "@/contexts/DocumentContext";
-import { uploadPdfInvoice } from "@/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { TABLET_INITIAL_STATE } from "../constants/tabletInitialState";
 import { Tablet } from "../types/tablet.type";
 import { useCreateTablet } from "../hooks/useCreateTablet";
+import { useUploadInvoicePdf } from "@/hooks/useUploadInvoicePdf";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
 
 const AddTabletsModal = () => {
   const { closeModal } = useModal();
   const { items, clearItems } = useItemsList<Tablet>();
   const { mutate: postTablet } = useCreateTablet();
   const modalTableConfig = useModalTableConfig();
-  const { document, clearDocument } = useDocument();
+  const { clearDocument } = useDocument();
+  const { handleUploadInvoice } = useUploadInvoicePdf();
   const modalTableColumnsConfig = useModalTableColumsConfig();
+  const { methods: invoiceMethods } = useInvoiceFormContext();
   const { user } = useUser();
 
   const eqMethods = useForm<Tablet>({
@@ -37,6 +40,7 @@ const AddTabletsModal = () => {
     clearItems();
     clearDocument();
     eqMethods.reset(TABLET_INITIAL_STATE);
+    invoiceMethods.reset();
   };
 
   const handleSubmit = () => {
@@ -56,32 +60,6 @@ const AddTabletsModal = () => {
       return;
     }
 
-    const handleUploadInvoice = async () => {
-      if (!document) return null;
-
-      const invoiceName = items[0]?.refInvoice?.sn;
-      const dateValue = items[0]?.refInvoice?.date;
-
-      const year = dateValue
-        ? new Date(dateValue).getFullYear().toString()
-        : new Date().getFullYear().toString();
-
-      let fileToUpload: File;
-      if (invoiceName && document instanceof Blob) {
-        fileToUpload = new File([document], `${invoiceName}.pdf`, {
-          type: document.type || "application/pdf",
-        });
-      } else {
-        fileToUpload = document;
-      }
-
-      await toast.promise(uploadPdfInvoice(fileToUpload, year), {
-        pending: "Se salvează factura...",
-        success: "Factură încărcata cu succes! 👌",
-        error: "Eroare la salvare! 🤯",
-      });
-    };
-
     postTablet(items, {
       onSuccess: () => {
         toast.success("Echipamente adaugate cu succes");
@@ -90,7 +68,6 @@ const AddTabletsModal = () => {
         closeModal();
       },
       onError: (error) => {
-        console.log(items);
         toast.error("Eroare la salvarea echipamentelor");
         console.log(error);
       },

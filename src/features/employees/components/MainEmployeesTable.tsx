@@ -5,11 +5,24 @@ import { Box } from "@mui/material";
 import Loader from "@/components/ui/Loader";
 import { useMainTableColumsConfig } from "../configs/columns/mainTableColumsConfig";
 import { useEmployees } from "@/hooks/useEmployees";
+import { useUser } from "@/features/users/hooks/useUser";
 
 export const MainEmployeesTable = () => {
   const { data, isLoading, isError } = useEmployees();
   const mainTableConfig = useMainTableConfig();
   const mainTableColumsConfig = useMainTableColumsConfig();
+  const { user } = useUser();
+
+  const filterData = () => {
+    if (user?.role === "superuser") {
+      return data?.slice().reverse();
+    }
+    return data
+      ?.filter((e) => e.id !== "E0000")
+      .slice()
+      .reverse();
+  };
+  const filteredData = filterData();
 
   if (isLoading) {
     return <Loader />;
@@ -28,7 +41,7 @@ export const MainEmployeesTable = () => {
   return (
     <Table
       columns={mainTableColumsConfig}
-      data={data?.slice().reverse() ?? []}
+      data={filteredData!}
       tableCustomOptions={mainTableConfig}
     />
   );

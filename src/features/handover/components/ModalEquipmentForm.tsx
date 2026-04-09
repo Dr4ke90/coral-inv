@@ -7,9 +7,13 @@ import ControlledAutocomplete from "@/components/ui/ControlledAutocomplete";
 import { EQUIPMENT_INITIAL_STATE } from "../constants/equipmentInitialState";
 import ReadOnlyInput from "@/components/ui/ReadOnlyInput";
 import { useEquipment } from "@/hooks/useEquipment";
+import { useMobilePhones } from "@/hooks/useMobilePhones";
+import { useTablets } from "@/hooks/useTablets";
 
 const ModalEquipmentForm = () => {
   const { data: equimentList } = useEquipment();
+  const { data: mobilePhones } = useMobilePhones();
+  const { data: tablets } = useTablets();
 
   const { control, handleSubmit, reset, watch } = useForm<EquipmentType>({
     defaultValues: EQUIPMENT_INITIAL_STATE,
@@ -44,9 +48,13 @@ const ModalEquipmentForm = () => {
           name="id"
           control={control}
           label="CIT"
-          options={equimentList}
+          options={[
+            ...(equimentList ?? []),
+            ...(mobilePhones ?? []),
+            ...(tablets ?? []),
+          ]}
           optionLabel="id"
-          requiredText="Selectarea unui proiect este obligatorie"
+          requiredText="Selectarea unui echipament este obligatorie"
           className="w-full"
         />
 

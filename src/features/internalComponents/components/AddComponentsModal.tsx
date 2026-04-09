@@ -8,7 +8,6 @@ import { useModalTableConfig } from "../configs/tables/modalTableConfig";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
 import { useDocument } from "@/contexts/DocumentContext";
-import { uploadPdfInvoice } from "@/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { CategoryType } from "../types/category.type";
@@ -16,29 +15,36 @@ import { useCreateComponent } from "../hooks/useCreateComponent";
 import { CATEGORY_INITIAL_STATE } from "../constants/categoryInitialState";
 import { ComponentType } from "../types/component.type";
 import ModalComponentForm from "./ModalComponentForm";
+import { useUploadInvoicePdf } from "@/hooks/useUploadInvoicePdf";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
 
 const AddComponentsModal = () => {
+  //#################### HOOKS ####################
   const { closeModal } = useModal();
   const { items, clearItems } = useItemsList<ComponentType>();
   const { mutate: postComponent } = useCreateComponent();
   const modalTableConfig = useModalTableConfig();
-  const { document, clearDocument } = useDocument();
+  const { clearDocument } = useDocument();
   const modalTableColumnsConfig = useModalTableColumsConfig();
-
+  const { handleUploadInvoice } = useUploadInvoicePdf();
   const { user } = useUser();
 
-  const eqMethods = useForm<CategoryType>({
+  //#################### FORM METHODS ####################
+  const categoryMethods = useForm<CategoryType>({
     defaultValues: {
       ...CATEGORY_INITIAL_STATE,
       createdBy: user?.employeeId,
       createdAt: new Date(),
     },
   });
+  const { methods: invoiceMethods } = useInvoiceFormContext();
 
+  //#################### HANDLERS ####################
   const handleReset = () => {
     clearItems();
     clearDocument();
-    eqMethods.reset();
+    categoryMethods.reset();
+    invoiceMethods.reset();
   };
 
   const handleSubmit = () => {
@@ -48,63 +54,23 @@ const AddComponentsModal = () => {
       return;
     }
 
-    const hasEmptyRefInvoice = items.some(
-      (item) => !item.refInvoice?.sn || item.refInvoice?.sn.trim() === "",
-    );
-
-    console.log(hasEmptyRefInvoice);
-
-    if (!hasEmptyRefInvoice) {
-      console.log("Toate echipamentele trebuie să aibă o factura validă");
-      toast.warning("Toate echipamentele trebuie să aibă o factura validă!");
-      return;
-    }
-
-    const handleUploadInvoice = async () => {
-      if (!document) return null;
-
-      const invoiceName = items[0]?.refInvoice?.sn;
-      const dateValue = items[0]?.refInvoice?.date;
-
-      const year = dateValue
-        ? new Date(dateValue).getFullYear().toString()
-        : new Date().getFullYear().toString();
-
-      let fileToUpload: File;
-      if (invoiceName && document instanceof Blob) {
-        fileToUpload = new File([document], `${invoiceName}.pdf`, {
-          type: document.type || "application/pdf",
-        });
-      } else {
-        fileToUpload = document;
-      }
-
-      await toast.promise(uploadPdfInvoice(fileToUpload, year), {
-        pending: "Se salvează datele și factura...",
-        success: "Date și factură încărcate cu succes! 👌",
-        error: "Eroare la salvare! 🤯",
-      });
-    };
-
-    console.log(items);
-
     postComponent(items, {
       onSuccess: () => {
-        toast.success("Echipamente adaugate cu succes");
         handleUploadInvoice();
+        toast.success("Echipamente adaugate cu succes");
         handleReset();
         closeModal();
       },
       onError: (error) => {
-        console.log(items);
         toast.error("Eroare la salvarea echipamentelor");
         console.log(error);
       },
     });
   };
 
+  //#################### RENDER ####################
   return (
-    <FormProvider {...eqMethods}>
+    <FormProvider {...categoryMethods}>
       <Modal.Content maxWidth="lg" name="add-equipment-modal">
         <Modal.Header title="Adauga echipament">
           <ModalHeaderForm />

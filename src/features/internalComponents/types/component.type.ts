@@ -3,7 +3,7 @@ export interface ComponentType {
   series: string;
   price: number | string;
   status: string;
-  refInvoice: Record<string, any>;
+  refInvoice: string;
   requirementId: string;
   eqId: string;
   pvId: string;

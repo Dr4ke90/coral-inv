@@ -11,18 +11,20 @@ import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
 import { useCreateEquipment } from "../hooks/useCreateEquipment";
 import { useDocument } from "@/contexts/DocumentContext";
-import { uploadPdfInvoice } from "@/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { EQ_INITIAL_STATE } from "../constants/eqInitialState";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
+import { useUploadInvoicePdf } from "@/hooks/useUploadInvoicePdf";
 
 const AddEquipmentModal = () => {
   const { closeModal } = useModal();
   const { items, clearItems } = useItemsList<Equipment>();
   const { mutate: postEquipment } = useCreateEquipment();
   const modalTableConfig = useModalTableConfig();
-  const { document, clearDocument } = useDocument();
+  const { clearDocument } = useDocument();
   const modalTableColumnsConfig = useModalTableColumsConfig();
+  const { handleUploadInvoice } = useUploadInvoicePdf();
   const { user } = useUser();
 
   const eqMethods = useForm<Equipment>({
@@ -33,10 +35,13 @@ const AddEquipmentModal = () => {
     },
   });
 
+  const { methods: invoiceMethods } = useInvoiceFormContext();
+
   const handleReset = () => {
     clearItems();
     clearDocument();
     eqMethods.reset();
+    invoiceMethods.reset();
   };
 
   const handleSubmit = () => {
@@ -56,36 +61,10 @@ const AddEquipmentModal = () => {
       return;
     }
 
-    const handleUploadInvoice = async () => {
-      if (!document) return null;
-
-      const invoiceName = items[0]?.refInvoice?.sn;
-      const dateValue = items[0]?.refInvoice?.date;
-
-      const year = dateValue
-        ? new Date(dateValue).getFullYear().toString()
-        : new Date().getFullYear().toString();
-
-      let fileToUpload: File;
-      if (invoiceName && document instanceof Blob) {
-        fileToUpload = new File([document], `${invoiceName}.pdf`, {
-          type: document.type || "application/pdf",
-        });
-      } else {
-        fileToUpload = document;
-      }
-
-      await toast.promise(uploadPdfInvoice(fileToUpload, year), {
-        pending: "Se salvează datele și factura...",
-        success: "Date și factură încărcate cu succes! 👌",
-        error: "Eroare la salvare! 🤯",
-      });
-    };
-
     postEquipment(items, {
       onSuccess: () => {
-        toast.success("Echipamente adaugate cu succes");
         handleUploadInvoice();
+        toast.success("Echipamente adaugate cu succes");
         handleReset();
         closeModal();
       },

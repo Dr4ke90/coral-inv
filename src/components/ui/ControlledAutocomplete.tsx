@@ -37,7 +37,7 @@ const ControlledAutocomplete = ({
           <Autocomplete
             {...field}
             fullWidth
-            options={options || []}
+            options={options!}
             getOptionLabel={(option) => option?.[optionLabel] || ""}
             value={options?.find((p) => p.id === value) || null}
             isOptionEqualToValue={(option, val) => {

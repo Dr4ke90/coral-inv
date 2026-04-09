@@ -1,4 +1,5 @@
 import { Schema, models, model } from "mongoose";
+import logSchema from "./log.model";
 
 const projectSchema = new Schema(
   {
@@ -10,19 +11,7 @@ const projectSchema = new Schema(
     status: { type: String, required: true },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
-    modifiedBy: {
-      type: [
-        new Schema(
-          {
-            name: { type: String, required: true },
-            modifiedFields: { type: Object, required: true },
-            modifiedAt: { type: String, required: true },
-          },
-          { _id: false },
-        ),
-      ],
-      default: [],
-    },
+    logs: { type: [logSchema], default: [] },
   },
   { toJSON: { getters: true } },
 );

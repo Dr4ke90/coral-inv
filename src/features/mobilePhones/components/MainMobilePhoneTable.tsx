@@ -2,7 +2,7 @@
 import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import Loader from "@/components/ui/Loader";
-import { useMobilePhones } from "../hooks/useMobilePhones";
+import { useMobilePhones } from "../../../hooks/useMobilePhones";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
 

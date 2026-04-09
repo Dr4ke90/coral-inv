@@ -11,7 +11,8 @@ import {
 export interface DocumentContextType {
   document: File | null;
   clearDocument: () => void;
-  setDocument: (file: File) => void;
+  setDocument: (file: File | null) => void;
+  renameDocument: (name: string) => File | null;
 }
 
 export const DocumentContext = createContext<DocumentContextType | undefined>(
@@ -25,17 +26,33 @@ export const DocumentProvider = ({ children }: { children: ReactNode }) => {
     setFile(null);
   }, []);
 
-  const setDocument = useCallback((newFile: File) => {
+  const setDocument = useCallback((newFile: File | null) => {
     setFile(newFile);
   }, []);
+
+  const renameDocument = (name: string) => {
+    if (!file) return null;
+
+    let fileToUpload: File;
+    if (name && file instanceof Blob) {
+      fileToUpload = new File([file], `${name}.pdf`, {
+        type: file.type || "application/pdf",
+      });
+    } else {
+      fileToUpload = file;
+    }
+
+    return fileToUpload;
+  };
 
   const values = useMemo(
     () => ({
       document: file,
+      renameDocument,
       clearDocument,
       setDocument,
     }),
-    [file, clearDocument, setDocument],
+    [file, clearDocument, setDocument, renameDocument],
   );
 
   return (

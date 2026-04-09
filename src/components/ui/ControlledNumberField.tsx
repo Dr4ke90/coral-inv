@@ -8,6 +8,7 @@ type ControlledNumberFieldProps = {
   requiredText?: string;
   label?: string;
   className?: string;
+  disabled?: boolean;
 };
 
 const ControlledNumberField = ({
@@ -17,6 +18,7 @@ const ControlledNumberField = ({
   requiredText,
   label,
   className,
+  disabled,
 }: ControlledNumberFieldProps) => {
   return (
     <Box className={className}>
@@ -35,6 +37,7 @@ const ControlledNumberField = ({
             error={!!error}
             helperText={error?.message}
             label={label}
+            disabled={disabled}
             onChange={(e) => {
               const onlyNumbers = e.target.value.replaceAll(/\D/g, "");
 

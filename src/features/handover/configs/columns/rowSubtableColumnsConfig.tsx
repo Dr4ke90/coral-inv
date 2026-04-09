@@ -44,7 +44,7 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       size: 150,
     },
     {
-      accessorKey: "refInvoice.sn",
+      accessorKey: "refInvoice",
       header: "S/N Fact.",
       enableEditing: false,
       size: 120,

@@ -10,7 +10,14 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Tablet>> => {
   const onRowUpdate = useUpdateRow(updateTablet);
 
   return {
-    onEditingRowSave: onRowUpdate,
+    onEditingRowSave: async ({ table, row }) => {
+      const editingRow = table.getState().editingRow;
+
+      const actualValues = (editingRow as any)?._values;
+      onRowUpdate({ table, row, values: actualValues });
+      table.setEditingRow(null);
+    },
+
     renderTopToolbarCustomActions: () => <TopToolbarActions />,
 
     renderDetailPanel: ({ row }) => {

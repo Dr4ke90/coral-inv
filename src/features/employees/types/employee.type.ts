@@ -4,7 +4,8 @@ export interface Employee {
   email: string;
   telNo: string;
   position: string;
-  project: string;
+  projects: string[];
   eqList: string[];
   createdBy: string;
+  status: string;
 }

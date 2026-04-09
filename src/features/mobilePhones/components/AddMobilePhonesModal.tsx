@@ -9,20 +9,22 @@ import { useModalTableConfig } from "../configs/tables/modalTableConfig";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { toast } from "react-toastify";
 import { useDocument } from "@/contexts/DocumentContext";
-import { uploadPdfInvoice } from "@/api/uploadPdfInvoice";
 import { FormProvider, useForm } from "react-hook-form";
 import { useUser } from "@/features/users/hooks/useUser";
 import { MobilePhone } from "../types/phones.type";
 import { PHONES_INITIAL_STATE } from "../constants/phonesInitialState";
 import { useCreateMobilePhone } from "../hooks/useCreateMobilePhone";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
+import { useUploadInvoicePdf } from "@/hooks/useUploadInvoicePdf";
 
 const AddMobilePhonesModal = () => {
   const { closeModal } = useModal();
   const { items, clearItems } = useItemsList<MobilePhone>();
   const { mutate: postMobilePhone } = useCreateMobilePhone();
   const modalTableConfig = useModalTableConfig();
-  const { document, clearDocument } = useDocument();
+  const { clearDocument } = useDocument();
   const modalTableColumnsConfig = useModalTableColumsConfig();
+  const { handleUploadInvoice } = useUploadInvoicePdf();
   const { user } = useUser();
 
   const eqMethods = useForm<MobilePhone>({
@@ -33,10 +35,13 @@ const AddMobilePhonesModal = () => {
     },
   });
 
+  const { methods: invoiceMethods } = useInvoiceFormContext();
+
   const handleReset = () => {
     clearItems();
     clearDocument();
     eqMethods.reset(PHONES_INITIAL_STATE);
+    invoiceMethods.reset();
   };
 
   const handleSubmit = () => {
@@ -56,36 +61,10 @@ const AddMobilePhonesModal = () => {
       return;
     }
 
-    const handleUploadInvoice = async () => {
-      if (!document) return null;
-
-      const invoiceName = items[0]?.refInvoice?.sn;
-      const dateValue = items[0]?.refInvoice?.date;
-
-      const year = dateValue
-        ? new Date(dateValue).getFullYear().toString()
-        : new Date().getFullYear().toString();
-
-      let fileToUpload: File;
-      if (invoiceName && document instanceof Blob) {
-        fileToUpload = new File([document], `${invoiceName}.pdf`, {
-          type: document.type || "application/pdf",
-        });
-      } else {
-        fileToUpload = document;
-      }
-
-      await toast.promise(uploadPdfInvoice(fileToUpload, year), {
-        pending: "Se salvează factura...",
-        success: "Factură încărcata cu succes! 👌",
-        error: "Eroare la salvare! 🤯",
-      });
-    };
-
     postMobilePhone(items, {
       onSuccess: () => {
-        toast.success("Telefoanele au fost adaugate cu succes");
         handleUploadInvoice();
+        toast.success("Telefoanele au fost adaugate cu succes");
         handleReset();
         closeModal();
       },

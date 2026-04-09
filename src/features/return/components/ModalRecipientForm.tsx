@@ -24,8 +24,8 @@ const ModalRecipientForm = () => {
       (e) => e.id === selectedRecipientId || e.id === "E0000",
     );
 
-    if (selectedEmployee && selectedEmployee.project) {
-      return projects?.filter((p) => p.id === selectedEmployee.project);
+    if (selectedEmployee && selectedEmployee.projects.length > 0) {
+      return projects?.filter((p) => selectedEmployee.projects.includes(p.id));
     }
 
     return [];

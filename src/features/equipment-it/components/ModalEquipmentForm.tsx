@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { Equipment } from "../types/equipment.type";
 import { IT_EQUIPMENT_TYPES } from "../constants/equipmentTypes";
@@ -11,24 +11,21 @@ import { useState } from "react";
 import ControlledNumberField from "@/components/ui/ControlledNumberField";
 import { useDocument } from "@/contexts/DocumentContext";
 import UploadPdfButton from "@/components/ui/UploadPdfButton";
-import { useForm, useFormContext } from "react-hook-form";
-import CloseIcon from "@mui/icons-material/Close";
+import { useFormContext } from "react-hook-form";
 import { EQ_INITIAL_STATE } from "../constants/eqInitialState";
-import { Invoice } from "@/features/equipment-it/types/invoice.type";
-import { INVOICE_INITIAL_STATE } from "../constants/invoiceInitialState";
-import ControlledDate from "@/components/ui/ControlledDate";
+import InvoiceForm from "@/components/invoiceForm/InvoiceForm";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
 
 const ModalEquipmentForm = () => {
   const { control, handleSubmit, reset, getValues, watch } =
     useFormContext<Equipment>();
 
-  const invMethods = useForm<Invoice>({
-    defaultValues: INVOICE_INITIAL_STATE,
-  });
+  const { methods } = useInvoiceFormContext();
+  const { getValues: getInvoiceValues } = methods;
 
   const { items, addItemsBatch } = useItemsList<Partial<Equipment>>();
   const { data: equipmentIt = [] } = useEquipment();
-  const { setDocument, clearDocument, document } = useDocument();
+  const { setDocument, document, clearDocument } = useDocument();
   const generateId = useIdGenerator();
 
   const [quantity, setQuantity] = useState<number>(0);
@@ -43,8 +40,8 @@ const ModalEquipmentForm = () => {
       refInvoice: currentInvoice,
     });
 
-    invMethods.reset();
     setQuantity(0);
+    clearDocument();
   };
 
   const onSubmit = (data: Partial<Equipment>) => {
@@ -60,10 +57,10 @@ const ModalEquipmentForm = () => {
       const newItem = {
         ...data,
         id: nextId,
-        refInvoice: {
-          ...invMethods.getValues(),
-          preview: !!document,
-        },
+        refInvoice:
+          getInvoiceValues("sn") !== ""
+            ? getInvoiceValues("sn")
+            : data.refInvoice,
       };
       newBatch.push(newItem);
       updatedPool.push(newItem);
@@ -74,38 +71,23 @@ const ModalEquipmentForm = () => {
     handleReset();
   };
 
-  const type = watch("type");
-
   return (
     <Box component="form" autoComplete="off" className="p-2">
       <Box className="flex flex-col gap-2">
-        <>
-          <UploadPdfButton
-            className="w-full"
-            label="Incarca factura"
-            onFileSelect={(file) => setDocument(file)}
-            disabled={items.length !== 0}
-          />
+        <UploadPdfButton
+          className="w-full"
+          label="Incarca factura"
+          onFileSelect={(file) => setDocument(file)}
+          selectedFile={document}
+          disabled={items.length !== 0}
+        />
 
-          {document ? (
-            <Box className="flex justify-between ">
-              <Typography color="primary">{document?.name}</Typography>
-              <IconButton
-                onClick={() => {
-                  clearDocument();
-                }}
-                sx={{ padding: "0" }}
-                color="error"
-                disabled={items.length !== 0}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          ) : null}
-
+        {document ? (
+          <InvoiceForm />
+        ) : (
           <ControlledTextField
-            name="sn"
-            control={invMethods.control}
+            name="refInvoice"
+            control={control}
             required={true}
             requiredText=""
             label="Ref. Factura"
@@ -113,31 +95,7 @@ const ModalEquipmentForm = () => {
             disabled={items.length !== 0}
             trim={true}
           />
-
-          {document ? (
-            <>
-              <ControlledDate
-                name="date"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="DD/MM/YYY"
-                className="w-full"
-                disabled={items.length !== 0}
-              />
-
-              <ControlledTextField
-                name="vendor"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="Vendor"
-                className="w-full"
-                disabled={items.length !== 0}
-              />
-            </>
-          ) : null}
-        </>
+        )}
 
         <hr />
 
@@ -167,7 +125,6 @@ const ModalEquipmentForm = () => {
           label="Configuratie"
           className="w-full"
         />
-        {type === ""}
 
         <Box className="flex flex gap-2">
           <ControlledNumberField

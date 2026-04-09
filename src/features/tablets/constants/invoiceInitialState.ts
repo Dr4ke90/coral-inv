@@ -1,4 +1,4 @@
-import { Invoice } from "@/features/equipment-it/types/invoice.type";
+import { Invoice } from "@/components/invoiceForm/invoice.type";
 
 export const INVOICE_INITIAL_STATE: Invoice = {
   date: "",

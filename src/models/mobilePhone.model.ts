@@ -1,13 +1,5 @@
 import { Schema, models, model } from "mongoose";
-
-const modificationSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    modifiedFields: { type: Object, required: true },
-    modifiedAt: { type: Date, required: true },
-  },
-  { _id: false },
-);
+import logSchema from "./log.model";
 
 const mobilePhoneShema = new Schema({
   id: {
@@ -23,12 +15,12 @@ const mobilePhoneShema = new Schema({
   simSn: { type: String, default: "" },
   price: { type: Number, required: true },
   status: { type: String, default: "Nou" },
-  refInvoice: { type: Object, default: {} },
+  refInvoice: { type: String, required: true },
   requirementId: { type: String, default: "" },
-  observations: { type: [Object], default: {} },
+  observations: { type: [Object], default: [] },
   createdBy: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  modifiedBy: { type: [modificationSchema], default: [] },
+  logs: { type: [logSchema], default: [] },
   pvRef: { type: [String], default: [] },
   inventoryDate: { type: Date, default: Date.now },
   custodianId: { type: String, default: "E0000" },

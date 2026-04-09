@@ -1,13 +1,5 @@
 import { Schema, models, model } from "mongoose";
-
-const modificationSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    modifiedFields: { type: Object, required: true },
-    modifiedAt: { type: Date, required: true },
-  },
-  { _id: false },
-);
+import logSchema from "./log.model";
 
 const employeeSchema = new Schema(
   {
@@ -18,9 +10,9 @@ const employeeSchema = new Schema(
     position: { type: String, required: true },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
-    project: { type: String, default: "" },
+    projects: { type: [String], default: [] },
     status: { type: String, default: "" },
-    modifiedBy: { type: [modificationSchema], default: [] },
+    logs: { type: [logSchema], default: [] },
   },
   { versionKey: false },
 );

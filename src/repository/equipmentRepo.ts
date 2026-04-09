@@ -1,4 +1,4 @@
-import EquipmentModel from "@/models/equipment.model";
+import EquipmentModel from "@/models/equipmentBaseSchema";
 import { ClientSession } from "mongoose";
 
 export async function getAllEquipment() {

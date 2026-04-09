@@ -19,7 +19,7 @@ const ModalHeaderForm = () => {
           control={control}
           name="projectId"
           label="Proiect"
-          options={projects ?? []}
+          options={projects?.filter((p) => p.status.toLowerCase() === "activ")!}
           requiredText="Selectarea unui proiect este obligatorie"
           className="w-full"
           optionLabel="name"

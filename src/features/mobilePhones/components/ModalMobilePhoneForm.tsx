@@ -10,23 +10,23 @@ import { useForm, useFormContext } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
 import { INVOICE_INITIAL_STATE } from "../constants/invoiceInitialState";
 import ControlledDate from "@/components/ui/ControlledDate";
-import { Invoice } from "../../../types/invoice.type";
 import { MobilePhone } from "../types/phones.type";
-import { useMobilePhones } from "../hooks/useMobilePhones";
+import { useMobilePhones } from "../../../hooks/useMobilePhones";
 import { PHONES_INITIAL_STATE } from "../constants/phonesInitialState";
 import { MPHONES_PREFIX } from "../constants/constants";
+import InvoiceForm from "@/components/invoiceForm/InvoiceForm";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
 
 const ModalMobilePhoneForm = () => {
   const { control, handleSubmit, reset, getValues } =
     useFormContext<MobilePhone>();
 
-  const invMethods = useForm<Invoice>({
-    defaultValues: INVOICE_INITIAL_STATE,
-  });
+  const { methods } = useInvoiceFormContext();
+  const { getValues: getInvoiceValues } = methods;
 
   const { items, addItemsBatch } = useItemsList<Partial<MobilePhone>>();
   const { data: mobilePhones = [] } = useMobilePhones();
-  const { setDocument, clearDocument, document } = useDocument();
+  const { setDocument, document, clearDocument } = useDocument();
   const generateId = useIdGenerator();
 
   const [quantity, setQuantity] = useState<number>(0);
@@ -38,10 +38,11 @@ const ModalMobilePhoneForm = () => {
     reset({
       ...PHONES_INITIAL_STATE,
       requirementId: currentRequirementId,
-      refInvoice: { ...currentInvoice },
+      refInvoice: currentInvoice,
     });
 
     setQuantity(0);
+    clearDocument();
   };
 
   const onSubmit = (data: Partial<MobilePhone>) => {
@@ -55,18 +56,14 @@ const ModalMobilePhoneForm = () => {
     for (let i = 0; i < numToAdd; i++) {
       const nextId = generateId(MPHONES_PREFIX, updatedPool);
 
-      console.log(data);
-
       const newItem = {
         ...data,
         id: nextId,
-        refInvoice: {
-          ...invMethods.getValues(),
-          preview: !!document,
-        },
+        refInvoice:
+          getInvoiceValues("sn") !== ""
+            ? getInvoiceValues("sn")
+            : data.refInvoice,
       };
-
-      console.log("new", newItem);
 
       newBatch.push(newItem);
       updatedPool.push(newItem);
@@ -85,62 +82,36 @@ const ModalMobilePhoneForm = () => {
             className="w-full"
             label="Incarca factura"
             onFileSelect={(file) => setDocument(file)}
+            selectedFile={document}
             disabled={items.length !== 0}
           />
 
           {document ? (
-            <Box className="flex justify-between ">
-              <Typography color="primary">{document?.name}</Typography>
-              <IconButton
-                onClick={() => {
-                  clearDocument();
-                }}
-                sx={{ padding: "0" }}
-                color="error"
-                disabled={items.length !== 0}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          ) : null}
-
-          <ControlledTextField
-            name="sn"
-            control={invMethods.control}
-            required={true}
-            requiredText=""
-            label="Ref. Factura"
-            className="w-full"
-            disabled={items.length !== 0}
-            trim={true}
-          />
-
-          {document ? (
-            <>
-              <ControlledDate
-                name="date"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="DD/MM/YYY"
-                className="w-full"
-                disabled={items.length !== 0}
-              />
-
-              <ControlledTextField
-                name="vendor"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="Vendor"
-                className="w-full"
-                disabled={items.length !== 0}
-              />
-            </>
-          ) : null}
+            <InvoiceForm />
+          ) : (
+            <ControlledTextField
+              name="sn"
+              control={control}
+              required={true}
+              requiredText=""
+              label="Ref. Factura"
+              className="w-full"
+              disabled={items.length !== 0}
+              trim={true}
+            />
+          )}
         </>
 
         <hr />
+
+        <ControlledTextField
+          name="brand"
+          control={control}
+          required={true}
+          requiredText=""
+          label="Brand"
+          className="w-full"
+        />
 
         <ControlledTextField
           name="model"

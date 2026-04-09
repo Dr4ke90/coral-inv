@@ -1,5 +1,5 @@
 import discriminatorsMap from "@/constants/discriminatorsMap";
-import EquipmentModel from "@/models/equipment.model";
+import EquipmentModel from "@/models/equipmentBaseSchema";
 import * as equipmentRepository from "@/repository/equipmentRepo";
 import { ClientSession } from "mongoose";
 

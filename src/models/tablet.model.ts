@@ -1,13 +1,5 @@
 import { Schema, models, model } from "mongoose";
-
-const modificationSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    modifiedFields: { type: Object, required: true },
-    modifiedAt: { type: Date, required: true },
-  },
-  { _id: false },
-);
+import logSchema from "./log.model";
 
 const tabletSchema = new Schema({
   id: {
@@ -28,7 +20,7 @@ const tabletSchema = new Schema({
   observations: { type: [Object], default: {} },
   createdBy: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  modifiedBy: { type: [modificationSchema], default: [] },
+  logs: { type: [logSchema], default: [] },
   pvRef: { type: [String], default: [] },
   inventoryDate: { type: Date, default: Date.now },
   custodianId: { type: String, default: "E0000" },

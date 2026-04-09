@@ -8,8 +8,5 @@ export const EQ_INITIAL_STATE: Partial<Equipment> = {
   series: "",
   price: "",
   requirementId: "",
-  refInvoice: {
-    sn: "",
-    date: ""
-  },
+  refInvoice: "",
 };

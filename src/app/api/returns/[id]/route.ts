@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import {
-  readReturnSheetDetails,
-  updateReturnDetails,
-} from "@/services/returnService";
+import * as returnService from "@/services/returnService";
 
 export async function GET(
   req: NextRequest,
@@ -13,7 +10,7 @@ export async function GET(
 
   const { id } = await params;
 
-  const returnSheet = await readReturnSheetDetails(id);
+  const returnSheet = await returnService.readReturnSheetDetails(id);
 
   if (!returnSheet)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -30,7 +27,7 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
-  const updated = await updateReturnDetails(id, body);
+  const updated = await returnService.updateReturnDetails(id, body);
 
   if (!updated)
     return NextResponse.json({ error: "Not found" }, { status: 404 });

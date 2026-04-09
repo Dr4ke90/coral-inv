@@ -14,7 +14,7 @@ export const rowSubtableColumnsConfig = [
     enableEditing: true,
   },
   {
-    accessorKey: "refInvoice.sn",
+    accessorKey: "refInvoice",
     header: "Ref. Factura",
     grow: true,
     size: 80,

@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import MobilePhoneModel from "@/models/mobilePhone.model";
+import {
+  addMobilePhone,
+  readAllMobilePhones,
+} from "@/services/mobilePhoneService";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const mobilePhones = await MobilePhoneModel.find({});
+    const mobilePhones = await readAllMobilePhones();
 
     return NextResponse.json({ data: mobilePhones });
   } catch (error) {
@@ -24,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const newMobilePhone = await MobilePhoneModel.create(body);
+    const newMobilePhone = await addMobilePhone(body);
 
     return NextResponse.json({ data: newMobilePhone });
   } catch (error) {

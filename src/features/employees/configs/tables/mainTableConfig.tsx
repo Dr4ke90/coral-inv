@@ -30,6 +30,7 @@ export const useMainTableConfig = (): Partial<MRT_TableOptions<Employee>> => {
 
   return {
     onEditingRowSave: updateRow,
+
     onCreatingRowSave: handleCreate,
 
     renderTopToolbarCustomActions: ({ table }) => (

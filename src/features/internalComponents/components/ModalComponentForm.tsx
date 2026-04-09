@@ -7,11 +7,7 @@ import { COMPONENT_PREFIX } from "../constants/constants";
 import { useState } from "react";
 import { useDocument } from "@/contexts/DocumentContext";
 import UploadPdfButton from "@/components/ui/UploadPdfButton";
-import { useForm, useFormContext } from "react-hook-form";
-import CloseIcon from "@mui/icons-material/Close";
-import { Invoice } from "@/features/equipment-it/types/invoice.type";
-import { INVOICE_INITIAL_STATE } from "../constants/invoiceInitialState";
-import ControlledDate from "@/components/ui/ControlledDate";
+import { useFormContext } from "react-hook-form";
 import { ComponentType } from "../types/component.type";
 import useIdGenerator from "@/hooks/useIdGenerator";
 import { CategoryType } from "../types/category.type";
@@ -19,8 +15,9 @@ import { useComponents } from "../hooks/useComponents";
 import { ITEMS_INITIAL_STATE } from "../constants/itemInitialState";
 import { useUser } from "@/features/users/hooks/useUser";
 import { toast } from "react-toastify";
-import { generatedId } from "@/utils/generateId";
 import { generatedSubId } from "../utils/genereteSubId";
+import InvoiceForm from "@/components/invoiceForm/InvoiceForm";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
 
 const ModalComponentForm = () => {
   const { control, handleSubmit, reset, getValues } =
@@ -30,10 +27,6 @@ const ModalComponentForm = () => {
 
   const { data: components = [] } = useComponents();
 
-  const invMethods = useForm<Invoice>({
-    defaultValues: INVOICE_INITIAL_STATE,
-  });
-
   const { items: contextItems, addItem } =
     useItemsList<Partial<CategoryType>>();
 
@@ -42,6 +35,10 @@ const ModalComponentForm = () => {
 
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
+
+  const { methods: invoiceMethods } = useInvoiceFormContext();
+
+  const { getValues: getInvoiceValues } = invoiceMethods;
 
   const handleReset = () => {
     const currentRequirementId = getValues("requirementId");
@@ -55,6 +52,7 @@ const ModalComponentForm = () => {
 
     setQuantity(0);
     setPrice(0);
+    clearDocument();
   };
 
   const onSubmit = (data: Partial<CategoryType>) => {
@@ -82,14 +80,15 @@ const ModalComponentForm = () => {
         const newItem = {
           ...ITEMS_INITIAL_STATE,
           id: newId,
-          refInvoice: {
-            ...invMethods.getValues(),
-            preview: !!document,
-          },
+
           price: price,
           addedBy: user?.employeeId || "",
           addedAt: new Date(),
           requirementId: data.requirementId ?? "",
+          refInvoice:
+            getInvoiceValues("sn") !== ""
+              ? getInvoiceValues("sn")
+              : getValues("refInvoice"),
         };
 
         tempSubItems.push(newItem);
@@ -134,59 +133,24 @@ const ModalComponentForm = () => {
             className="w-full"
             label="Incarca factura"
             onFileSelect={(file) => setDocument(file)}
+            selectedFile={document}
             disabled={contextItems.length !== 0}
           />
 
           {document ? (
-            <Box className="flex justify-between ">
-              <Typography color="primary">{document?.name}</Typography>
-              <IconButton
-                onClick={() => {
-                  clearDocument();
-                }}
-                sx={{ padding: "0" }}
-                color="error"
-                disabled={contextItems.length !== 0}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          ) : null}
-
-          <ControlledTextField
-            name="sn"
-            control={invMethods.control}
-            required={true}
-            requiredText=""
-            label="Ref. Factura"
-            className="w-full"
-            disabled={contextItems.length !== 0}
-            trim={true}
-          />
-
-          {document ? (
-            <>
-              <ControlledDate
-                name="date"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="DD/MM/YYY"
-                className="w-full"
-                disabled={contextItems.length !== 0}
-              />
-
-              <ControlledTextField
-                name="vendor"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="Vendor"
-                className="w-full"
-                disabled={contextItems.length !== 0}
-              />
-            </>
-          ) : null}
+            <InvoiceForm />
+          ) : (
+            <ControlledTextField
+              name="sn"
+              control={control}
+              required={true}
+              requiredText=""
+              label="Ref. Factura"
+              className="w-full"
+              disabled={contextItems.length !== 0}
+              trim={true}
+            />
+          )}
         </>
 
         <hr />

@@ -1,13 +1,5 @@
 import { Schema, models, model } from "mongoose";
-
-const modificationSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    modifiedFields: { type: Object, required: true },
-    modifiedAt: { type: Date, required: true },
-  },
-  { _id: false },
-);
+import logSchema from "./log.model";
 
 const handoverSheetSchema = new Schema(
   {
@@ -17,7 +9,7 @@ const handoverSheetSchema = new Schema(
     handoverPersonId: { type: String, required: true },
     recipientPersonId: { type: String, required: true },
     eqList: { type: [String], required: true },
-    modifiedBy: { type: [modificationSchema], default: [] },
+    logs: { type: [logSchema], default: [] },
     filePreview: { type: Boolean, default: false },
     notes: { type: [Object], default: [] },
   },

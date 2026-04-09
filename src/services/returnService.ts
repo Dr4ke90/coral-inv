@@ -1,6 +1,8 @@
 import * as returnRepository from "@/repository/returnRepo";
-import * as equipmentRepository from "@/repository/equipmentRepo";
 import mongoose from "mongoose";
+import { updateEquipmentDataInTransaction } from "./equipmentService";
+import { updateTabletDataInTransaction } from "./tabletService";
+import { updateMobilePhoneDataInTransaction } from "./mobilePhoneService";
 
 export async function readAllReturnSheets() {
   return await returnRepository.getAllReturns();
@@ -35,22 +37,52 @@ export async function processReturn(body: any) {
   session.startTransaction();
 
   try {
-    const newReturn = await returnRepository.createReturn(body, session);
+    const newHandover = await returnRepository.createReturn(body, session);
 
-    const updateResult =
-      await equipmentRepository.updateEquipmentDataInTransaction(
+    const itEquipment = body.eqList.filter((eq: string) =>
+      eq.startsWith("CIT"),
+    );
+    const tabletEquipment = body.eqList.filter((eq: string) =>
+      eq.startsWith("CTB"),
+    );
+    const mobilePhoneEquipment = body.eqList.filter((eq: string) =>
+      eq.startsWith("CTM"),
+    );
+    if (itEquipment.length > 0) {
+      const res = await updateEquipmentDataInTransaction(
         body.recipientPersonId,
         body.projectId,
-        newReturn.id,
-        body.eqList,
+        newHandover.id,
+        itEquipment,
         session,
       );
+      if (res.matchedCount === 0) throw new Error("Echipamente IT negăsite.");
+    }
 
-    if (updateResult.matchedCount === 0)
-      throw new Error("Niciun echipament nu a fost găsit.");
+    if (tabletEquipment.length > 0) {
+      const res = await updateTabletDataInTransaction(
+        body.recipientPersonId,
+        body.projectId,
+        newHandover.id,
+        tabletEquipment,
+        session,
+      );
+      if (res.matchedCount === 0) throw new Error("Tablete negăsite.");
+    }
+
+    if (mobilePhoneEquipment.length > 0) {
+      const res = await updateMobilePhoneDataInTransaction(
+        body.recipientPersonId,
+        body.projectId,
+        newHandover.id,
+        mobilePhoneEquipment,
+        session,
+      );
+      if (res.matchedCount === 0) throw new Error("Telefoane negăsite.");
+    }
 
     await session.commitTransaction();
-    return newReturn;
+    return newHandover;
   } catch (error) {
     await session.abortTransaction();
     throw error;

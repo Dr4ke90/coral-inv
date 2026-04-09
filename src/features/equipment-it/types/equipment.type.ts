@@ -6,7 +6,7 @@ export interface Equipment {
   series: string;
   price: number | string;
   status: string;
-  refInvoice: Record<string, any>;
+  refInvoice: string;
   requirementId: string;
   createdBy: string;
   createdAt: Date | null;

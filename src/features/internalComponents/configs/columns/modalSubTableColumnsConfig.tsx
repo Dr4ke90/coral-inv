@@ -14,7 +14,7 @@ export const modalSubTableColumnsConfig = [
     enableEditing: true,
   },
   {
-    accessorKey: "refInvoice.sn",
+    accessorKey: "refInvoice",
     header: "Ref. Factura",
     grow: true,
     size: 80,

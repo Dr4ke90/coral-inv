@@ -1,15 +1,7 @@
 import { Schema, models, model } from "mongoose";
+import logSchema from "./log.model";
 
-const modificationSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    modifiedFields: { type: Object, required: true },
-    modifiedAt: { type: Date, required: true },
-  },
-  { _id: false },
-);
-
-const baseSchema = new Schema(
+const equipmentBaseSchema = new Schema(
   {
     id: {
       type: String,
@@ -24,10 +16,10 @@ const baseSchema = new Schema(
     status: { type: String, default: "Nou" },
     refInvoice: { type: Object, default: {} },
     requirementId: { type: String, default: "" },
-    observations: { type: [Object], default: {} },
+    observations: { type: [Object], default: [] },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
-    modifiedBy: { type: [modificationSchema], default: [] },
+    logs: { type: [logSchema], default: [] },
     pvRef: { type: [String], default: [] },
     inventoryDate: { type: Date, default: Date.now },
     custodianId: { type: String, default: "E0000" },
@@ -37,6 +29,6 @@ const baseSchema = new Schema(
 );
 
 const EquipmentModel =
-  models["it-equipment"] || model("it-equipment", baseSchema);
+  models["it-equipment"] || model("it-equipment", equipmentBaseSchema);
 
 export default EquipmentModel;

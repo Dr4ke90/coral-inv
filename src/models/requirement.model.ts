@@ -1,40 +1,18 @@
 import { Schema, models, model } from "mongoose";
+import logSchema from "./log.model";
+import requirementItemSchema from "./requirementItem.model";
 
 const requirementSheetSchema = new Schema(
   {
     id: { type: String, required: true, unique: true },
     date: { type: Date, required: true },
-    items: {
-      type: [
-        {
-          item: { type: String, required: true },
-          quantity: { type: String, required: true },
-          um: { type: String, required: true },
-          unitPrice: { type: String, required: true },
-          currency: { type: String, required: true },
-          totalPrice: { type: Number, required: true },
-        },
-      ],
-      required: true,
-    },
+    items: { type: [requirementItemSchema], required: true },
     projectId: { type: String, required: true },
     totalCollectedPrice: { type: Number, required: true },
     status: { type: String, required: true },
     filePreview: { type: Boolean, default: false },
     createdBy: { type: String, required: true },
-    modifiedBy: {
-      type: [
-        new Schema(
-          {
-            name: { type: String, required: true },
-            modifiedFields: { type: Object, required: true },
-            modifiedAt: { type: String, required: true },
-          },
-          { _id: false },
-        ),
-      ],
-      default: [],
-    },
+    logs: { type: [logSchema], default: [] },
   },
   { toJSON: { getters: true } },
 );

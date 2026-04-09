@@ -44,7 +44,7 @@ export const rowSubtableColumnsConfig: MRT_ColumnDef<Equipment>[] = [
   },
 
   {
-    accessorKey: "refInvoice.sn",
+    accessorKey: "refInvoice",
     header: "S/N Fact.",
     enableEditing: false,
     size: 120,

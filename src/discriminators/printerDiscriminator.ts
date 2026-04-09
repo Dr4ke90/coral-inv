@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import EquipmentModel from "@/models/equipment.model";
+import EquipmentModel from "@/models/equipmentBaseSchema";
 
 const printerSchema = new Schema({
   firmwarePass: { type: String, default: "" },

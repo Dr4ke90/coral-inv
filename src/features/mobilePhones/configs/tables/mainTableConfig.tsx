@@ -2,7 +2,7 @@ import { MRT_TableOptions } from "material-react-table";
 import DetailsPanel from "../../components/DetailsPanel";
 import TopToolbarActions from "../../components/TopToolbarActions";
 import { useUpdateRow } from "@/hooks/useUpdateRow";
-import { useUpdateMobilePhone } from "../../hooks/useUpdateTablet";
+import { useUpdateMobilePhone } from "../../hooks/useUpdateMobilePhone";
 import { MobilePhone } from "../../types/phones.type";
 
 export const useMainTableConfig = (): Partial<
@@ -12,7 +12,13 @@ export const useMainTableConfig = (): Partial<
   const onRowUpdate = useUpdateRow(updatePhone);
 
   return {
-    onEditingRowSave: onRowUpdate,
+    onEditingRowSave: async ({ table, row }) => {
+      const editingRow = table.getState().editingRow;
+
+      const actualValues = (editingRow as any)?._values;
+      onRowUpdate({ table, row, values: actualValues });
+      table.setEditingRow(null);
+    },
     renderTopToolbarCustomActions: () => <TopToolbarActions />,
 
     renderDetailPanel: ({ row }) => {

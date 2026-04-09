@@ -1,43 +1,36 @@
-import { MRT_Row } from "material-react-table";
-
 export const onRowUpdates = <T extends Record<string, any>>(
-  row: MRT_Row<T>,
-  values: Record<string, unknown>,
+  original: T,
+  changes: Record<string, any>,
   loggedUser: { name: string },
 ): Partial<T> | undefined => {
-  const original = row.original;
-  const updates = { ...values };
-
-  delete updates.Date;
-  delete updates.eqNr;
+  const { Date: _date, eqNr, ...validChanges } = changes;
 
   const modifiedFields = Object.fromEntries(
-    Object.entries(updates).filter(([key, value]) => value !== original[key]),
+    Object.entries(validChanges).filter(
+      ([key, value]) => value !== original[key],
+    ),
   );
 
   if (Object.keys(modifiedFields).length === 0) {
-    console.log("Nu există modificări.");
-    return;
+    return undefined;
   }
 
-  const savedUpdates = {
-    ...modifiedFields,
-    ...(original.id !== undefined && original.id !== null
-      ? { id: original.id }
-      : { invNo: original.invNo }),
-    modifiedBy: [
-      ...original.modifiedBy,
-      {
-        name: loggedUser.name,
-        modifiedAt: new Date(),
-        modifiedFields: Object.fromEntries(
-          Object.entries(modifiedFields).map(([key, value]) => [
-            key,
-            `${original[key]} => ${value}`,
-          ]),
-        ),
-      },
-    ],
+  const newHistoryEntry = {
+    name: loggedUser.name,
+    modifiedAt: new Date(),
+    modifiedFields: Object.fromEntries(
+      Object.entries(modifiedFields).map(([key, value]) => [
+        key,
+        `${original[key]} => ${value}`,
+      ]),
+    ),
   };
-  return savedUpdates as unknown as Partial<T>;
+
+  const payload: any = {
+    ...modifiedFields,
+    ...(original.id != null ? { id: original.id } : { invNo: original.invNo }),
+    modifiedBy: [...(original.modifiedBy || []), newHistoryEntry],
+  };
+
+  return payload as unknown as Partial<T>;
 };

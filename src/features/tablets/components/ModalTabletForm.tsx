@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useItemsList } from "@/contexts/ItemsListContext";
 import { Tablet } from "../types/tablet.type";
 import ControlledTextField from "@/components/ui/ControlledTextField";
@@ -8,25 +8,20 @@ import { useState } from "react";
 import ControlledNumberField from "@/components/ui/ControlledNumberField";
 import { useDocument } from "@/contexts/DocumentContext";
 import UploadPdfButton from "@/components/ui/UploadPdfButton";
-import { useForm, useFormContext } from "react-hook-form";
-import CloseIcon from "@mui/icons-material/Close";
+import { useFormContext } from "react-hook-form";
 import { TABLET_INITIAL_STATE } from "../constants/tabletInitialState";
-import { INVOICE_INITIAL_STATE } from "../constants/invoiceInitialState";
-import ControlledDate from "@/components/ui/ControlledDate";
-import { useTablets } from "../hooks/useTablets";
-import { Invoice } from "../types/invoice.type";
+import { useTablets } from "@/hooks/useTablets";
+import { useInvoiceFormContext } from "@/contexts/InvoiceContext";
+import InvoiceForm from "@/components/invoiceForm/InvoiceForm";
 
 const ModalTabletForm = () => {
   const { control, handleSubmit, reset, getValues } = useFormContext<Tablet>();
-
-  const invMethods = useForm<Invoice>({
-    defaultValues: INVOICE_INITIAL_STATE,
-  });
-
   const { items, addItemsBatch } = useItemsList<Partial<Tablet>>();
   const { data: tablets = [] } = useTablets();
   const { setDocument, clearDocument, document } = useDocument();
   const generateId = useIdGenerator();
+  const { methods } = useInvoiceFormContext();
+  const { getValues: getInvoiceValues } = methods;
 
   const [quantity, setQuantity] = useState<number>(0);
 
@@ -37,10 +32,11 @@ const ModalTabletForm = () => {
     reset({
       ...TABLET_INITIAL_STATE,
       requirementId: currentRequirementId,
-      refInvoice: { ...currentInvoice },
+      refInvoice: currentInvoice,
     });
 
     setQuantity(0);
+    clearDocument();
   };
 
   const onSubmit = (data: Partial<Tablet>) => {
@@ -54,18 +50,14 @@ const ModalTabletForm = () => {
     for (let i = 0; i < numToAdd; i++) {
       const nextId = generateId(TABLET_PREFIX, updatedPool);
 
-      console.log(data);
-
       const newItem = {
         ...data,
         id: nextId,
-        refInvoice: {
-          ...invMethods.getValues(),
-          preview: !!document,
-        },
+        refInvoice:
+          getInvoiceValues("sn") !== ""
+            ? getInvoiceValues("sn")
+            : data.refInvoice,
       };
-
-      console.log("new", newItem);
 
       newBatch.push(newItem);
       updatedPool.push(newItem);
@@ -79,33 +71,20 @@ const ModalTabletForm = () => {
   return (
     <Box component="form" autoComplete="off" className="p-2">
       <Box className="flex flex-col gap-2">
-        <>
-          <UploadPdfButton
-            className="w-full"
-            label="Incarca factura"
-            onFileSelect={(file) => setDocument(file)}
-            disabled={items.length !== 0}
-          />
+        <UploadPdfButton
+          className="w-full"
+          label="Incarca factura"
+          onFileSelect={(file) => setDocument(file)}
+          disabled={items.length !== 0}
+          selectedFile={document}
+        />
 
-          {document ? (
-            <Box className="flex justify-between ">
-              <Typography color="primary">{document?.name}</Typography>
-              <IconButton
-                onClick={() => {
-                  clearDocument();
-                }}
-                sx={{ padding: "0" }}
-                color="error"
-                disabled={items.length !== 0}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          ) : null}
-
+        {document ? (
+          <InvoiceForm />
+        ) : (
           <ControlledTextField
             name="sn"
-            control={invMethods.control}
+            control={control}
             required={true}
             requiredText=""
             label="Ref. Factura"
@@ -113,33 +92,18 @@ const ModalTabletForm = () => {
             disabled={items.length !== 0}
             trim={true}
           />
-
-          {document ? (
-            <>
-              <ControlledDate
-                name="date"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="DD/MM/YYY"
-                className="w-full"
-                disabled={items.length !== 0}
-              />
-
-              <ControlledTextField
-                name="vendor"
-                control={invMethods.control}
-                required={true}
-                requiredText=""
-                label="Vendor"
-                className="w-full"
-                disabled={items.length !== 0}
-              />
-            </>
-          ) : null}
-        </>
+        )}
 
         <hr />
+
+        <ControlledTextField
+          name="brand"
+          control={control}
+          required={true}
+          requiredText=""
+          label="Brand"
+          className="w-full"
+        />
 
         <ControlledTextField
           name="model"

@@ -7,4 +7,5 @@ export interface Project {
   eqList: string[];
   rqList: string[];
   createdBy: string | undefined;
+  status: string;
 }

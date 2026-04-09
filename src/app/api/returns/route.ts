@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import ReturnSheetModel from "@/models/returnSheets.model";
-import mongoose from "mongoose";
-import EmployeeModel from "@/models/employee.model";
-import EquipmentModel from "@/models/equipment.model";
-import ProjectModel from "@/models/project.model";
-import { processReturn, readAllReturnSheets } from "@/services/returnService";
+import * as returnService from "@/services/returnService";
 
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const returnSheets = await readAllReturnSheets();
+    const returnSheets = await returnService.readAllReturnSheets();
 
     return NextResponse.json({ data: returnSheets });
   } catch (error) {
@@ -28,7 +23,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const body = await req.json();
 
-    const newReturn = await processReturn(body);
+    const newReturn = await returnService.processReturn(body);
 
     return NextResponse.json({ data: newReturn });
   } catch (error: any) {

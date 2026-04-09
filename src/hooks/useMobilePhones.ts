@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { MobilePhone } from "../types/phones.type";
-import { fetchAllMobilePhones } from "../api/fetchAllMobilePhones";
+import { MobilePhone } from "../features/mobilePhones/types/phones.type";
+import { fetchAllMobilePhones } from "../features/mobilePhones/api/fetchAllMobilePhones";
 
 export const useMobilePhones = () => {
   const { data, isLoading, isError } = useQuery<MobilePhone[]>({

@@ -2,9 +2,9 @@
 import Table from "@/components/table/Table";
 import { Box } from "@mui/material";
 import Loader from "@/components/ui/Loader";
-import { useTablets } from "../hooks/useTablets";
 import { useMainTableConfig } from "../configs/tables/mainTableConfig";
 import { useMainTableColumnsConfig } from "../configs/columns/mainTableColumnsConfig";
+import { useTablets } from "@/hooks/useTablets";
 
 export const MainTabletsTable = () => {
   const { data, isLoading, isError } = useTablets();

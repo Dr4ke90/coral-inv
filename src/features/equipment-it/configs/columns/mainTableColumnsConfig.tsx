@@ -5,6 +5,7 @@ import { MRT_ColumnDef } from "material-react-table";
 import { Equipment } from "../../types/equipment.type";
 import Link from "next/link";
 import { Box } from "@mui/material";
+import SingleSelect from "@/components/ui/SingleSelect";
 
 export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
   const { data: employees } = useEmployees();
@@ -68,8 +69,37 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
     {
       accessorKey: "projectId",
       header: "Proiect",
-      enableEditing: false,
       size: 200,
+      enableEditing: (row) => {
+        const custodianId = row.original.custodianId;
+        if (custodianId === "E0000") {
+          return true;
+        }
+        return false;
+      },
+
+      Edit: ({ cell, row, column }) => {
+        const projectIds = cell.getValue<string[]>() || [];
+        const defaultValue =
+          projects?.filter((p: any) => projectIds.includes(p.id)) || [];
+
+        return (
+          <SingleSelect
+            name={column.id}
+            options={projects!.filter(
+              (p: any) => p.id === "PJ0001" || p.id === "PJ0002",
+            )}
+            value={defaultValue[0]}
+            placeholder="Proiect"
+            onChange={(_, value) => {
+              const newValue = value?.id || "";
+
+              row._valuesCache[column.id] = newValue;
+            }}
+          />
+        );
+      },
+
       Cell: ({ cell }) => {
         const id = cell.getValue<string>();
         return (
@@ -80,7 +110,7 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Equipment>[] => {
       },
     },
     {
-      accessorKey: "refInvoice.sn",
+      accessorKey: "refInvoice",
       header: "S/N Fact.",
       enableEditing: false,
       size: 120,

@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import RequirementSheetModel from "@/models/requirment.model";
-import mongoose from "mongoose";
-import { generateDocx } from "@/utils/generateDocx";
+import * as requirementRepo from "@/repository/requirementRepo";
 
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const requirements = await RequirementSheetModel.find({});
+    const requirements = await requirementRepo.getAllRequirements();
 
     return NextResponse.json({ data: requirements });
   } catch (error) {
@@ -25,7 +23,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const body = await req.json();
 
-    const [newRequirement] = await RequirementSheetModel.create([body]);
+    const [newRequirement] = await requirementRepo.createRequirement(body);
 
     return NextResponse.json({ data: newRequirement });
   } catch (error) {

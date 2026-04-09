@@ -3,6 +3,7 @@ import { useRequirementData } from "@/features/requirement";
 import { MRT_ColumnDef } from "material-react-table";
 import { useEquipment } from "@/hooks/useEquipment";
 import { useEmployees } from "@/hooks/useEmployees";
+import { PROJECT_STATUS_OPTIONS } from "../../constants/constants";
 
 export const useMainTableColumnsConfig = (): MRT_ColumnDef<Project>[] => {
   const { data: requirements } = useRequirementData();
@@ -40,9 +41,12 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Project>[] => {
       enableEditing: false,
       size: 250,
       Cell: ({ row }) => {
-        const team = employees?.filter(
-          (e: any) => e.project === row.original.id && e.id !== "E0000",
-        );
+        const team = employees
+          ?.filter(
+            (e: any) =>
+              e.projects?.includes(row.original.id) && e.id !== "E0000",
+          )
+          .slice(0, 3);
 
         if (!team || team.length === 0) return "-";
 
@@ -86,6 +90,28 @@ export const useMainTableColumnsConfig = (): MRT_ColumnDef<Project>[] => {
       header: "Status",
       enableEditing: true,
       size: 200,
+      editSelectOptions: PROJECT_STATUS_OPTIONS,
+      muiEditTextFieldProps: () => ({
+        select: true,
+        InputLabelProps: { shrink: true, style: { display: "none" } },
+        SelectProps: {
+          displayEmpty: true,
+          renderValue: (value: any) => {
+            if (value === undefined || value === null || value === "") {
+              return (
+                <span style={{ color: "#757575", fontWeight: 400 }}>
+                  Status
+                </span>
+              );
+            }
+
+            const selectedOption = PROJECT_STATUS_OPTIONS.find(
+              (opt) => opt === value,
+            );
+            return selectedOption ? selectedOption : value;
+          },
+        },
+      }),
     },
   ];
 };

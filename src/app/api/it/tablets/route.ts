@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import TabletModel from "@/models/tablets.model";
+import { readAllTablets, addTablet } from "@/services/tabletService";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const employees = await TabletModel.find({});
+    const tablets = await readAllTablets();
 
-    return NextResponse.json({ data: employees });
+    return NextResponse.json({ data: tablets });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const newEmployee = await TabletModel.create(body);
+    const newEmployee = await addTablet(body);
 
     return NextResponse.json({ data: newEmployee });
   } catch (error) {

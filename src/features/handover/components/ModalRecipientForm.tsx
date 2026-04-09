@@ -27,8 +27,11 @@ const ModalRecipientForm = () => {
       (e) => e.id === selectedRecipientId,
     );
 
-    if (selectedEmployee && selectedEmployee.project) {
-      return projects?.filter((p) => p.id === selectedEmployee.project);
+    if (selectedEmployee && selectedEmployee.projects.length > 0) {
+      return projects?.filter(
+        (p) =>
+          selectedEmployee.projects.includes(p.id) || p.status === "Active",
+      );
     }
 
     return [];
@@ -42,7 +45,12 @@ const ModalRecipientForm = () => {
           name="recipientPersonId"
           requiredText="Selectarea unui primitor este obligatorie"
           label="Primitor"
-          options={employees?.filter((e) => e.id !== user?.employeeId)}
+          options={employees?.filter(
+            (e) =>
+              e.id !== user?.employeeId &&
+              e.id !== "E0000" &&
+              e.status.toLowerCase() === "activ",
+          )}
           optionLabel="name"
         />
 

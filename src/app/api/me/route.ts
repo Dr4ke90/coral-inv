@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import connectDB from "@/lib/mongo";
-import User from "@/models/user.model";
 import { verifyToken } from "@/lib/auth";
+import { readUserById } from "@/services/userService";
 
 export async function GET() {
   await connectDB();
@@ -15,7 +15,7 @@ export async function GET() {
   if (!decoded)
     return NextResponse.json({ success: false, data: null }, { status: 401 });
 
-  const user = await User.findById(decoded.id).select("-password");
+  const user = await readUserById(decoded.id);
   if (!user)
     return NextResponse.json({ success: false, data: null }, { status: 404 });
 
