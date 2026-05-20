@@ -1,12 +1,15 @@
-import { MainEmployeesTable } from "@/features/employees/components/MainEmployeesTable";
+import { MainEmployeesTable } from "@/components/tables/MainEmployeesTable";
+import Modal from "@/components/ui/Modal";
 import { Box } from "@mui/material";
 
-const Employees = () => {
+const EmployeesPage = () => {
   return (
     <Box>
-      <MainEmployeesTable />
+      <Modal>
+        <MainEmployeesTable />
+      </Modal>
     </Box>
   );
 };
 
-export default Employees;
+export default EmployeesPage;

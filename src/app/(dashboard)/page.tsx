@@ -1,7 +1,7 @@
-import ItemCard from "@/components/ui/ItemCard";
-import { IMAGE_MAPPING } from "@/features/dashboard/constants/image_mapping";
-import { MODULES } from "@/features/dashboard/constants/modules";
-import { PNG_LIST } from "@/features/dashboard/constants/png_list";
+import ItemCard from "@/components/layout/ItemCard";
+import { IMAGE_MAPPING } from "@/constants/dashboard/image_mapping";
+import { MODULES } from "@/constants/dashboard/modules";
+import { PNG_LIST } from "@/constants/dashboard/png_list";
 import { Box, Container, Divider } from "@mui/material";
 import { StaticImageData } from "next/image";
 import Link from "next/link";
@@ -22,11 +22,8 @@ const Dashboard: React.FC = () => {
         {MODULES.map((section) => (
           <Box key={section.id} component="section">
             <Box className="flex justify-center gap-3 flex-wrap">
-              {section.list.map((item) => {
-                const path =
-                  section.departament === "general"
-                    ? `/${item.toLowerCase()}`
-                    : `/${section.departament}-${item.toLowerCase()}`;
+              {section.modules.map((item) => {
+                const path = `/${item.toLowerCase()}`;
 
                 return (
                   <Link

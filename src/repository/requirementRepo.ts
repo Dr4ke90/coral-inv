@@ -1,4 +1,4 @@
-import { Employee } from "@/features/employees/types/employee.type";
+import { Employee } from "@/types/employee.type";
 import { ClientSession } from "mongoose";
 import RequirementModel from "@/models/requirement.model";
 

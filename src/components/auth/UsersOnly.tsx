@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/features/users/hooks/useUser";
+import { useUser } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loader from "../ui/Loader";

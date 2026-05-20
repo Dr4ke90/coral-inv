@@ -12,7 +12,7 @@ const componentItemSchema = new Schema(
     requirementId: { type: String, default: "" },
     addedBy: { type: String, required: true },
     addedAt: { type: Date, require: true },
-    observations: { type: [Object], default: {} },
+    notes: { type: [Object], default: [] },
     logs: { type: [logSchema], default: [] },
   },
   { _id: false },

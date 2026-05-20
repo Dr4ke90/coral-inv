@@ -1,5 +1,5 @@
-import MobilePhoneModel from "@/models/mobilePhone.model";
 import * as mobilePhoneRepository from "@/repository/mobilePhoneRepo";
+import { MobileDevicesType } from "@/types/mobileDevices.type";
 import { ClientSession } from "mongoose";
 
 export async function readAllMobilePhones() {
@@ -10,11 +10,14 @@ export async function readMobilePhoneById(id: string) {
   return await mobilePhoneRepository.getMobilePhoneById(id);
 }
 
-export async function addMobilePhone(data: any) {
-  return await MobilePhoneModel.create(data);
+export async function addMobilePhone(data: MobileDevicesType) {
+  return await mobilePhoneRepository.createMobilePhone(data);
 }
 
-export async function updateMobilePhone(id: string, data: any) {
+export async function updateMobilePhone(
+  id: string,
+  data: Partial<MobileDevicesType>,
+) {
   return await mobilePhoneRepository.updateMobilePhoneById(id, data);
 }
 

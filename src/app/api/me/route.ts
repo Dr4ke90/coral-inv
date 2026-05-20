@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import connectDB from "@/lib/mongo";
 import { verifyToken } from "@/lib/auth";
-import { readUserById } from "@/services/userService";
+import { readUserById } from "@/services/usersService";
 
 export async function GET() {
   await connectDB();

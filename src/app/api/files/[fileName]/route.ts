@@ -17,7 +17,7 @@ export async function GET(
   }
 
   try {
-    const filePath = path.join(process.cwd(), "src", "templates", fileName);
+    const filePath = path.join(process.cwd(), "public", "templates", fileName);
 
     const fileBuffer = await fs.readFile(`${filePath}.docx`);
 

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
 import { signToken } from "@/lib/auth";
-import { loginUser } from "@/services/userService";
+import { loginUser } from "@/services/usersService";
 
 export async function POST(request: Request) {
   await connectDB();

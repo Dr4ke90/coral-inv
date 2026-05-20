@@ -1,1 +1,0 @@
-export const HANDOVER_PREFIX = "P"

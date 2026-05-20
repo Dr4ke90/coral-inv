@@ -8,7 +8,7 @@ const printerSchema = new Schema({
 });
 
 const Printer =
-  EquipmentModel.discriminators?.Imprimanta ||
-  EquipmentModel.discriminator("Imprimanta", printerSchema);
+  EquipmentModel.discriminators?.Multifunctionala ||
+  EquipmentModel.discriminator("Multifunctionala", printerSchema);
 
 export default Printer;

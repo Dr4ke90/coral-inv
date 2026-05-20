@@ -13,14 +13,16 @@ const componentSchema = new Schema({
   createdBy: { type: String, required: true },
   createdAt: { type: Date, require: true },
   logs: { type: [logSchema], default: [] },
-  observations: { type: [Object], default: {} },
+  notes: { type: [Object], default: [] },
 });
 
-if (models.component) {
-  delete models.component;
+if (models.it_component) {
+  delete models.it_component;
 }
 
 const InternalComponentModel =
-  models["component"] || model("component", componentSchema);
+  models["it_component"] || model("it_component", componentSchema);
 
 export default InternalComponentModel;
+
+

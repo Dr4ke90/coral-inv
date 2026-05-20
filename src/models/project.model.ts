@@ -12,6 +12,7 @@ const projectSchema = new Schema(
     createdBy: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
     logs: { type: [logSchema], default: [] },
+    notes: { type: [Object], default: [] },
   },
   { toJSON: { getters: true } },
 );

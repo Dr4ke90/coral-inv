@@ -13,6 +13,7 @@ const requirementSheetSchema = new Schema(
     filePreview: { type: Boolean, default: false },
     createdBy: { type: String, required: true },
     logs: { type: [logSchema], default: [] },
+    notes: { type: [Object], default: [] },
   },
   { toJSON: { getters: true } },
 );

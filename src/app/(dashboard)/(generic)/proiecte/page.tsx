@@ -1,4 +1,4 @@
-import { MainProjectsTable } from "@/features/projects/components/MainProjectsTable";
+import { MainProjectsTable } from "@/components/tables/MainProjectsTable";
 import { Box } from "@mui/material";
 
 const Projects = () => {

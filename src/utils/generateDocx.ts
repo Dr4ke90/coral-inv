@@ -34,18 +34,14 @@ const processDocxTemplate = (
   const zip = new PizZip(buffer);
 
   const parser = (tag: string) => {
-    // Compilăm tag-ul (ex: "$index + 1") folosind angular-expressions
     const expr = expressions.compile(
       tag.replace(/(^|[^\w!])\$index($|[^\w])/g, "$1index$2"),
     );
 
     return {
       get: (scope: any, context: any) => {
-        // Identificăm indexul curent din calea scopePathItem
-        // context.scopePathItem conține indecșii loop-urilor curente
         const index = context.scopePathItem[context.scopePathItem.length - 1];
 
-        // Creăm un context temporar care conține indexul pentru calcul
         const newScope = {
           ...scope,
           index: index,

@@ -1,8 +1,8 @@
 "use client";
 
-import { useUser } from "@/features/users/hooks/useUser";
 import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { useUser } from "@/contexts/AuthContext";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 

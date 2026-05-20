@@ -1,6 +1,7 @@
 import discriminatorsMap from "@/constants/discriminatorsMap";
 import EquipmentModel from "@/models/equipmentBaseSchema";
 import * as equipmentRepository from "@/repository/equipmentRepo";
+import { EquipmentType } from "@/types/equipment.type";
 import { ClientSession } from "mongoose";
 
 export async function readAllEquipment() {
@@ -11,15 +12,19 @@ export async function readEquipmentById(id: string) {
   return await equipmentRepository.getEquipmentById(id);
 }
 
-export async function addEquipment(data: any) {
-  const type = data.type;
-  const Model = discriminatorsMap[type];
+export async function addEquipment(body: EquipmentType) {
+  return await equipmentRepository.createEquipment(body);
+}
 
-  if (Model) {
-    return await Model.create(data);
-  } else {
-    return await EquipmentModel.create(data);
-  }
+export async function addBatchEquipment(
+  items: EquipmentType[],
+  session?: ClientSession,
+) {
+  return await Promise.all(
+    items.map(async (item) => {
+      return await equipmentRepository.createEquipment(item, session);
+    }),
+  );
 }
 
 export async function updateEquipment(id: string, data: any) {

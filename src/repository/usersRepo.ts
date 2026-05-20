@@ -1,4 +1,4 @@
-import { User } from "@/features/users/types/user.type";
+import { User } from "@/types/user.type";
 import UserModel from "@/models/user.model";
 import { ClientSession } from "mongoose";
 
@@ -7,19 +7,21 @@ export async function getAllUsers() {
 }
 
 export async function getUserById(id: string) {
-  return await UserModel.findById(id).select("-password");
+  return await UserModel.findOne({ id }).select("-password");
 }
 
-export async function findUserForLogin(username: string, password: string) {
-  return await UserModel.findOne({ username, password });
+export async function getUserByUsername(username: string) {
+  return await UserModel.findOne({ username });
 }
 
 export async function createUser(data: User, session?: ClientSession) {
-  return await UserModel.create([data], { session });
+  const result = await UserModel.create([data], { session });
+  return result[0];
 }
 
 export async function updateUser(id: string, data: any) {
   return await UserModel.findOneAndUpdate({ id }, data, {
     returnDocument: "after",
+    projection: "-password",
   });
 }

@@ -1,4 +1,6 @@
+import discriminatorsMap from "@/constants/discriminatorsMap";
 import EquipmentModel from "@/models/equipmentBaseSchema";
+import { EquipmentType } from "@/types/equipment.type";
 import { ClientSession } from "mongoose";
 
 export async function getAllEquipment() {
@@ -13,7 +15,16 @@ export async function createEquipment(
   data: EquipmentType,
   session?: ClientSession,
 ) {
-  return await EquipmentModel.create([data], { session });
+  const type = data.type;
+  const Model = discriminatorsMap[type];
+
+  if (Model) {
+    const [createdEquipment] = await Model.create([data], { session });
+    return createdEquipment;
+  } else {
+    const [createdEquipment] = await EquipmentModel.create([data], { session });
+    return createdEquipment;
+  }
 }
 
 export async function updateEquipmentById(id: string, data: any) {

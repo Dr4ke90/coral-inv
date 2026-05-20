@@ -25,9 +25,12 @@ export async function PUT(
   await connectDB();
 
   const { id } = await params;
-  const body = await req.json();
+  console.log("AICI AJUNGE?", id);
 
-  const updated = await requirementRepo.updateRequirementById(id, body);
+  const payload = await req.json();
+  console.log("PAYLOAD UPDATE", payload);
+
+  const updated = await requirementRepo.updateRequirementById(id, payload);
 
   if (!updated)
     return NextResponse.json({ error: "Not found" }, { status: 404 });

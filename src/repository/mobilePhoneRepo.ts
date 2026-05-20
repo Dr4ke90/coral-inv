@@ -1,6 +1,6 @@
-import { MobilePhone } from "@/features/mobilePhones/types/phones.type";
-import MobilePhoneModel from "@/models/mobilePhone.model";
+import MobilePhoneModel from "@/discriminators/mobilePhoneDiscriminator";
 import { ClientSession } from "mongoose";
+import { MobileDevicesType } from "@/types/mobileDevices.type";
 
 export async function getAllMobilePhones() {
   return await MobilePhoneModel.find({});
@@ -11,7 +11,7 @@ export async function getMobilePhoneById(id: string) {
 }
 
 export async function createMobilePhone(
-  data: MobilePhone,
+  data: MobileDevicesType,
   session?: ClientSession,
 ) {
   return await MobilePhoneModel.create([data], { session });

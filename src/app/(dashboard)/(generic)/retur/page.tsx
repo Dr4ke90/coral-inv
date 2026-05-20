@@ -1,8 +1,8 @@
 import { ItemsListProvider } from "@/contexts/ItemsListContext";
-import CreateReturnModal from "@/features/return/components/CreateReturnSheetModal";
-import { MainRetunSheetTable } from "@/features/return/components/MainReturnTable";
+import { MainRetunSheetTable } from "@/components/tables/MainReturnTable";
 import Modal from "@/components/ui/Modal";
 import { Box } from "@mui/material";
+import CreateHandoverSheetModal from "@/components/modals/CreateHandoverSheetModal";
 
 const Return = () => {
   return (
@@ -10,7 +10,7 @@ const Return = () => {
       <Modal>
         <MainRetunSheetTable />
         <ItemsListProvider>
-          <CreateReturnModal />
+          <CreateHandoverSheetModal />
         </ItemsListProvider>
       </Modal>
     </Box>

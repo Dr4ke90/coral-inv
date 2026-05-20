@@ -1,15 +1,15 @@
-import CreateHandoverModal from "@/features/handover/components/CreateHandoverSheetModal";
-import { MainHandoverSheetsTable } from "@/features/handover/components/MainHandoverSheetTable";
-import { PreviewListProvider } from "@/features/handover/contexts/PreviewListContext";
+import { MainHandoverSheetsTable } from "@/components/tables/MainHandoverSheetTable";
 import { Box } from "@mui/material";
+import { ItemsListProvider } from "@/contexts/ItemsListContext";
+import CreateHandoverSheetModal from "@/components/modals/CreateHandoverSheetModal";
 
 const Handover = () => {
   return (
     <Box>
       <MainHandoverSheetsTable />
-      <PreviewListProvider>
-        <CreateHandoverModal />
-      </PreviewListProvider>
+      <ItemsListProvider>
+        <CreateHandoverSheetModal />
+      </ItemsListProvider>
     </Box>
   );
 };

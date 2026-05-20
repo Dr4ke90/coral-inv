@@ -9,26 +9,28 @@ const equipmentBaseSchema = new Schema(
       unique: true,
     },
     type: { type: String, required: true },
+    brand: { type: String, required: true },
+    category: { type: String, required: true },
     model: { type: String, required: true },
     config: { type: String, required: true },
-    series: { type: String, required: true, unique: true },
+    series: { type: String, required: true },
     price: { type: Number, required: true },
     status: { type: String, default: "Nou" },
-    refInvoice: { type: Object, default: {} },
+    entryId: { type: String, required: true },
     requirementId: { type: String, default: "" },
-    observations: { type: [Object], default: [] },
+    notes: { type: [Object], default: [] },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     logs: { type: [logSchema], default: [] },
     pvRef: { type: [String], default: [] },
     inventoryDate: { type: Date, default: Date.now },
     custodianId: { type: String, default: "E0000" },
-    projectId: { type: String, default: "PJ0001" },
+    projectId: { type: String, default: "PJ0002" },
   },
-  { discriminatorKey: "type", collection: "it-equipment" },
+  { discriminatorKey: "type", collection: "it_equipment" },
 );
 
 const EquipmentModel =
-  models["it-equipment"] || model("it-equipment", equipmentBaseSchema);
+  models["it_equipment"] || model("it_equipment", equipmentBaseSchema);
 
 export default EquipmentModel;

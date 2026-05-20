@@ -1,6 +1,6 @@
-import TabletModel from "@/models/tablet.model";
 import { ClientSession } from "mongoose";
 import * as tabletRepository from "@/repository/tabletRepo";
+import { MobileDevicesType } from "@/types/mobileDevices.type";
 
 export async function readAllTablets() {
   return await tabletRepository.getAllTablets();
@@ -10,11 +10,11 @@ export async function readTabletById(id: string) {
   return await tabletRepository.getTabletById(id);
 }
 
-export async function addTablet(data: any) {
-  return await TabletModel.create(data);
+export async function addTablet(data: MobileDevicesType) {
+  return await tabletRepository.createTablet(data);
 }
 
-export async function updateTablet(id: string, data: any) {
+export async function updateTablet(id: string, data: Partial<MobileDevicesType>) {
   return await tabletRepository.updateTabletById(id, data);
 }
 

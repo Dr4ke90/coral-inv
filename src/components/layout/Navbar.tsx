@@ -1,9 +1,9 @@
 "use client";
 import { Toolbar, Box, Typography, Button } from "@mui/material";
 import Image from "next/image";
-import logo from "../../../public/assets/coral.png";
-import { useUser } from "@/features/users/hooks/useUser";
+import logo from "../../../public/coral.png";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/contexts/AuthContext";
 
 export function Navbar() {
   const { user, logout } = useUser();

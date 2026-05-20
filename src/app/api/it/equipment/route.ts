@@ -6,9 +6,9 @@ export async function GET() {
   try {
     await connectDB();
 
-    const employees = await readAllEquipment();
+    const equipment = await readAllEquipment();
 
-    return NextResponse.json({ data: employees });
+    return NextResponse.json({ data: equipment });
   } catch (error: any) {
     console.error(error);
     return NextResponse.json(

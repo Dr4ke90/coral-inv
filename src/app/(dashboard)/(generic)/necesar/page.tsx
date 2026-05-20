@@ -1,8 +1,8 @@
 "use client";
 
 import Modal from "@/components/ui/Modal";
-import CreateRequirementModal from "@/features/requirement/components/CreateRqSheetModal";
-import { MainRequirementTable } from "@/features/requirement";
+import CreateRequirementModal from "@/components/modals/CreateRqSheetModal";
+import { MainRequirementTable } from "@/components/tables/MainRequirmentTable";
 
 const RequirementPage = () => {
   return (
