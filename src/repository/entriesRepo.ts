@@ -3,7 +3,7 @@ import { EntryType } from "@/types/entry.type";
 import { ClientSession } from "mongoose";
 
 export async function getAllEntries() {
-  return await EntryModel.find({});
+  return await EntryModel.find({}).lean();
 }
 
 export async function getEntryById(id: string) {

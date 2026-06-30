@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import { addEquipment, readAllEquipment } from "@/services/equipmentService";
+import { addEquipment, readAllEquipments } from "@/services/equipmentService";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const equipment = await readAllEquipment();
+    const equipment = await readAllEquipments();
 
     return NextResponse.json({ data: equipment });
   } catch (error: any) {

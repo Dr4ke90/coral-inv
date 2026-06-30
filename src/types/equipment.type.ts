@@ -15,4 +15,5 @@ export interface EquipmentType {
   pvRef: string[];
   custodianId?: string;
   projectId?: string;
+  refInvoice?: string;
 }

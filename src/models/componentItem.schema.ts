@@ -9,7 +9,6 @@ const componentItemSchema = new Schema(
     refInvoice: { type: String, required: true },
     eqId: { type: String, default: "" },
     pvId: { type: String, default: "" },
-    requirementId: { type: String, default: "" },
     addedBy: { type: String, required: true },
     addedAt: { type: Date, require: true },
     notes: { type: [Object], default: [] },

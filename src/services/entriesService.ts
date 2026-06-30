@@ -1,15 +1,49 @@
 import * as entryRepository from "@/repository/entriesRepo";
+import * as requirementsRepot from "@/repository/requirementRepo";
 import { addBatchEquipment } from "./equipmentService";
 import { EquipmentType } from "@/types/equipment.type";
 import { EntryType } from "@/types/entry.type";
-import mongoose from "mongoose";
-import { ClientSession } from "mongoose";
+import mongoose, { ClientSession } from "mongoose";
 import { uploadFileLocally } from "@/utils/uploadFile";
-import { unlink } from "fs/promises";
-import path from "path";
+import fs, { unlink } from "node:fs/promises";
+import path from "node:path";
 
 export async function readAllEntries() {
-  return await entryRepository.getAllEntries();
+  const [entries, requirements] = await Promise.all([
+    entryRepository.getAllEntries(),
+    requirementsRepot.getAllRequirements(),
+  ]);
+
+  const requirementOptions = requirements.map((r) => r.id);
+
+  const enrichedPromises = entries.map(async (entry) => {
+    const dateObj = new Date(entry.date);
+    const year = dateObj.getFullYear();
+
+    const relativePath = `public/uploads/entries/${year}/${entry.sn}.pdf`;
+    const absolutePath = path.resolve(relativePath);
+
+    let pdfPreview = false;
+    let pdfPath = null;
+
+    try {
+      await fs.access(absolutePath);
+      pdfPreview = true;
+      pdfPath = `uploads/entries/${year}/${entry.sn}.pdf`;
+    } catch {
+      console.log(`${entry.sn} nu exista`);
+    }
+
+    return {
+      ...entry,
+      rqOptions: requirementOptions,
+      eqNo: entry.items.length || 0,
+      pdfPreview,
+      pdfPath,
+    };
+  });
+
+  return await Promise.all(enrichedPromises);
 }
 
 export async function readEntryById(id: string) {

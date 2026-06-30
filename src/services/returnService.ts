@@ -1,11 +1,39 @@
 import * as returnRepository from "@/repository/returnRepo";
+import * as employeeRepo from "@/repository/employeeRepo";
+import * as projectRepo from "@/repository/projectRepo";
 import mongoose from "mongoose";
 import { updateEquipmentDataInTransaction } from "./equipmentService";
 import { updateTabletDataInTransaction } from "./tabletService";
 import { updateMobilePhoneDataInTransaction } from "./mobilePhoneService";
 
-export async function readAllReturnSheets() {
-  return await returnRepository.getAllReturns();
+export async function readAllRetunnSheets() {
+  const [returns, employees, projects] = await Promise.all([
+    returnRepository.getAllReturns(),
+    employeeRepo.getAllEmployees(),
+    projectRepo.getAllProjects(),
+  ]);
+
+  const enrichedReturns = returns.map((r) => {
+    const handoverPersonName =
+      employees.find((u) => u.id === r.handoverPersonId)?.name || "-";
+
+    const recipientPersonName =
+      employees.find((e) => e.id === r.recipientPersonId)?.name || "-";
+
+    const projectName = projects.find((p) => p.id === r.projectId)?.name || "-";
+
+    const equipmentCount = Array.isArray(r.eqList) ? r.eqList.length : 0;
+
+    return {
+      ...r,
+      handoverPersonName: handoverPersonName || "-",
+      recipientPersonName: recipientPersonName || "-",
+      projectName: projectName || "-",
+      eqNo: equipmentCount || 0,
+    };
+  });
+
+  return enrichedReturns;
 }
 
 export async function readReturnSheetDetails(id: string) {

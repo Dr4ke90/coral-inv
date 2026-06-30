@@ -10,4 +10,5 @@ export interface EntryType {
   requirementId: string;
   createdBy: string;
   createdAt: Date;
+  rqOptions: string[];
 }

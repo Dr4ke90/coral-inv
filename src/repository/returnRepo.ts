@@ -2,7 +2,7 @@ import ReturnSheetModel from "@/models/returnSheets.model";
 import { ClientSession } from "mongoose";
 
 export async function getAllReturns() {
-  return await ReturnSheetModel.find({});
+  return await ReturnSheetModel.find({}).lean();
 }
 
 export async function getOneReturn(id: string) {

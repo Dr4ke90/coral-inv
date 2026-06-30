@@ -1,4 +1,3 @@
-"use client";
 "use no memo";
 import {
   MaterialReactTable,

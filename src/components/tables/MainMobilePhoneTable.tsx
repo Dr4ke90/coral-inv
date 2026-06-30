@@ -25,10 +25,13 @@ export const MainMobilePhonesTable = () => {
       </Box>
     );
 
+  const filteredEquipments =
+    data?.filter((eq) => eq.category === "Telefoane") ?? [];
+
   return (
     <Table
       columns={mainTableColumns}
-      data={data?.slice().reverse() ?? []}
+      data={filteredEquipments?.slice().reverse() ?? []}
       tableCustomOptions={mainTableConfig}
     />
   );

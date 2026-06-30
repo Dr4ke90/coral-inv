@@ -8,7 +8,7 @@ export async function GET() {
 
     const data = await getHandoversList();
 
-    return NextResponse.json({ data });
+    return NextResponse.json(data);
   } catch (error: any) {
     console.error("GET Handover Sheets Error:", error);
     return NextResponse.json(

@@ -14,6 +14,13 @@ export const handoverModalTableColumsConfig = [
     enableEditing: false,
   },
   {
+    accessorKey: "brand",
+    header: "Brand",
+    maxSize: 150,
+    grow: false,
+    enableEditing: false,
+  },
+  {
     accessorKey: "model",
     header: "Model",
     grow: true,

@@ -9,6 +9,9 @@ import SsdNvme from "@/discriminators/ssdNvmeDiscriminator";
 import ViolentFan from "@/discriminators/violentFanDiscriminator";
 import HdmiAdaptor from "@/discriminators/hdmiAdaptorDiscriminator";
 import Keyboard from "@/discriminators/keyboardDiscriminator";
+import SsdSata from "@/discriminators/ssdSataDiscriminator";
+import memorieRam from "@/discriminators/ramDiscriminator";
+import Mouse from "@/discriminators/mouseDiscriminator";
 
 const discriminatorsMap: Record<string, Model<any>> = {
   Multifunctionala: Printer,
@@ -17,10 +20,13 @@ const discriminatorsMap: Record<string, Model<any>> = {
   Desktop: Desktop,
   Tableta: TabletModel,
   Telefon: MobilePhoneModel,
-  "SSD NVMe": SsdNvme,
   Suflanta: ViolentFan,
-  "Adaptor HDMI": HdmiAdaptor,
   Tastatura: Keyboard,
+  Mouse: Mouse,
+  "Adaptor HDMI": HdmiAdaptor,
+  "Memorie RAM": memorieRam,
+  "SSD NVMe": SsdNvme,
+  "SSD Sata": SsdSata,
 };
 
 export default discriminatorsMap;

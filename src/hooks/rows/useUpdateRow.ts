@@ -23,6 +23,7 @@ export const useUpdateRow = <T extends MRT_RowData & { id?: string }>(
     if (!user) return;
 
     const originalValues = row.original;
+
     const changedValues: Record<string, any> = {};
 
     const uiOnlyFields = [
@@ -55,8 +56,6 @@ export const useUpdateRow = <T extends MRT_RowData & { id?: string }>(
       const payload = onRowUpdates(row.original, changedValues, user);
       if (payload && originalValues.id) {
         delete (payload as any).id;
-
-        console.log(payload);
 
         updateFn({ id: originalValues.id, payload });
       }

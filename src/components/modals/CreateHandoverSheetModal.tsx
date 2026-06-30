@@ -154,12 +154,12 @@ const CreateHandoverSheetModal = () => {
         </Modal.Header>
 
         <Modal.Body className="flex flex-row gap-2">
-          <Box className="flex-1">
+          <Box className="min-w-[250px]">
             <HandoverRecipientForm />
             <hr />
             <HandoverEquipmentForm />
           </Box>
-          <Box className="flex-1/2">
+          <Box>
             <Table
               columns={handoverModalTableColumsConfig}
               data={items}

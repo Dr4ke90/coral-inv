@@ -1,13 +1,5 @@
-import { DocumentProvider } from "@/contexts/FileContext";
-import { ToastContainer } from "react-toastify";
-
 const ItComponentsLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <DocumentProvider>
-      <>{children}</>
-      <ToastContainer position="top-right" />
-    </DocumentProvider>
-  );
+  return <>{children}</>;
 };
 
 export default ItComponentsLayout;

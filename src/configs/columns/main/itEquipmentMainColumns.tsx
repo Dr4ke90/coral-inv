@@ -1,43 +1,46 @@
 "use client";
 import { useMemo } from "react";
-import { useEmployees } from "@/hooks/employees/useEmployees";
-import { useProjects } from "@/hooks/projects/useProjects";
 import { MRT_ColumnDef } from "material-react-table";
-import Link from "next/link";
-import { Box } from "@mui/material";
-import SingleSelect from "@/components/ui/SingleSelect";
 import { EquipmentType } from "@/types/equipment.type";
-import { useRequirementData } from "@/hooks/requirement/useRequirementData";
-import { useAllEntries } from "@/hooks/entries/useAllEntries";
+import { TextField, Typography } from "@mui/material";
+import { ActionableCell } from "@/components/ui/ActionableCell";
 
 export const useItEquipmentMainTableColumnsConfig =
   (): MRT_ColumnDef<EquipmentType>[] => {
-    const { data: employees } = useEmployees();
-    const { data: projects } = useProjects();
-    const { data: requirements } = useRequirementData();
-    const { data: entries } = useAllEntries();
-
     return useMemo(
       () => [
         {
           accessorKey: "id",
           header: "ID",
           size: 30,
-          minSize: 30,
-          maxSize: 30,
           enableEditing: false,
+          Cell: ({ cell, row }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={cell.getValue<string>()}
+              fontSize="14px"
+              basePath={`/${row.original.category.toLowerCase()}`}
+            />
+          ),
         },
         {
           accessorKey: "type",
           header: "Tip",
           enableEditing: false,
-          size: 150,
+          size: 100,
+          Cell: ({ cell }) => {
+            return (
+              <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+                {cell.getValue<string>() ?? "-"}
+              </Typography>
+            );
+          },
         },
         {
           accessorKey: "brand",
           header: "Brand",
-          enableEditing: false,
-          size: 150,
+          enableEditing: true,
+          size: 100,
         },
         {
           accessorKey: "model",
@@ -49,140 +52,82 @@ export const useItEquipmentMainTableColumnsConfig =
           accessorKey: "series",
           header: "Serie",
           enableEditing: true,
-          size: 150,
+          size: 100,
         },
         {
-          accessorKey: "status",
-          header: "Stare",
+          accessorKey: "config",
+          header: "Config",
           enableEditing: true,
-          size: 150,
+          size: 200,
         },
         {
-          id: "custodianName",
-          accessorFn: (row) => {
-            if (!row.custodianId) return "-";
-            const employeeName = employees?.find(
-              (p) => p.id === row.custodianId,
-            )?.name;
-            return employeeName || row.custodianId;
-          },
+          accessorKey: "custodianName",
           header: "Responsabil",
           enableEditing: false,
           size: 150,
-
-          Cell: ({ row }) => {
-            const id = row.original.custodianId;
-
-            const name = employees?.find((p) => p.id === id)?.name || id;
-
-            return (
-              <Link
-                href={`/employees/${id!.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {name || "-"}
-              </Link>
-            );
-          },
+          Cell: ({ row, cell }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={row.original.custodianId}
+              basePath="/angajati"
+            />
+          ),
         },
         {
-          id: "projectName",
-          accessorFn: (row) =>
-            projects?.find((p) => p.id === row.projectId)?.name ||
-            row.projectId,
+          accessorKey: "projectName",
           header: "Proiect",
           size: 200,
-          enableEditing: (row) => row.original.custodianId === "E0000",
-
-          Edit: ({ row, column }) => {
-            const currentId = row.original.projectId;
-            const defaultValue = projects?.find((p) => p.id === currentId);
-
-            return (
-              <SingleSelect
-                name={column.id}
-                options={projects!.filter(
-                  (p: any) => p.id === "PJ0001" || p.id === "PJ0002",
-                )}
-                value={defaultValue || null}
-                placeholder="Proiect"
-                onChange={(_, value) => {
-                  const nextId = value?.id || "";
-                  const nextName = value?.name || "";
-
-                  row._valuesCache["projectId"] = nextId;
-
-                  row._valuesCache[column.id] = nextName;
-                }}
-              />
-            );
-          },
-
-          Cell: ({ cell }) => {
-            const projectName = cell.getValue<string>() || "";
-
-            const projectId =
-              projects?.find((p) => p.name === projectName)?.id || "";
-
-            return (
-              <Link
-                href={`/projects/${projectId.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {projectName || "-"}
-              </Link>
-            );
-          },
+          enableEditing: false,
+          Cell: ({ row, cell }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={row.original.projectId}
+              basePath="/proiecte"
+            />
+          ),
         },
         {
-          accessorKey: "entryId",
+          accessorKey: "refInvoice",
           header: "Intrare",
           enableEditing: false,
-          size: 120,
-          minSize: 50,
-          enableClickToCopy: false,
+          enableClickToCopy: true,
+          size: 130,
+          Cell: ({ row, cell }) => {
+            const entryId = row.original.entryId;
 
-          Cell: ({ cell }) => {
-            const entryId = cell.getValue<string>() || "";
-            return (
-              <Link
-                href={`/entries/${entryId.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {entryId || "-"}
-              </Link>
-            );
+            if (entryId === "-")
+              return (
+                <Typography sx={{ color: "#007bff", fontSize: "14px" }}>
+                  {cell.getValue<string>()}{" "}
+                </Typography>
+              );
+            else
+              return (
+                <ActionableCell
+                  value={cell.getValue<string>()}
+                  targetId={row.original.entryId}
+                  fontSize="12px"
+                  basePath="/intrari"
+                />
+              );
           },
         },
         {
           accessorKey: "requirementId",
           header: "Necesar",
-          enableEditing: true,
-          editVariant: "select",
-          enableClickToCopy: false,
-          editSelectOptions: requirements
-            ? requirements.map((req: any) => req.id).reverse()
-            : [],
+          enableEditing: false,
+          enableClickToCopy: true,
           size: 50,
-
-          Cell: ({ row }) => {
-            const entry = entries?.find((e) =>
-              e.items?.includes(row.original.id),
-            );
-
-            if (!entry || !entry.requirementId) return "-";
-
-            return (
-              <Link
-                href={`/requirements/${entry.requirementId.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {entry.requirementId}
-              </Link>
-            );
-          },
+          Cell: ({ cell }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={cell.getValue<string>()}
+              fontSize="12px"
+              basePath="/necesar"
+            />
+          ),
         },
       ],
-      [employees, projects, requirements, entries],
+      [],
     );
   };

@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const returnSheets = await returnService.readAllReturnSheets();
+    const returnSheets = await returnService.readAllRetunnSheets();
 
     return NextResponse.json({ data: returnSheets });
   } catch (error) {

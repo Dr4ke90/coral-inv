@@ -1,14 +1,14 @@
 "use client";
 import MultiSelect from "@/components/ui/MultiSelect";
 import { EmployeeType } from "@/types/employee.type";
-import { useEquipment } from "@/hooks/it_equipment/useEquipment";
 import { useProjects } from "@/hooks/projects/useProjects";
 import { MRT_ColumnDef } from "material-react-table";
 import { EMPLOYEE_STATUS_OPTIONS } from "../../../constants/employeeConstants";
+import { ActionableCell } from "@/components/ui/ActionableCell";
+import { Typography } from "@mui/material";
 
 export const useMainEmployeesTableColumsConfig =
   (): MRT_ColumnDef<EmployeeType>[] => {
-    const { data: equipment } = useEquipment();
     const { data: projects } = useProjects();
 
     return [
@@ -17,6 +17,14 @@ export const useMainEmployeesTableColumsConfig =
         header: "ID",
         size: 30,
         enableEditing: false,
+        Cell: ({ cell }) => (
+          <ActionableCell
+            value={cell.getValue<string>()}
+            targetId={cell.getValue<string>()}
+            fontSize="14px"
+            basePath="/angajati"
+          />
+        ),
       },
       {
         accessorKey: "name",
@@ -90,7 +98,7 @@ export const useMainEmployeesTableColumsConfig =
         accessorKey: "status",
         header: "Status",
         enableEditing: true,
-        size: 200,
+        size: 100,
         editSelectOptions: EMPLOYEE_STATUS_OPTIONS,
         muiEditTextFieldProps: () => ({
           select: true,
@@ -109,22 +117,23 @@ export const useMainEmployeesTableColumsConfig =
               const selectedOption = EMPLOYEE_STATUS_OPTIONS.find(
                 (opt) => opt === value,
               );
-              return selectedOption ? selectedOption : value;
+              return selectedOption ?? value;
             },
           },
         }),
       },
       {
-        id: "eqNo",
+        accessorKey: "eqNo",
         header: "Nr. echip.",
         enableEditing: false,
-        size: 100,
-        Cell: ({ row }) => {
-          const eqList = equipment?.filter(
-            (eq: any) => eq.custodianId === row.original.id,
+        enableClickToCopy: false,
+        size: 50,
+        Cell: ({ cell }) => {
+          return (
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {cell.getValue<string>()}
+            </Typography>
           );
-
-          return eqList ? eqList.length : 0;
         },
       },
     ];

@@ -1,22 +1,25 @@
 import { ProjectType } from "@/types/project.type";
-import { useRequirementData } from "@/hooks/requirement/useRequirementData";
 import { MRT_ColumnDef } from "material-react-table";
-import { useEquipment } from "@/hooks/it_equipment/useEquipment";
-import { useEmployees } from "@/hooks/employees/useEmployees";
 import { PROJECT_STATUS_OPTIONS } from "../../../constants/projectsConstants";
+import { Typography } from "@mui/material";
+import { ActionableCell } from "@/components/ui/ActionableCell";
 
 export const useMainProjectsTableColumnsConfig =
   (): MRT_ColumnDef<ProjectType>[] => {
-    const { data: requirements } = useRequirementData();
-    const { data: equipment } = useEquipment();
-    const { data: employees } = useEmployees();
-
     return [
       {
         accessorKey: "id",
         header: "ID",
         size: 30,
         enableEditing: false,
+        Cell: ({ cell }) => (
+          <ActionableCell
+            value={cell.getValue<string>()}
+            targetId={cell.getValue<string>()}
+            fontSize="14px"
+            basePath="/proiecte"
+          />
+        ),
       },
       {
         accessorKey: "name",
@@ -37,60 +40,55 @@ export const useMainProjectsTableColumnsConfig =
         size: 200,
       },
       {
-        id: "teamMembers",
+        accessorKey: "teamMembers",
         header: "Echipa",
         enableEditing: false,
         size: 250,
-        Cell: ({ row }) => {
-          const team = employees
-            ?.filter(
-              (e: any) =>
-                e.projects?.includes(row.original.id) && e.id !== "E0000",
-            )
-            .slice(0, 3);
-
-          if (!team || team.length === 0) return "-";
+        Cell: ({ cell }) => {
+          const team = cell.getValue<string[]>();
 
           return (
             <div style={{ display: "flex", flexDirection: "column" }}>
               {team.map((e: any) => (
-                <span key={e.id}>{e.name}</span>
+                <Typography key={e} sx={{ color: "#007bff", fontSize: "13px" }}>
+                  {e}
+                </Typography>
               ))}
             </div>
           );
         },
       },
       {
-        id: "eqNo",
+        accessorKey: "eqNo",
         header: "Echipament",
         enableEditing: false,
-        size: 200,
-        Cell: ({ row }) => {
-          const eqList = equipment?.filter(
-            (e: any) => e.projectId === row.original.id,
+        size: 50,
+        Cell: ({ cell }) => {
+          return (
+            <Typography sx={{ color: "#007bff", fontSize: "13px" }}>
+              {cell.getValue<string>()}
+            </Typography>
           );
-
-          return eqList ? eqList.length : 0;
         },
       },
       {
-        id: "necesarCount",
+        accessorKey: "necesarCount",
         header: "Necesar",
         enableEditing: false,
-        size: 200,
-        Cell: ({ row }) => {
-          const reqList = requirements?.filter(
-            (r: any) => r.projectId === row.original.id,
+        size: 50,
+        Cell: ({ cell }) => {
+          return (
+            <Typography sx={{ color: "#007bff", fontSize: "13px" }}>
+              {cell.getValue<string>()}
+            </Typography>
           );
-
-          return reqList ? reqList.length : 0;
         },
       },
       {
         accessorKey: "status",
         header: "Status",
         enableEditing: true,
-        size: 200,
+        size: 100,
         editSelectOptions: PROJECT_STATUS_OPTIONS,
         muiEditTextFieldProps: () => ({
           select: true,
@@ -109,7 +107,7 @@ export const useMainProjectsTableColumnsConfig =
               const selectedOption = PROJECT_STATUS_OPTIONS.find(
                 (opt) => opt === value,
               );
-              return selectedOption ? selectedOption : value;
+              return selectedOption ?? value;
             },
           },
         }),

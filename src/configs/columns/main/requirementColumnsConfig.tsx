@@ -1,7 +1,6 @@
 "use client";
 import dayjs from "dayjs";
 import { type MRT_ColumnDef } from "material-react-table";
-
 import {
   REQUIREMENT_STATUS_OPTIONS,
   STATUS_COLOR_MAP,
@@ -9,46 +8,51 @@ import {
 import { RequirementStatus } from "@/types/requirementStatus";
 import { Typography } from "@mui/material";
 import { Requirement } from "@/types/requiment.type";
-import { useProjects } from "@/hooks/projects/useProjects";
-import { useUsers } from "@/hooks/users/useUsers";
-import Link from "next/link";
-import SingleSelect from "@/components/ui/SingleSelect";
+import { ActionableCell } from "@/components/ui/ActionableCell";
 
 export const useMainRequirementColumnsConfig =
   (): MRT_ColumnDef<Requirement>[] => {
-    const { data: projects } = useProjects();
-    const { data: users } = useUsers();
-
     return [
       {
         accessorKey: "id",
         header: "ID",
         enableEditing: false,
         size: 30,
+        Cell: ({ cell }) => (
+          <ActionableCell
+            value={cell.getValue<string>()}
+            targetId={cell.getValue<string>()}
+            fontSize="14px"
+            basePath={`/necesar`}
+          />
+        ),
       },
       {
         accessorKey: "date",
         header: "Data",
         enableEditing: false,
         size: 150,
-        Cell: ({ cell }) =>
-          dayjs(cell.getValue<Date>()).format("DD / MM / YYYY"),
+        Cell: ({ cell }) => {
+          return (
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {dayjs(cell.getValue<Date>()).format("DD / MM / YYYY") ?? "-"}
+            </Typography>
+          );
+        },
       },
       {
-        id: "createdBy",
-        accessorKey: "createdBy",
+        accessorKey: "userName",
         header: "Creat",
         enableEditing: false,
         size: 200,
-
-        Cell: ({ row }) => {
-          const id = row.original.createdBy;
-          const name = users?.find((p) => p.id === id)?.name || id;
-
-          if (!id) return "-";
-
-          return <Link href={`/users/${id.toLowerCase()}`}>{name}</Link>;
-        },
+        Cell: ({ cell, row }) => (
+          <ActionableCell
+            value={cell.getValue<string>()}
+            targetId={row.original.createdBy}
+            fontSize="14px"
+            basePath={`/utilizatori`}
+          />
+        ),
       },
       {
         accessorKey: "totalCollectedPrice",
@@ -56,47 +60,40 @@ export const useMainRequirementColumnsConfig =
         size: 120,
         filterFn: "between",
         enableEditing: false,
+        Cell: ({ cell }) => {
+          return (
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {cell.getValue<string>() ?? "-"}
+            </Typography>
+          );
+        },
       },
       {
-        id: "itemsLength",
+        accessorKey: "itemsLength",
         header: "Nr. Echipamente",
         enableEditing: false,
         size: 50,
-        Cell: ({ row }) => row.original.items.length,
-      },
-      {
-        id: "projectName",
-        accessorFn: (row) =>
-          projects?.find((p) => p.id === row.projectId)?.name || row.projectId,
-
-        header: "Proiect",
-        size: 200,
-
-        Edit: ({ row, column }) => {
-          const currentId = row.original.projectId;
-          const defaultValue = projects?.find((p) => p.id === currentId);
-
+        Cell: ({ cell }) => {
           return (
-            <SingleSelect
-              name={column.id}
-              options={projects!.filter(
-                (p: any) => p.id === "PJ0001" || p.id === "PJ0002",
-              )}
-              value={defaultValue || null}
-              placeholder="Proiect"
-              onChange={(_, value) => {
-                const nextId = value?.id || "";
-                const nextName = value?.name || "";
-
-                row._valuesCache["projectId"] = nextId;
-
-                row._valuesCache[column.id] = nextName;
-              }}
-            />
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {cell.getValue<string>() ?? "-"}
+            </Typography>
           );
         },
-
-        Cell: ({ cell }) => cell.getValue<string>() || "-",
+      },
+      {
+        accessorKey: "projectName",
+        header: "Proiect",
+        enableEditing: false,
+        size: 200,
+        Cell: ({ cell, row }) => (
+          <ActionableCell
+            value={cell.getValue<string>()}
+            targetId={row.original.projectId}
+            fontSize="14px"
+            basePath={`/proiecte`}
+          />
+        ),
       },
       {
         accessorKey: "status",

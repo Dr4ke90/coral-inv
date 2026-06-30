@@ -31,6 +31,8 @@ const HandoverRecipientForm = () => {
     return [];
   }, [selectedRecipientId, employees, projects]);
 
+  console.log(employees);
+
   return (
     <Box component="form" autoComplete="off" className="px-2 mb-2">
       <Box className="flex flex-col">
@@ -39,7 +41,9 @@ const HandoverRecipientForm = () => {
           name="recipientPersonId"
           requiredText="Selectarea unui primitor este obligatorie"
           label="Primitor"
-          options={employees?.filter((e) => e.id !== "E0000")}
+          options={employees?.filter(
+            (e) => e.id !== "E0000" && e.status?.toLowerCase() !== "inactiv",
+          )}
           optionLabel="name"
         />
 

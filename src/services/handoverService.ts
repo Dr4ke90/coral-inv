@@ -1,11 +1,44 @@
 import mongoose from "mongoose";
 import * as handoverRepository from "@/repository/handoverRepo";
+import * as employeeRepo from "@/repository/employeeRepo";
+import * as projectRepo from "@/repository/projectRepo";
+import * as usersRepo from "@/repository/usersRepo";
 import { updateEquipmentDataInTransaction } from "./equipmentService";
 import { updateTabletDataInTransaction } from "./tabletService";
 import { updateMobilePhoneDataInTransaction } from "./mobilePhoneService";
 
 export async function getHandoversList() {
-  return await handoverRepository.getAllHandovers();
+  const [handovers, employees, projects, users] = await Promise.all([
+    handoverRepository.getAllHandovers(),
+    employeeRepo.getAllEmployees(),
+    projectRepo.getAllProjects(),
+    usersRepo.getAllUsers(),
+  ]);
+
+  const enrichedHandovers = handovers.map((handover) => {
+    const handoverPersonName =
+      users.find((u) => u.id === handover.handoverPersonId)?.name || "-";
+
+    const recipientPersonName =
+      employees.find((e) => e.id === handover.recipientPersonId)?.name || "-";
+
+    const projectName =
+      projects.find((p) => p.id === handover.projectId)?.name || "-";
+
+    const equipmentCount = Array.isArray(handover.eqList)
+      ? handover.eqList.length
+      : 0;
+
+    return {
+      ...handover,
+      handoverPersonName: handoverPersonName || "-",
+      recipientPersonName: recipientPersonName || "-",
+      projectName: projectName || "-",
+      eqNo: equipmentCount || 0,
+    };
+  });
+
+  return enrichedHandovers;
 }
 
 export async function getHandoverDetails(id: string) {

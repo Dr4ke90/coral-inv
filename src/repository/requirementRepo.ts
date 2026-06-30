@@ -1,9 +1,9 @@
-import { Employee } from "@/types/employee.type";
+import { EmployeeType } from "@/types/employee.type";
 import { ClientSession } from "mongoose";
 import RequirementModel from "@/models/requirement.model";
 
 export async function getAllRequirements() {
-  return await RequirementModel.find({});
+  return await RequirementModel.find({}).lean();
 }
 
 export async function getRequirementById(id: string) {
@@ -11,7 +11,7 @@ export async function getRequirementById(id: string) {
 }
 
 export async function createRequirement(
-  data: Employee,
+  data: EmployeeType,
   session?: ClientSession,
 ) {
   return await RequirementModel.create([data], { session });

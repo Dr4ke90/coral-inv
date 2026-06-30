@@ -2,17 +2,13 @@
 import { useEmployees } from "@/hooks/employees/useEmployees";
 import { useProjects } from "@/hooks/projects/useProjects";
 import { MRT_ColumnDef } from "material-react-table";
-import Link from "next/link";
-import { Box } from "@mui/material";
-import SingleSelect from "@/components/ui/SingleSelect";
+import { Typography } from "@mui/material";
 import { useMemo } from "react";
 import { MobileDevicesType } from "@/types/mobileDevices.type";
+import { ActionableCell } from "@/components/ui/ActionableCell";
 
 export const useMainMobileDevColumnsConfig =
   (): MRT_ColumnDef<MobileDevicesType>[] => {
-    const { data: employees } = useEmployees();
-    const { data: projects } = useProjects();
-
     return useMemo(
       () => [
         {
@@ -20,6 +16,14 @@ export const useMainMobileDevColumnsConfig =
           header: "ID",
           size: 30,
           enableEditing: false,
+          Cell: ({ cell, row }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={cell.getValue<string>()}
+              fontSize="14px"
+              basePath={`/${row.original.category.toLowerCase()}`}
+            />
+          ),
         },
         {
           accessorKey: "brand",
@@ -64,103 +68,60 @@ export const useMainMobileDevColumnsConfig =
           size: 150,
         },
         {
-          id: "custodianName",
-          accessorFn: (row) => {
-            if (!row.custodianId) return "-";
-            const employeeName = employees?.find(
-              (p) => p.id === row.custodianId,
-            )?.name;
-            return employeeName || row.custodianId;
-          },
+          accessorKey: "custodianName",
           header: "Responsabil",
           enableEditing: false,
           size: 150,
-
-          Cell: ({ row }) => {
-            const id = row.original.custodianId;
-
-            const name = employees?.find((p) => p.id === id)?.name || id;
-
-            return (
-              <Link
-                href={`/employees/${id!.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {name || "-"}
-              </Link>
-            );
-          },
+          Cell: ({ row, cell }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={row.original.custodianId}
+              basePath="/angajati"
+            />
+          ),
         },
         {
-          id: "projectName",
-          accessorFn: (row) =>
-            projects?.find((p) => p.id === row.projectId)?.name ||
-            row.projectId,
+          accessorKey: "projectName",
           header: "Proiect",
           size: 200,
-          enableEditing: (row) => row.original.custodianId === "E0000",
-
-          Edit: ({ row, column }) => {
-            const currentId = row.original.projectId;
-            const defaultValue = projects?.find((p) => p.id === currentId);
-
-            return (
-              <SingleSelect
-                name={column.id}
-                options={projects!.filter(
-                  (p: any) => p.id === "PJ0001" || p.id === "PJ0002",
-                )}
-                value={defaultValue || null}
-                placeholder="Proiect"
-                onChange={(_, value) => {
-                  const nextId = value?.id || "";
-                  const nextName = value?.name || "";
-
-                  row._valuesCache["projectId"] = nextId;
-
-                  row._valuesCache[column.id] = nextName;
-                }}
-              />
-            );
-          },
-
-          Cell: ({ cell }) => {
-            const projectName = cell.getValue<string>() || "";
-
-            const projectId =
-              projects?.find((p) => p.name === projectName)?.id || "";
-
-            return (
-              <Link
-                href={`/projects/${projectId.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {projectName || "-"}
-              </Link>
-            );
-          },
+          enableEditing: false,
+          Cell: ({ row, cell }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={row.original.projectId}
+              basePath="/proiecte"
+            />
+          ),
         },
         {
-          accessorKey: "entryId",
+          accessorKey: "snInvoice",
           header: "Intrare",
           enableEditing: false,
           size: 120,
           minSize: 50,
           enableClickToCopy: false,
 
-          Cell: ({ cell }) => {
-            const entryId = cell.getValue<string>() || "";
+          Cell: ({ cell, row }) => {
+            const snInvoice = cell.getValue<string>();
+
+            const refInvoice = row.original.refInvoice;
+
+            let displayValue = "-";
+
+            if (snInvoice && snInvoice.trim() !== "") {
+              displayValue = snInvoice;
+            } else if (refInvoice && refInvoice.trim() !== "") {
+              displayValue = refInvoice;
+            }
+
             return (
-              <Link
-                href={`/entries/${entryId.toLowerCase()}`}
-                style={{ color: "#007bff" }}
-              >
-                {entryId || "-"}
-              </Link>
+              <Typography sx={{ color: "#007bff", fontSize: "13px" }}>
+                {displayValue}
+              </Typography>
             );
           },
         },
       ],
-      [employees, projects],
+      [],
     );
   };

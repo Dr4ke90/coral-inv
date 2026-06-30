@@ -16,8 +16,6 @@ const equipmentBaseSchema = new Schema(
     series: { type: String, required: true },
     price: { type: Number, required: true },
     status: { type: String, default: "Nou" },
-    entryId: { type: String, required: true },
-    requirementId: { type: String, default: "" },
     notes: { type: [Object], default: [] },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
@@ -26,6 +24,7 @@ const equipmentBaseSchema = new Schema(
     inventoryDate: { type: Date, default: Date.now },
     custodianId: { type: String, default: "E0000" },
     projectId: { type: String, default: "PJ0002" },
+    refInvoice: { type: String, default: "" },
   },
   { discriminatorKey: "type", collection: "it_equipment" },
 );

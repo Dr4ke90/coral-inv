@@ -4,7 +4,7 @@ import { EquipmentType } from "@/types/equipment.type";
 import { ClientSession } from "mongoose";
 
 export async function getAllEquipment() {
-  return await EquipmentModel.find({});
+  return await EquipmentModel.find({}).lean();
 }
 
 export async function getEquipmentById(id: string) {

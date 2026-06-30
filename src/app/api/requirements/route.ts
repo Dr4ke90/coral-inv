@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import * as requirementRepo from "@/repository/requirementRepo";
+import * as requirmentService from "@/services/requirementService";
 
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const requirements = await requirementRepo.getAllRequirements();
+    const requirements = await requirmentService.readAllRequirements();
 
     return NextResponse.json({ data: requirements });
   } catch (error) {
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const body = await req.json();
 
-    const [newRequirement] = await requirementRepo.createRequirement(body);
+    const [newRequirement] = await requirmentService.addRequirement(body);
 
     return NextResponse.json({ data: newRequirement });
   } catch (error) {

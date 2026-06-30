@@ -25,10 +25,12 @@ export const MainEmployeesTable = () => {
       </Box>
     );
 
+  const reverseData = data!.slice().reverse();
+
   return (
     <Table
       columns={mainTableColumsConfig}
-      data={data!}
+      data={reverseData}
       tableCustomOptions={mainTableConfig}
     />
   );

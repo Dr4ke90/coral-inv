@@ -1,7 +1,24 @@
 import * as employeeRepository from "@/repository/employeeRepo";
+import * as equipRepository from "@/repository/equipmentRepo";
 
 export async function readAllEmployees() {
-  return await employeeRepository.getAllEmployees();
+  const [employees, equipment] = await Promise.all([
+    employeeRepository.getAllEmployees(),
+    equipRepository.getAllEquipment(),
+  ]);
+
+  const enrichedEmployees = employees.map((employee) => {
+    const equipmentCount = equipment.filter(
+      (eq: any) => eq.custodianId === employee.id,
+    ).length;
+
+    return {
+      ...employee,
+      eqNo: equipmentCount,
+    };
+  });
+
+  return enrichedEmployees;
 }
 
 export async function readEmployeeById(id: string) {

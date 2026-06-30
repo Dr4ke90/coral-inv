@@ -1,20 +1,26 @@
 import { ClientSession } from "mongoose";
 import TabletModel from "@/discriminators/tabletDiscriminator";
-import { TabletType } from "@/types/mobileDevices.type";
+import { MobileDevicesType } from "@/types/mobileDevices.type";
 
 export async function getAllTablets() {
-  return await TabletModel.find({});
+  return await TabletModel.find({}).lean();
 }
 
 export async function getTabletById(id: string) {
   return await TabletModel.findOne({ id });
 }
 
-export async function createTablet(data: TabletType, session?: ClientSession) {
+export async function createTablet(
+  data: MobileDevicesType,
+  session?: ClientSession,
+) {
   return await TabletModel.create([data], { session });
 }
 
-export async function updateTabletById(id: string, data: Partial<TabletType>) {
+export async function updateTabletById(
+  id: string,
+  data: Partial<MobileDevicesType>,
+) {
   return await TabletModel.findOneAndUpdate({ id }, data, {
     returnDocument: "after",
   });

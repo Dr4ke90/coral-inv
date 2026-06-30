@@ -2,7 +2,7 @@ import HandoverSheetModel from "@/models/handoversSheet.model";
 import { ClientSession } from "mongoose";
 
 export async function getAllHandovers() {
-  return await HandoverSheetModel.find({});
+  return await HandoverSheetModel.find({}).lean();
 }
 
 export async function getOneHandover(id: string) {

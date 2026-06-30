@@ -1,16 +1,19 @@
-import { Employee } from "@/types/employee.type";
+import { EmployeeType } from "@/types/employee.type";
 import EmployeeModel from "@/models/employee.model";
 import { ClientSession } from "mongoose";
 
 export async function getAllEmployees() {
-  return await EmployeeModel.find({});
+  return await EmployeeModel.find({}).lean();
 }
 
 export async function getEmployeeById(id: string) {
   return await EmployeeModel.findOne({ id });
 }
 
-export async function createEmployee(data: Employee, session?: ClientSession) {
+export async function createEmployee(
+  data: EmployeeType,
+  session?: ClientSession,
+) {
   return await EmployeeModel.create([data], { session });
 }
 

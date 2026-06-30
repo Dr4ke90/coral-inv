@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongo";
-import * as projectRepo from "@/repository/projectRepo";
+import * as projectService from "@/services/projectService";
 
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const projects = await projectRepo.getAllProjects();
+    const projects = await projectService.readAllProjects();
 
     return NextResponse.json({ data: projects });
   } catch (error) {
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const newProject = await projectRepo.createProject(body);
+    const newProject = await projectService.addProject(body);
 
     return NextResponse.json({ data: newProject });
   } catch (error) {

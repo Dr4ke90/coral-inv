@@ -4,11 +4,11 @@ import { EntryType } from "@/types/entry.type";
 import { useRequirementData } from "@/hooks/requirement/useRequirementData";
 import dayjs from "dayjs";
 import { useMemo } from "react";
+import { ActionableCell } from "@/components/ui/ActionableCell";
+import { Typography } from "@mui/material";
 
 export const useEntriesMainTableColumnsConfig =
   (): MRT_ColumnDef<EntryType>[] => {
-    const { data: requirements } = useRequirementData();
-
     return useMemo(
       () => [
         {
@@ -22,11 +22,19 @@ export const useEntriesMainTableColumnsConfig =
           header: "ID",
           enableEditing: false,
           size: 100,
+          Cell: ({ cell }) => (
+            <ActionableCell
+              value={cell.getValue<string>()}
+              targetId={cell.getValue<string>()}
+              fontSize="14px"
+              basePath="/intrari"
+            />
+          ),
         },
         {
           accessorKey: "sn",
           header: "Serie",
-          enableEditing: false,
+          enableEditing: true,
           size: 200,
         },
         {
@@ -40,8 +48,11 @@ export const useEntriesMainTableColumnsConfig =
           header: "Data",
           enableEditing: false,
           size: 150,
-          Cell: ({ cell }) =>
-            dayjs(cell.getValue<Date>()).format("DD / MM / YYYY"),
+          Cell: ({ cell }) => (
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {dayjs(cell.getValue<Date>()).format("DD / MM / YYYY") ?? "-"}
+            </Typography>
+          ),
         },
 
         {
@@ -49,26 +60,33 @@ export const useEntriesMainTableColumnsConfig =
           header: "Valoare",
           enableEditing: false,
           size: 150,
+          Cell: ({ cell }) => (
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {cell.getValue<string>()}
+            </Typography>
+          ),
         },
 
         {
-          id: "eqNo",
+          accessorKey: "eqNo",
           header: "Nr Echipamente",
           enableEditing: false,
           size: 150,
-          Cell: ({ row }) => row.original.items.length,
+          Cell: ({ cell }) => (
+            <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
+              {cell.getValue<string>()}
+            </Typography>
+          ),
         },
         {
           accessorKey: "requirementId",
           header: "Necesar",
           enableEditing: true,
           editVariant: "select",
-          editSelectOptions: requirements
-            ? requirements.map((req) => req.id).reverse()
-            : [],
+          editSelectOptions: ({ row }) => row.original.rqOptions,
           size: 150,
         },
       ],
-      [requirements],
+      [],
     );
   };
