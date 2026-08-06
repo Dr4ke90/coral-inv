@@ -1,5 +1,5 @@
 export interface ModuleSectionType {
   id: number;
-  departament: string;
+  name: string;
   modules: string[];
 }

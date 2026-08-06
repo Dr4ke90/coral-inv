@@ -1,9 +1,9 @@
 import { ModuleSectionType } from "@/types/moduleSection.type";
 
-export const MODULES: ModuleSectionType[] = [
+export const SECTIONS: ModuleSectionType[] = [
   {
     id: 1,
-    departament: "general",
+    name: "general",
     modules: [
       "intrari",
       "proiecte",
@@ -16,12 +16,13 @@ export const MODULES: ModuleSectionType[] = [
   },
   {
     id: 2,
-    departament: "it",
+    name: "inventory",
     modules: [
-      "sisteme-IT",
-      "periferice-IT",
-      "componente-IT",
-      "accesorii-IT",
+      "echipament-IT",
+      "coral-Construct",
+      "coral-HVAC",
+      "quantumtech",
+      "coral-Facilities",
       "tablete",
       "telefoane",
     ],

@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useMemo } from "react";
 import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 import { EntryType } from "@/types/entry.type";
 import { ENTRY_INITIAL_STATE } from "@/states/entryInitialState";
@@ -17,8 +17,10 @@ export const InvoiceFormProvider = ({ children }: { children: ReactNode }) => {
     defaultValues: { ...ENTRY_INITIAL_STATE, createdAt: new Date() },
   });
 
+  const values = useMemo(() => ({ methods }), [methods]);
+
   return (
-    <DocumentFormContext.Provider value={{ methods }}>
+    <DocumentFormContext.Provider value={values}>
       <FormProvider {...methods}>{children}</FormProvider>
     </DocumentFormContext.Provider>
   );

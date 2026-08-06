@@ -21,7 +21,7 @@ export function Navbar() {
             onClick={() => router.push("/")}
           />
         </Box>
-        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: 1 }}></Box>
         <Box className="flex flex-col items-center mr-10">
           <Typography>{user?.name}</Typography>
           {user ? (

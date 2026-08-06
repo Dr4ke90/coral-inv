@@ -6,7 +6,7 @@ import {
   MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import { DEFAULT_CONFIG } from "@/components/ui/table/configs/tableDefaultConfig";
+import { DEFAULT_CONFIG } from "@/components/ui/table/tableDefaultConfig";
 import { useState } from "react";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import PushPinIcon from "@mui/icons-material/PushPin";

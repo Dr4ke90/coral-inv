@@ -64,8 +64,8 @@ export const ItemsListProvider = <T extends { id?: string | null }>({
 
   const clearItems = () => setItems([]);
 
-  const providerValues = useMemo(() => {
-    return {
+  const providerValues = useMemo(
+    () => ({
       items,
       addItem,
       addItemsBatch,
@@ -73,8 +73,9 @@ export const ItemsListProvider = <T extends { id?: string | null }>({
       updateItem,
       clearItems,
       setItems,
-    };
-  }, [items]);
+    }),
+    [items],
+  );
 
   return (
     <ItemsListContext.Provider value={providerValues}>

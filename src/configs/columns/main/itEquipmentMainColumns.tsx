@@ -2,24 +2,27 @@
 import { useMemo } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import { EquipmentType } from "@/types/equipment.type";
-import { TextField, Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import { ActionableCell } from "@/components/ui/ActionableCell";
+import { usePathname } from "next/navigation";
 
 export const useItEquipmentMainTableColumnsConfig =
   (): MRT_ColumnDef<EquipmentType>[] => {
+    const location = usePathname();
+
     return useMemo(
       () => [
         {
           accessorKey: "id",
           header: "ID",
-          size: 30,
+          size: 70,
           enableEditing: false,
           Cell: ({ cell, row }) => (
             <ActionableCell
               value={cell.getValue<string>()}
               targetId={cell.getValue<string>()}
               fontSize="14px"
-              basePath={`/${row.original.category.toLowerCase()}`}
+              basePath={location}
             />
           ),
         },
@@ -27,44 +30,46 @@ export const useItEquipmentMainTableColumnsConfig =
           accessorKey: "type",
           header: "Tip",
           enableEditing: false,
-          size: 100,
-          Cell: ({ cell }) => {
-            return (
-              <Typography sx={{ color: "#007bff", fontSize: "15px" }}>
-                {cell.getValue<string>() ?? "-"}
-              </Typography>
-            );
-          },
+          enableClickToCopy: false,
         },
         {
           accessorKey: "brand",
           header: "Brand",
           enableEditing: true,
-          size: 100,
+          enableClickToCopy: false,
         },
         {
           accessorKey: "model",
           header: "Model",
           enableEditing: true,
-          size: 150,
         },
         {
           accessorKey: "series",
           header: "Serie",
           enableEditing: true,
-          size: 100,
         },
         {
           accessorKey: "config",
           header: "Config",
           enableEditing: true,
-          size: 200,
+          enableClickToCopy: false,
+
+          Cell: ({ cell }) => {
+            const config = cell.getValue<string>() ?? "";
+
+            return (
+              <Tooltip title={config} arrow placement="top">
+                <span className="block w-[180px] truncate cursor-pointer">
+                  {config}
+                </span>
+              </Tooltip>
+            );
+          },
         },
         {
           accessorKey: "custodianName",
           header: "Responsabil",
           enableEditing: false,
-          size: 150,
           Cell: ({ row, cell }) => (
             <ActionableCell
               value={cell.getValue<string>()}
@@ -76,7 +81,6 @@ export const useItEquipmentMainTableColumnsConfig =
         {
           accessorKey: "projectName",
           header: "Proiect",
-          size: 200,
           enableEditing: false,
           Cell: ({ row, cell }) => (
             <ActionableCell
@@ -91,7 +95,6 @@ export const useItEquipmentMainTableColumnsConfig =
           header: "Intrare",
           enableEditing: false,
           enableClickToCopy: true,
-          size: 130,
           Cell: ({ row, cell }) => {
             const entryId = row.original.entryId;
 
@@ -117,7 +120,7 @@ export const useItEquipmentMainTableColumnsConfig =
           header: "Necesar",
           enableEditing: false,
           enableClickToCopy: true,
-          size: 50,
+          size: 60,
           Cell: ({ cell }) => (
             <ActionableCell
               value={cell.getValue<string>()}

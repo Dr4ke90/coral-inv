@@ -17,6 +17,7 @@ export const detailsTableConfig = {
       width: "100%",
       overflowY: "auto",
       padding: "0 10px 0 10px",
+      backgroundColor: "gray",
     },
   },
 };

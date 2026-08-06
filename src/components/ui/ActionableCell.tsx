@@ -25,7 +25,7 @@ export const ActionableCell = ({
           <IconButton
             component={Link}
             href={`${basePath}/${targetId}`}
-            target="_blank"
+            // target="_blank"
             rel="noopener noreferrer"
             size="small"
             onClick={(e) => e.stopPropagation()}

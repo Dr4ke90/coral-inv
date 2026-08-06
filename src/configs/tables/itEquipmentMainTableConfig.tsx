@@ -39,14 +39,5 @@ export const useMainItEquipmentTableConfig = (): Partial<
     },
 
     enableEditing: true,
-
-    muiTableContainerProps: {
-      sx: {
-        width: "100%",
-        height: "calc(100vh - 193px)",
-        overflowY: "auto",
-        padding: "0 10px 0 10px",
-      },
-    },
   };
 };

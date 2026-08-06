@@ -10,6 +10,9 @@ type ControlledTextFieldProps = {
   className?: string;
   trim?: boolean;
   disabled?: boolean;
+  multiline?: boolean;
+  minRows?: number;
+  readOnly?: boolean;
 };
 
 const ControlledTextField = ({
@@ -19,15 +22,22 @@ const ControlledTextField = ({
   requiredText,
   label,
   className,
-  trim,
+  trim = false,
   disabled = false,
+  multiline = false,
+  minRows = 1,
+  readOnly = false,
 }: ControlledTextFieldProps) => {
   return (
     <Box className={className}>
       <Controller
         name={name}
         control={control}
-        rules={{ required: required ? requiredText || true : false }}
+        rules={{
+          required: required
+            ? requiredText || "Câmpul este obligatoriu"
+            : false,
+        }}
         render={({ field, fieldState: { error } }) => (
           <TextField
             {...field}
@@ -35,20 +45,22 @@ const ControlledTextField = ({
             error={!!error}
             helperText={error?.message}
             label={label}
-            onChange={(e) => {
-              let val = e.target.value;
+            multiline={multiline}
+            minRows={multiline ? minRows : undefined}
+            onChange={(event) => {
+              let value = event.target.value;
 
               if (trim) {
-                val = val.toUpperCase().replaceAll(/[^A-Z0-9]/g, "");
+                value = value.toUpperCase().replace(/[^A-Z0-9]/g, "");
               }
 
-              field.onChange(val);
+              field.onChange(value);
             }}
-            value={field.value || ""}
+            value={field.value ?? ""}
             required={required}
             autoComplete="off"
             fullWidth
-            sx={{ margin: "2px 0 2px 0" }}
+            sx={{ margin: "2px 0" }}
             disabled={disabled}
           />
         )}

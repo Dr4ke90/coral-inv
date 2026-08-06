@@ -36,7 +36,6 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
   enableClickToCopy: true,
 
   editDisplayMode: "row",
-  layoutMode: "semantic",
 
   muiExpandButtonProps: ({ row, table }) => ({
     onClick: () => table.setExpanded({ [row.id]: !row.getIsExpanded() }),
@@ -49,36 +48,61 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 
   manualPagination: false,
 
+  muiTablePaperProps: {
+    sx: {
+      width: "100%",
+      maxWidth: "100%",
+      minWidth: 0,
+      overflow: "hidden",
+      boxShadow: "none",
+    },
+  },
+
   muiTableProps: {
     sx: {
-      alignContent: "center",
+      width: "100%",
+      minWidth: 0,
     },
   },
 
   muiTableBodyCellProps: {
+    align: "left",
     sx: {
+      boxSizing: "border-box",
       paddingY: "2.5px",
-      paddingX: "3px",
+      paddingX: "6px",
       fontSize: "0.8rem",
+      minWidth: 0,
+      overflow: "hidden",
+      borderLeft: "1px dotted",
     },
   },
 
   muiTableHeadCellProps: {
+    align: "left",
     sx: {
-      fontSize: "0.8rem",
-      alignContent: "center",
-      alignItems: "center",
-      paddingY: "0px",
+      boxSizing: "border-box",
+      paddingY: "2.5px",
       paddingX: "6px",
+      fontSize: "0.8rem",
+      minWidth: 0,
+      // whiteSpace: "nowrap",
+      borderLeft: "1px dotted",
     },
   },
 
   muiTableContainerProps: {
     sx: {
       width: "100%",
-      height: "calc(100vh - 210px)",
+      maxWidth: "100%",
+      minWidth: 0,
+      boxSizing: "border-box",
+
       overflowY: "auto",
-      padding: "0 10px 0 10px",
+      overflowX: "hidden",
+
+      padding: "0 10px",
+      height: "calc(100vh - 210px)",
     },
   },
 
@@ -86,6 +110,10 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
     "mrt-row-actions": {
       header: "Acțiuni",
       size: 100,
+      minSize: 100,
+      maxSize: 100,
+      grow: false,
+
       muiTableHeadCellProps: {
         align: "center",
         sx: {
@@ -100,8 +128,9 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
         sx: {
           textAlign: "center",
           borderLeft: "1px dotted black",
-          p: 0,
+          padding: 0,
           margin: 0,
+
           "& .MuiBox-root": {
             display: "flex",
             justifyContent: "center",
@@ -114,88 +143,63 @@ export const DEFAULT_CONFIG = <T extends Record<string, any>>(): Partial<
 
     "mrt-row-select": {
       size: 30,
+      minSize: 30,
+      maxSize: 30,
+      grow: false,
+
       muiTableHeadCellProps: {
         align: "center",
         sx: {
           padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px !important",
         },
       },
+
       muiTableBodyCellProps: {
         align: "center",
         sx: {
           padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px !important",
         },
       },
     },
 
     "mrt-row-pin": {
       size: 30,
+      minSize: 30,
+      maxSize: 30,
+      grow: false,
+
       muiTableHeadCellProps: {
         align: "center",
         sx: {
           padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px!important",
         },
       },
+
       muiTableBodyCellProps: {
         align: "center",
         sx: {
           padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px!important",
         },
       },
     },
 
     "mrt-row-expand": {
       size: 30,
-      muiTableHeadCellProps: {
-        align: "center",
-        sx: {
-          padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px!important",
-          maxWidth: "30px !important",
-        },
-      },
-      muiTableBodyCellProps: {
-        align: "center",
-        sx: {
-          padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px !important",
-        },
-      },
-    },
+      minSize: 30,
+      maxSize: 30,
+      grow: false,
 
-    "mrt-row-numbers": {
-      size: 30,
       muiTableHeadCellProps: {
         align: "center",
         sx: {
           padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px !important",
         },
       },
+
       muiTableBodyCellProps: {
         align: "center",
         sx: {
           padding: "0 !important",
-          width: "30px !important",
-          minWidth: "30px !important",
-          maxWidth: "30px !important",
         },
       },
     },

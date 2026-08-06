@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useMemo } from "react";
 import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 import { EQUIPMENT_INITIAL_STATE } from "@/states/equipmentInitialState";
 import { EquipmentType } from "@/types/equipment.type";
@@ -21,8 +21,10 @@ export const EquipmentFormProvider = ({
     defaultValues: EQUIPMENT_INITIAL_STATE,
   });
 
+  const values = useMemo(() => ({ methods }), [methods]);
+
   return (
-    <EquipmentFormContext.Provider value={{ methods }}>
+    <EquipmentFormContext.Provider value={values}>
       <FormProvider {...methods}>{children}</FormProvider>
     </EquipmentFormContext.Provider>
   );

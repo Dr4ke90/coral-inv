@@ -40,18 +40,19 @@ export const useMainProjectsTableColumnsConfig =
         size: 200,
       },
       {
-        accessorKey: "teamMembers",
+        accessorKey: "team",
         header: "Echipa",
         enableEditing: false,
         size: 250,
         Cell: ({ cell }) => {
           const team = cell.getValue<string[]>();
+          if (!team.length) return null;
 
           return (
             <div style={{ display: "flex", flexDirection: "column" }}>
-              {team.map((e: any) => (
+              {team?.map((e: any) => (
                 <Typography key={e} sx={{ color: "#007bff", fontSize: "13px" }}>
-                  {e}
+                  {e || ""}
                 </Typography>
               ))}
             </div>

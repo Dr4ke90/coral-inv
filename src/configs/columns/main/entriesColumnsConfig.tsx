@@ -1,7 +1,6 @@
 "use client";
 import { MRT_ColumnDef } from "material-react-table";
 import { EntryType } from "@/types/entry.type";
-import { useRequirementData } from "@/hooks/requirement/useRequirementData";
 import dayjs from "dayjs";
 import { useMemo } from "react";
 import { ActionableCell } from "@/components/ui/ActionableCell";

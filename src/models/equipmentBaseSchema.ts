@@ -16,8 +16,7 @@ const equipmentBaseSchema = new Schema(
     series: { type: String, required: true },
     price: { type: Number, required: true },
     status: { type: String, default: "Nou" },
-    notes: { type: [Object], default: [] },
-    createdBy: { type: String, required: true },
+    notes: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     logs: { type: [logSchema], default: [] },
     pvRef: { type: [String], default: [] },
@@ -26,7 +25,7 @@ const equipmentBaseSchema = new Schema(
     projectId: { type: String, default: "PJ0002" },
     refInvoice: { type: String, default: "" },
   },
-  { discriminatorKey: "type", collection: "it_equipment" },
+  { discriminatorKey: "type", collection: "it_equipment", timestamps: true },
 );
 
 const EquipmentModel =

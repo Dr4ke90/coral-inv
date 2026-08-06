@@ -1,6 +1,6 @@
 import ItemCard from "@/components/layout/ItemCard";
 import { IMAGE_MAPPING } from "@/constants/dashboard/image_mapping";
-import { MODULES } from "@/constants/dashboard/modules";
+import { SECTIONS } from "@/constants/dashboard/modules";
 import { PNG_LIST } from "@/constants/dashboard/png_list";
 import { Box, Container, Divider } from "@mui/material";
 import { StaticImageData } from "next/image";
@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
       sx={{ py: 4 }}
     >
       <Box className="flex flex-col gap-4">
-        {MODULES.map((section) => (
+        {SECTIONS.map((section) => (
           <Box key={section.id} component="section">
             <Box className="flex justify-center gap-3 flex-wrap">
               {section.modules.map((item) => {
@@ -34,15 +34,14 @@ const Dashboard: React.FC = () => {
                     <ItemCard
                       name={item.replaceAll("-", " ")}
                       image={
-                        section.departament === "general"
-                          ? sheet
-                          : getImage(item)
+                        section.name === "general" ? sheet : getImage(item)
                       }
                     />
                   </Link>
                 );
               })}
             </Box>
+
             <Divider sx={{ width: "90%", mt: 2, mx: "auto" }} />
           </Box>
         ))}

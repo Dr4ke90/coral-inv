@@ -24,7 +24,7 @@ export const NETWORKING_TYPES = [
 ];
 
 export const PERIPHERAL_TYPES = [
-  "Imprimanta",
+  "Multifunctionala",
   "Monitor",
   "Mouse",
   "Tastatura",
